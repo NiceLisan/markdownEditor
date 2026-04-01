@@ -12,6 +12,7 @@ export interface IOpts {
   isMacCodeBlock?: boolean
   isShowLineNumber?: boolean
   themeMode?: 'light' | 'dark'
+  themeName?: string
 }
 
 export interface IConfigOption<VT = string> {
