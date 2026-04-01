@@ -10,6 +10,20 @@ import { createRequire } from 'node:module';
 import postcss from 'postcss';
 import postcssCalc from 'postcss-calc';
 import postcssCustomProperties from 'postcss-custom-properties';
+import {
+  markedAlert,
+  markedFootnotes,
+  markedInfographic,
+  markedMarkup,
+  markedMermaid,
+  markedPlantUML,
+  markedRuby,
+  markedSlider,
+  markedSwipe,
+  markedToc,
+  markedTopwar,
+  MDKatex,
+} from '../core/src/extensions/index.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,7 +38,7 @@ const require = createRequire(import.meta.url);
  * @param {string} themeName - 主题名称
  * @returns {string} CSS 内容
  */
-function loadThemeCss(themeName) {
+function loadThemeCss(themeName, isUseDefaultTheme = true) {
   try {
     const themeCssDir = path.resolve(__dirname, '../shared/src/configs/theme-css');
 
@@ -33,16 +47,22 @@ function loadThemeCss(themeName) {
     let cssContent = fs.existsSync(basePath) ? fs.readFileSync(basePath, 'utf-8') : '';
 
     // 2. 加载 default 主题作为基础
-    const defaultPath = path.join(themeCssDir, 'default.css');
-    if (fs.existsSync(defaultPath)) {
-      cssContent += '\n' + fs.readFileSync(defaultPath, 'utf-8');
+    if (isUseDefaultTheme) {
+      const defaultPath = path.join(themeCssDir, 'default.css');
+      if (fs.existsSync(defaultPath)) {
+        cssContent += '\n' + fs.readFileSync(defaultPath, 'utf-8');
+      }
     }
 
     // 3. 如果请求的不是 default 主题，叠加主题特定样式
     if (themeName && themeName !== 'default') {
-      const themePath = path.join(themeCssDir, `${themeName}.css`);
-      if (fs.existsSync(themePath)) {
-        cssContent += '\n' + fs.readFileSync(themePath, 'utf-8');
+      const themes = themeName.split(',').map(t => t.trim()).filter(Boolean);
+      for (const t of themes) {
+        if (t === 'default') continue;
+        const themePath = path.join(themeCssDir, `${t}.css`);
+        if (fs.existsSync(themePath)) {
+          cssContent += '\n' + fs.readFileSync(themePath, 'utf-8');
+        }
       }
     }
 
@@ -315,6 +335,7 @@ export async function renderMarkdown(markdown, options = {}) {
     isCountStatus = false,
     isUseIndent = false,
     isUseJustify = false,
+    isUseDefaultTheme = true,
     highlightTheme = 'github',
     themeMode = 'light'
   } = options;
@@ -341,13 +362,43 @@ export async function renderMarkdown(markdown, options = {}) {
   const renderer = {
     heading({ tokens, depth }) {
       const text = this.parser.parseInline(tokens);
+      if (theme === 'topwar_game' && depth === 2) {
+        return `
+<section style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px;margin-top: 30px;box-sizing:border-box;">
+  <section style="margin-right: -15px;margin-top: 12px;display: inline-block;vertical-align: middle;width: auto;min-width: 5%;flex: 0 0 auto;height: auto;align-self: center;box-sizing:border-box;z-index: 2;">
+    <section style="display: flex;width: 50px;flex-flow: column;box-sizing:border-box;">
+      <section style="z-index: 1;">
+        <section style="line-height: 0;">
+          <section style="vertical-align: middle;display: inline-block;line-height: 0;width: 50px;height: auto;box-sizing:border-box;">
+            <section style="text-align:center;">
+              <img src="https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzPkpRdEP3bxovreWaicQfI45wkWIqFpwnp1sibhp8ibk4mftrp5WSF5u4BenzjddVbeoeiarY3zsicb95Q/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" />
+            </section>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section style="width: 250px;background-color: #4154b5;height: 48px;display: flex;justify-content: center;align-items: center;box-sizing: border-box;color: #fff;font-weight: 700;font-size: 20px;letter-spacing: 2px;z-index: 1;">
+    <section style="margin-left: 10px;" data-heading="true">
+      ${text}
+    </section>
+  </section>
+</section>`;
+      }
       return styledContent(`h${depth}`, text);
     },
 
     paragraph({ tokens }) {
       const text = this.parser.parseInline(tokens);
       const isFigureImage = text.includes('<figure') && text.includes('<img');
-      if (isFigureImage || text.trim() === '') return text;
+      const isEmpty = text.trim() === '';
+      if (isFigureImage || isEmpty) return text;
+
+      // Top War Disclaimer Style (Lines starting with '*')
+      if (theme === 'topwar_game' && text.trim().startsWith('*')) {
+        return `<p style="text-align: justify; line-height: 2.5;" align="justify"><span style="font-weight: 400; text-shadow: none; letter-spacing: 1.5px; color: #7f7f7f; font-size: 12px;">${text}</span></p>\n`;
+      }
+
       return styledContent('p', text);
     },
 
@@ -404,6 +455,19 @@ export async function renderMarkdown(markdown, options = {}) {
     },
 
     link({ href, title, text, tokens }) {
+      const isImageLink = tokens && tokens.length === 1 && tokens[0].type === 'image';
+      
+      if (isImageLink) {
+        const imageToken = tokens[0];
+        const imgSrc = imageToken.href;
+        const imgAlt = imageToken.text;
+        const subText = transformLegend(legend, imgAlt, imageToken.title);
+        const subHtml = subText ? styledContent('figcaption', subText) : '';
+        const titleAttr = imageToken.title ? ` title="${imageToken.title}"` : '';
+
+        return `<figure><section style="display: inline-block;line-height: 0;height: auto !important;box-sizing:border-box;"><a data-itemshowtype="0" data-linktype="1" href="${href}" imgurl="${imgSrc}" linktype="image" tab="innerlink" target="_blank"><span class="js_jump_icon h5_image_link"><img class="rich_pages wxw-img" src="${imgSrc}"${titleAttr} alt="${imgAlt}" style="vertical-align: middle;box-sizing:border-box;max-width: 100%;height: auto;"></span></a></section>${subHtml}</figure>`;
+      }
+
       const parsedText = this.parser.parseInline(tokens);
       if (/^https?:\/\/mp\.weixin\.qq\.com/.test(href)) {
         return `<a href="${href}" title="${title || text}">${parsedText}</a>`;
@@ -432,11 +496,43 @@ export async function renderMarkdown(markdown, options = {}) {
     },
 
     hr() {
+      if (theme === 'topwar_game') {
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 4.97" style="display: block;" xml:space="default"><path style="fill: none;stroke: #4154b5;stroke-width: 1px;fill-rule: evenodd;" d="M373,2214.99c4.632,0,4.632,2.99,9.264,2.99s4.631-2.99,9.263-2.99,4.632,2.99,9.263,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.267,2.99,4.632-2.99,9.264-2.99,4.632,2.99,9.264,2.99,4.633-2.99,9.265-2.99,4.634,2.99,9.268,2.99,4.633-2.99,9.266-2.99,4.632,2.99,9.264,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.268,2.99,4.633-2.99,9.265-2.99,4.633,2.99,9.266,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.267,2.99,4.633-2.99,9.266-2.99,4.633,2.99,9.267,2.99,4.633-2.99,9.267-2.99,4.633,2.99,9.266,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.267,2.99,4.633-2.99,9.267-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.267-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.267-2.99,4.635,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.269-2.99,4.635,2.99,9.269,2.99,4.635-2.99,9.269-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.635,2.99,9.269,2.99,4.634-2.99,9.269-2.99,4.633,2.99,9.266,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.269-2.99,4.635,2.99,9.271,2.99,4.635-2.99,9.269-2.99,4.635,2.99,9.27,2.99,4.636-2.99,9.271-2.99,4.634,2.99,9.267,2.99,4.635-2.99,9.27-2.99,4.637,2.99,9.273,2.99,4.635-2.99,9.27-2.99,4.639,2.99,9.277,2.99,4.638-2.99,9.276-2.99" transform="translate(-372.5 -2214.5)"/></svg>`;
+        const img = `<img src="https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzPkpRdEP3bxovreWaicQfI45DTicD3yVhjS82gPhwzPialkLLicctIWF6q4ogqbBkSdic3Tv7I4xgZNJtg/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" style="margin: 0; padding: 0; width: 100%; display: block;" />`;
+        return `\n<section style="margin: 25px 0 15px; display: flex; align-items: center;">\n  <section style="width: 100%;">${svg}</section>\n  <section style="width: 35px; flex-shrink: 0; margin-left: 5px;">${img}</section>\n</section>\n`;
+      }
       return styledContent('hr', '');
     }
   };
 
   marked.use({ renderer, breaks: true });
+
+  // 自动给加粗的 ** 符号前后补空格，解决中文/全角符号边界下检测失败的问题
+  marked.use({
+    hooks: {
+      preprocess(md) {
+        return md
+          .replace(/([^\s\*])(\*\*[^\s\*]+?\*\*)/g, '$1 $2')
+          .replace(/(\*\*[^\s\*]+?\*\*)([^\s\*])/g, '$1 $2')
+      },
+    },
+  });
+
+  // 注册扩展插件
+  marked.use(markedMarkup());
+  marked.use(markedToc());
+  marked.use(markedSlider());
+  marked.use(markedSwipe());
+  marked.use(markedAlert({}));
+  marked.use(MDKatex({ nonStandard: true }, true));
+  marked.use(markedFootnotes());
+  marked.use(markedMermaid());
+  marked.use(markedPlantUML({
+    inlineSvg: true, // 启用SVG内嵌，适用于微信公众号
+  }));
+  marked.use(markedInfographic({ themeMode }));
+  marked.use(markedRuby());
+  marked.use(markedTopwar());
 
   // 4. 解析 Markdown
   const htmlContent = marked.parse(body);
@@ -496,7 +592,7 @@ export async function renderMarkdown(markdown, options = {}) {
   const wrappedHtml = styledContent('container', innerHtml, 'section');
 
   // 9. 加载并处理 CSS
-  const themeCss = loadThemeCss(theme);
+  const themeCss = loadThemeCss(theme, isUseDefaultTheme);
   const highlightCss = loadHighlightCss(highlightTheme);
 
   // 生成 CSS 变量

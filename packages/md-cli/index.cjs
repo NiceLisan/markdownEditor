@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const { readFileSync } = require("fs");
-const getPort = require("get-port");
 const {
   colors,
   parseArgv,
@@ -13,6 +12,7 @@ const packageJson = JSON.parse(readFileSync(new URL('./package.json', ("file://"
 const arg = parseArgv()
 
 async function startServer() {
+  const { default: getPort } = await import("get-port");
   try {
     let { port = 8800 } = arg
     port = Number(port)

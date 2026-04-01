@@ -3,8 +3,7 @@ const multer = require("multer");
 const path = require("node:path");
 const fs = require("node:fs");
 const os = require("node:os");
-const { fileURLToPath } = require("node:url");
-const { dirname } = require("node:path");
+
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const {
   dcloud,
@@ -13,8 +12,7 @@ const {
 } = require("./util.cjs");
 const { renderMarkdown } = require("./renderer.cjs");
 
-const __filename = fileURLToPath(("file://" + __filename))
-const __dirname = dirname(__filename)
+
 const arg = parseArgv()
 
 // unicloud 服务空间配置
@@ -216,6 +214,12 @@ exports.createServer = function createServer(port = 8800) {
       res.status(500).json({ error: error.message })
     }
   })
+
+  const distDir = path.join(__dirname, 'dist')
+  if (fs.existsSync(distDir)) {
+    console.log(`Serving local web app from: ${distDir}`)
+    app.use(express.static(distDir))
+  }
 
   console.log('代理到: https://md.doocs.org/')
   app.use(createProxyMiddleware({

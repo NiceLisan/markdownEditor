@@ -163,5 +163,5 @@ const colorsInstance = colors()
 module.exports = {
   parseArgv,
   dcloud,
-  colorsInstance as colors,
+  colors: colorsInstance,
 }

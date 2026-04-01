@@ -101,13 +101,27 @@ async function startServer() {
     })
 
     process.once('SIGINT', () => {
-      console.log('\n服务器已关闭')
+      console.log('\\n服务器已关闭 (SIGINT)')
       process.exit(0)
     })
 
     process.once('SIGTERM', () => {
-      console.log('\n服务器已关闭')
+      console.log('\\n服务器已关闭 (SIGTERM)')
       process.exit(0)
+    })
+
+    process.on('uncaughtException', err => {
+      console.error('Uncaught Exception:', err)
+      process.exit(1)
+    })
+
+    process.on('unhandledRejection', err => {
+      console.error('Unhandled Rejection:', err)
+      process.exit(1)
+    })
+
+    process.on('exit', code => {
+      console.log('Process exit with code', code)
     })
 
   } catch (err) {

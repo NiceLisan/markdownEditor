@@ -22,17 +22,23 @@ const { cssContentConfig } = storeToRefs(cssEditorStore)
 const enableAnimation = ref(false)
 
 // 监听 CssEditor 开关状态变化
-watch(() => uiStore.isShowCssEditor, () => {
-  if (isMobile.value) {
-    // 在移动端,用户操作时启用动画
-    enableAnimation.value = true
-  }
-})
+watch(
+  () => uiStore.isShowCssEditor,
+  () => {
+    if (isMobile.value) {
+      // 在移动端,用户操作时启用动画
+      enableAnimation.value = true
+    }
+  },
+)
 
 // 监听设备类型变化，重置动画状态
-watch(() => isMobile.value, () => {
-  enableAnimation.value = false
-})
+watch(
+  () => isMobile.value,
+  () => {
+    enableAnimation.value = false
+  },
+)
 
 const isOpenEditDialog = ref(false)
 const editInputVal = ref(``)
@@ -43,7 +49,11 @@ async function scrollToActiveTab() {
   // 使用 data-state="active" 查找活跃的 tab
   const activeTab = document.querySelector('[role="tab"][data-state="active"]')
   if (activeTab) {
-    activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    activeTab.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    })
   }
 }
 
@@ -53,7 +63,7 @@ function rename(name: string) {
 }
 
 function editTabName() {
-  if (!(editInputVal.value).trim()) {
+  if (!editInputVal.value.trim()) {
     toast.error(`新建失败，方案名不可为空`)
     return
   }
@@ -71,10 +81,12 @@ const isOpenAddDialog = ref(false)
 
 const addInputVal = ref(``)
 // 新建方案时选择的基础主题
-const baseThemeForNew = ref<'blank' | 'default' | 'grace' | 'simple'>('blank')
+const baseThemeForNew = ref<
+  'blank' | 'default' | 'grace' | 'simple' | 'topwar_game'
+>('blank')
 
 async function addTab() {
-  if (!(addInputVal.value).trim()) {
+  if (!addInputVal.value.trim()) {
     toast.error(`新建失败，方案名不可为空`)
     return
   }
@@ -137,7 +149,9 @@ function delTab() {
   }
 
   cssEditorStore.tabChanged(activeName)
-  cssContentConfig.value.tabs = tabs.filter(tab => tab.name !== delTargetName.value)
+  cssContentConfig.value.tabs = tabs.filter(
+    tab => tab.name !== delTargetName.value,
+  )
 
   toast.success(`删除成功`)
 }
@@ -150,7 +164,9 @@ function addHandler() {
 
 // 查看内置主题功能
 const isOpenViewThemeDialog = ref(false)
-const selectedViewTheme = ref<'default' | 'grace' | 'simple'>('default')
+const selectedViewTheme = ref<'default' | 'grace' | 'simple' | 'topwar_game'>(
+  'default',
+)
 
 // 打开查看内置主题对话框
 function openViewThemeDialog() {
@@ -170,7 +186,9 @@ function createFromViewTheme() {
   isOpenViewThemeDialog.value = false
   // 设置基础主题并打开新建对话框
   baseThemeForNew.value = selectedViewTheme.value
-  addInputVal.value = `基于${themeOptionsMap[selectedViewTheme.value].label}主题`
+  addInputVal.value = `基于${
+    themeOptionsMap[selectedViewTheme.value].label
+  }主题`
   isOpenAddDialog.value = true
 }
 
@@ -206,7 +224,9 @@ onMounted(() => {
 
 // 导出合并后的主题
 function exportCurrentTheme() {
-  const currentTab = cssContentConfig.value.tabs.find(tab => tab.name === cssContentConfig.value.active)
+  const currentTab = cssContentConfig.value.tabs.find(
+    tab => tab.name === cssContentConfig.value.active,
+  )
   if (!currentTab) {
     toast.error(`未找到当前方案`)
     return
@@ -215,9 +235,10 @@ function exportCurrentTheme() {
   const currentThemeName = currentTab.title || currentTab.name
 
   // 使用新的导出函数（包含 default 基础）
-  const baseTheme = themeStore.theme === `default`
-    ? themeMap.default
-    : `${themeMap.default}\n\n${themeMap[themeStore.theme]}`
+  const baseTheme
+    = themeStore.theme === `default`
+      ? themeMap.default
+      : `${themeMap.default}\n\n${themeMap[themeStore.theme]}`
 
   exportMergedTheme(
     currentTab.content,
@@ -248,30 +269,41 @@ function exportCurrentTheme() {
       class="cssEditor-wrapper h-full flex flex-col mobile-css-editor overflow-y-auto"
       :class="{
         // 移动端样式
-        'fixed top-0 right-0 w-full h-full z-100 bg-background border-l shadow-lg': isMobile,
+        'fixed top-0 right-0 w-full h-full z-100 bg-background border-l shadow-lg':
+          isMobile,
         'animate': isMobile && enableAnimation,
         // 桌面端样式
         'border-l-2 flex-1 order-2 border-gray/50 min-w-0': !isMobile,
       }"
       :style="{
-        transform: isMobile ? (uiStore.isShowCssEditor ? 'translateX(0)' : 'translateX(100%)') : 'none',
+        transform: isMobile
+          ? uiStore.isShowCssEditor
+            ? 'translateX(0)'
+            : 'translateX(100%)'
+          : 'none',
       }"
     >
       <!-- 移动端标题栏 -->
-      <div v-if="isMobile" class="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b mb-2 bg-background">
+      <div
+        v-if="isMobile"
+        class="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b mb-2 bg-background"
+      >
         <h2 class="text-lg font-semibold">
           自定义 CSS
         </h2>
-        <Button variant="ghost" size="sm" @click="uiStore.isShowCssEditor = false">
+        <Button
+          variant="ghost"
+          size="sm"
+          @click="uiStore.isShowCssEditor = false"
+        >
           <X class="h-4 w-4" />
         </Button>
       </div>
-      <Tabs
-        v-model="cssContentConfig.active"
-        @update:model-value="tabChanged"
-      >
+      <Tabs v-model="cssContentConfig.active" @update:model-value="tabChanged">
         <div class="flex items-center border-b bg-muted">
-          <TabsList class="flex-1 overflow-x-auto justify-start border-0 bg-transparent h-auto p-0 custom-scrollbar">
+          <TabsList
+            class="flex-1 overflow-x-auto justify-start border-0 bg-transparent h-auto p-0 custom-scrollbar"
+          >
             <TabsTrigger
               v-for="item in cssContentConfig.tabs"
               :key="item.name"
@@ -280,11 +312,13 @@ function exportCurrentTheme() {
             >
               {{ item.title }}
               <Edit3
-                v-show="cssContentConfig.active === item.name" class="cursor-pointer inline size-4 rounded-full p-0.5 transition-color hover:bg-gray-200 dark:hover:bg-gray-600"
+                v-show="cssContentConfig.active === item.name"
+                class="cursor-pointer inline size-4 rounded-full p-0.5 transition-color hover:bg-gray-200 dark:hover:bg-gray-600"
                 @click="rename(item.name)"
               />
               <X
-                v-show="cssContentConfig.active === item.name" class="cursor-pointer inline size-4 rounded-full p-0.5 transition-color hover:bg-gray-200 dark:hover:bg-gray-600"
+                v-show="cssContentConfig.active === item.name"
+                class="cursor-pointer inline size-4 rounded-full p-0.5 transition-color hover:bg-gray-200 dark:hover:bg-gray-600"
                 @click.self="removeHandler(item.name)"
               />
             </TabsTrigger>
@@ -364,9 +398,7 @@ function exportCurrentTheme() {
         <DialogContent class="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>编辑方案名称</DialogTitle>
-            <DialogDescription>
-              请输入新的方案名称
-            </DialogDescription>
+            <DialogDescription> 请输入新的方案名称 </DialogDescription>
           </DialogHeader>
           <Input v-model="editInputVal" />
           <DialogFooter>
@@ -401,9 +433,8 @@ function exportCurrentTheme() {
 
   <Button
     v-show="uiStore.isShowCssEditor"
-    class="fixed z-100 shadow-lg hover:bg-accent cursor-pointer transition-shadow bg-background text-background-foreground border" :class="[
-      isMobile ? 'bottom-16 right-4' : 'bottom-22 right-4',
-    ]"
+    class="fixed z-100 shadow-lg hover:bg-accent cursor-pointer transition-shadow bg-background text-background-foreground border"
+    :class="[isMobile ? 'bottom-16 right-4' : 'bottom-22 right-4']"
     size="sm"
     variant="outline"
     @click="openViewThemeDialog"
@@ -414,9 +445,8 @@ function exportCurrentTheme() {
 
   <Button
     v-show="uiStore.isShowCssEditor"
-    class="fixed z-100 shadow-lg hover:bg-accent cursor-pointer transition-shadow bg-background text-background-foreground border" :class="[
-      isMobile ? 'bottom-4 right-4' : 'bottom-10 right-4',
-    ]"
+    class="fixed z-100 shadow-lg hover:bg-accent cursor-pointer transition-shadow bg-background text-background-foreground border"
+    :class="[isMobile ? 'bottom-4 right-4' : 'bottom-10 right-4']"
     size="sm"
     @click="exportCurrentTheme"
   >
@@ -426,7 +456,10 @@ function exportCurrentTheme() {
 
   <!-- 查看内置主题对话框 -->
   <Dialog v-model:open="isOpenViewThemeDialog">
-    <DialogContent class="sm:max-w-4xl max-h-[90vh] flex flex-col" @open-auto-focus.prevent>
+    <DialogContent
+      class="sm:max-w-4xl max-h-[90vh] flex flex-col"
+      @open-auto-focus.prevent
+    >
       <DialogHeader>
         <DialogTitle>查看内置主题样式</DialogTitle>
         <DialogDescription>
@@ -439,7 +472,9 @@ function exportCurrentTheme() {
         <div class="space-y-2">
           <label class="text-sm font-medium">选择主题</label>
           <Select v-model="selectedViewTheme">
-            <SelectTrigger class="w-full mt-2 sm:w-[200px] focus-visible:ring-0 focus-visible:ring-offset-0">
+            <SelectTrigger
+              class="w-full mt-2 sm:w-[200px] focus-visible:ring-0 focus-visible:ring-offset-0"
+            >
               <SelectValue placeholder="选择主题" />
             </SelectTrigger>
             <SelectContent>
@@ -452,13 +487,18 @@ function exportCurrentTheme() {
               <SelectItem value="simple">
                 {{ themeOptionsMap.simple.label }}
               </SelectItem>
+              <SelectItem value="topwar_game">
+                {{ themeOptionsMap.topwar_game.label }}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <!-- CSS 代码查看器 -->
         <div class="flex-1 min-h-0 border rounded-lg overflow-auto">
-          <pre class="h-full overflow-auto p-4 bg-muted text-sm"><code>{{ themeMap[selectedViewTheme] }}</code></pre>
+          <pre
+            class="h-full overflow-auto p-4 bg-muted text-sm"
+          ><code>{{ themeMap[selectedViewTheme] }}</code></pre>
         </div>
       </div>
 

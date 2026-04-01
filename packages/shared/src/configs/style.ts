@@ -103,6 +103,11 @@ export const colorOptions: IConfigOption[] = [
     value: `#FFB7C5`,
     desc: `浪漫甜美`,
   },
+  {
+    label: `游戏色`,
+    value: `#4154b5`,
+    desc: `口袋奇兵`,
+  },
 ]
 
 export const widthOptions: IConfigOption[] = [
@@ -195,11 +200,13 @@ const codeBlockThemeList = [
   `xt256`,
 ]
 
-export const codeBlockThemeOptions: IConfigOption[] = codeBlockThemeList.map(codeBlockTheme => ({
-  label: codeBlockTheme,
-  value: `${codeBlockUrlPrefix}${codeBlockTheme}.min.css`,
-  desc: ``,
-}))
+export const codeBlockThemeOptions: IConfigOption[] = codeBlockThemeList.map(
+  codeBlockTheme => ({
+    label: codeBlockTheme,
+    value: `${codeBlockUrlPrefix}${codeBlockTheme}.min.css`,
+    desc: ``,
+  }),
+)
 
 export const headingLevelOptions: IConfigOption[] = [
   { label: `一级标题`, value: `h1`, desc: `` },
@@ -219,10 +226,15 @@ export const headingStyleOptions: IConfigOption[] = [
 ]
 
 export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-export type HeadingStyleType = 'default' | 'color-only' | 'border-bottom' | 'border-left' | 'custom'
+export type HeadingStyleType
+  = | 'default'
+    | 'color-only'
+    | 'border-bottom'
+    | 'border-left'
+    | 'custom'
 
 export type HeadingStyles = {
-  [K in HeadingLevel]?: HeadingStyleType
+  [K in HeadingLevel]?: HeadingStyleType;
 }
 
 export const defaultHeadingStyles: HeadingStyles = {}

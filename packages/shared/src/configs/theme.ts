@@ -20,6 +20,11 @@ export const themeOptionsMap = {
     value: `simple`,
     desc: `@okooo5km`,
   },
+  topwar_game: {
+    label: `口袋奇兵`,
+    value: `topwar_game`,
+    desc: `@chengcheng`,
+  },
 }
 
 export const themeOptions: IConfigOption<ThemeName>[] = [
@@ -37,5 +42,10 @@ export const themeOptions: IConfigOption<ThemeName>[] = [
     label: `简洁`,
     value: `simple`,
     desc: `@okooo5km`,
+  },
+  {
+    label: `口袋奇兵`,
+    value: `topwar_game`,
+    desc: `@chengcheng`,
   },
 ]
