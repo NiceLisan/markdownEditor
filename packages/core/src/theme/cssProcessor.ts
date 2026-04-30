@@ -20,7 +20,7 @@ export async function processCSS(css: string): Promise<string> {
   try {
     const result = await postcss([
       postcssCustomProperties({
-        preserve: false, // 不保留原始 CSS 变量定义
+        preserve: true, // 保留原始 CSS 变量定义，以便内联样式可以引用它们
       }),
       postcssCalc({
         preserve: false, // 不保留 calc()，尽可能简化

@@ -431,3 +431,30 @@ td {
   text-decoration-color: var(--md-primary-color);
   text-decoration-thickness: 2px;
 }
+
+/* @renderer h3
+<section style="margin: 10px auto; display: flex; justify-content: flex-start;">
+	<section style="display: flex;align-items: center;" class="">
+		<section style="flex-shrink: 0;padding-right: 10px;box-sizing:border-box;">
+			<section style="background: linear-gradient(to bottom,#ffffff,#4fe5f2,#ffffff);padding: 0 2px 0 0;border-radius: 100%;box-sizing:border-box;">
+				<section style="background-color: #ffffff;border-radius: 100%;padding: 6px 6px;box-sizing:border-box;">
+					<section style="background: linear-gradient(to bottom,#ffffff,#abf8ff,#ffffff);padding: 0 2px 0 0;border-radius: 100%;box-sizing:border-box;">
+						<section style="background-color: #ffffff;border-radius: 100%;padding: 6px 6px;box-sizing:border-box;">
+							<section style="background-color: #e8f6ff;border-radius: 100%;padding: 4px;box-sizing:border-box;">
+								<section class="assistant" style="font-size: 16px;letter-spacing: 1.5px;color: #ffffff;width: 34px;height: 34px;border-radius: 100%;text-align: center;line-height: 34px;box-sizing:border-box;">
+									<strong class="autonum" data-original-title="" title="">${counter}</strong>
+								</section>
+							</section>
+						</section>
+					</section>
+				</section>
+			</section>
+		</section>
+		<section style="border: 1px solid #d4eeff;background-color: #e8f6ff;border-radius: 25px;padding: 10px 30px;box-sizing:border-box;" class="">
+			<section style="font-size: 16px;color: #fff;" class="">
+				<strong  data-brushtype="text">${text}</strong>
+			</section>
+		</section>
+	</section>
+</section>
+*/

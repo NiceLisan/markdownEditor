@@ -18,6 +18,7 @@ import {
   markedMermaid,
   markedPlantUML,
   markedRuby,
+  markedScroll,
   markedSlider,
   markedSwipe,
   markedToc,
@@ -162,7 +163,7 @@ function postProcessCss(css, options) {
 
   // 替换可能残留的 CSS 变量
   if (options.primaryColor) {
-    processed = processed.replace(/var\(--md-primary-color\)/g, options.primaryColor);
+    processed = processed.replace(/var\(--md-primary-color(,\s*[^)]+)?\)/g, options.primaryColor);
   }
   if (options.fontSize) {
     processed = processed.replace(/var\(--md-font-size\)/g, options.fontSize);
@@ -206,6 +207,18 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
     .replace(/`/g, '&#96;');
+}
+
+/**
+ * 通过 weserv.nl 代理图片 URL，解决防盗链问题
+ */
+function proxyImageUrl(url) {
+  if (!url) return url;
+  if (url.includes('images.weserv.nl')) return url;
+  if (/^https?:\/\//i.test(url)) {
+    return `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
+  }
+  return url;
 }
 
 /**
@@ -337,7 +350,8 @@ export async function renderMarkdown(markdown, options = {}) {
     isUseJustify = false,
     isUseDefaultTheme = true,
     highlightTheme = 'github',
-    themeMode = 'light'
+    themeMode = 'light',
+    useImageProxy = false
   } = options;
 
   // 1. Front-matter 解析
@@ -378,7 +392,7 @@ export async function renderMarkdown(markdown, options = {}) {
       </section>
     </section>
   </section>
-  <section style="width: 250px;background-color: #4154b5;height: 48px;display: flex;justify-content: center;align-items: center;box-sizing: border-box;color: #fff;font-weight: 700;font-size: 20px;letter-spacing: 2px;z-index: 1;">
+  <section style="width: 250px;background-color: var(--md-primary-color, #4154b5);height: 48px;display: flex;justify-content: center;align-items: center;box-sizing: border-box;color: #fff;font-weight: 700;font-size: 20px;letter-spacing: 2px;z-index: 1;">
     <section style="margin-left: 10px;" data-heading="true">
       ${text}
     </section>
@@ -448,10 +462,11 @@ export async function renderMarkdown(markdown, options = {}) {
     },
 
     image({ href, title, text }) {
+      const imgHref = useImageProxy ? proxyImageUrl(href) : href;
       const subText = transformLegend(legend, text, title);
       const subHtml = subText ? styledContent('figcaption', subText) : '';
       const titleAttr = title ? ` title="${title}"` : '';
-      return `<figure><img src="${href}"${titleAttr} alt="${text}"/>${subHtml}</figure>`;
+      return `<figure><img src="${imgHref}"${titleAttr} alt="${text}"/>${subHtml}</figure>`;
     },
 
     link({ href, title, text, tokens }) {
@@ -459,7 +474,7 @@ export async function renderMarkdown(markdown, options = {}) {
       
       if (isImageLink) {
         const imageToken = tokens[0];
-        const imgSrc = imageToken.href;
+        const imgSrc = useImageProxy ? proxyImageUrl(imageToken.href) : imageToken.href;
         const imgAlt = imageToken.text;
         const subText = transformLegend(legend, imgAlt, imageToken.title);
         const subHtml = subText ? styledContent('figcaption', subText) : '';
@@ -490,16 +505,37 @@ export async function renderMarkdown(markdown, options = {}) {
     },
 
     table({ header, rows }) {
-      const headerRow = header.map(cell => styledContent('th', this.parser.parseInline(cell.tokens))).join('');
-      const body = rows.map(row => styledContent('tr', row.map(cell => styledContent('td', this.parser.parseInline(cell.tokens))).join(''))).join('');
-      return `<section style="max-width: 100%; overflow: auto"><table class="preview-table"><thead>${headerRow}</thead><tbody>${body}</tbody></table></section>`;
+      const headerRow = header.map(cell => {
+        const text = this.parser.parseInline(cell.tokens);
+        const thStyle = theme === "topwar_game" 
+          ? `style="background-color: var(--md-primary-color, #4154b5); color: #fff; padding: 12px; text-align: left; font-weight: 700;"` 
+          : ``;
+        return `<th class="th" ${thStyle}>${text}</th>`;
+      }).join("");
+      const body = rows.map(row => styledContent("tr", row.map(cell => styledContent("td", this.parser.parseInline(cell.tokens))).join(""))).join("");
+
+      const tableStyle = theme === "topwar_game" 
+        ? `style="width: 100%; border-collapse: collapse; margin: 20px 8px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border: 1px solid var(--md-primary-color, #4154b5);"` 
+        : `class="preview-table"`;
+
+      return `<section style="max-width: 100%; overflow: auto"><table ${tableStyle}><thead>${headerRow}</thead><tbody>${body}</tbody></table></section>`;
     },
 
     hr() {
       if (theme === 'topwar_game') {
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 4.97" style="display: block;" xml:space="default"><path style="fill: none;stroke: #4154b5;stroke-width: 1px;fill-rule: evenodd;" d="M373,2214.99c4.632,0,4.632,2.99,9.264,2.99s4.631-2.99,9.263-2.99,4.632,2.99,9.263,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.267,2.99,4.632-2.99,9.264-2.99,4.632,2.99,9.264,2.99,4.633-2.99,9.265-2.99,4.634,2.99,9.268,2.99,4.633-2.99,9.266-2.99,4.632,2.99,9.264,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.268,2.99,4.633-2.99,9.265-2.99,4.633,2.99,9.266,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.267,2.99,4.633-2.99,9.266-2.99,4.633,2.99,9.267,2.99,4.633-2.99,9.267-2.99,4.633,2.99,9.266,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.267,2.99,4.633-2.99,9.267-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.267-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.267-2.99,4.635,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.269-2.99,4.635,2.99,9.269,2.99,4.635-2.99,9.269-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.635,2.99,9.269,2.99,4.634-2.99,9.269-2.99,4.633,2.99,9.266,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.269-2.99,4.635,2.99,9.271,2.99,4.635-2.99,9.269-2.99,4.635,2.99,9.27,2.99,4.636-2.99,9.271-2.99,4.634,2.99,9.267,2.99,4.635-2.99,9.27-2.99,4.637,2.99,9.273,2.99,4.635-2.99,9.27-2.99,4.639,2.99,9.277,2.99,4.638-2.99,9.276-2.99" transform="translate(-372.5 -2214.5)"/></svg>`;
         const img = `<img src="https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzPkpRdEP3bxovreWaicQfI45DTicD3yVhjS82gPhwzPialkLLicctIWF6q4ogqbBkSdic3Tv7I4xgZNJtg/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" style="margin: 0; padding: 0; width: 100%; display: block;" />`;
-        return `\n<section style="margin: 25px 0 15px; display: flex; align-items: center;">\n  <section style="width: 100%;">${svg}</section>\n  <section style="width: 35px; flex-shrink: 0; margin-left: 5px;">${img}</section>\n</section>\n`;
+        const cycle = `c4.632,0,4.632,2.99,9.264,2.99s4.631-2.99,9.263-2.99`;
+        const pathData = `M0,0.5${cycle.repeat(270)}`;
+        return `
+<section style="margin: 25px 0 15px; display: flex; align-items: center;">
+  <section style="flex: 1;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="5" viewBox="0 0 5000 5" preserveAspectRatio="xMinYMin slice" style="display: block;" xml:space="default">
+      <path style="fill: none;stroke: var(--md-primary-color, #4154b5);stroke-width: 1px;fill-rule: evenodd;" d="${pathData}" />
+    </svg>
+  </section>
+  <section style="width: 35px; flex-shrink: 0;">${img}</section>
+</section>
+`;
       }
       return styledContent('hr', '');
     }
@@ -532,6 +568,7 @@ export async function renderMarkdown(markdown, options = {}) {
   }));
   marked.use(markedInfographic({ themeMode }));
   marked.use(markedRuby());
+  marked.use(markedScroll());
   marked.use(markedTopwar());
 
   // 4. 解析 Markdown

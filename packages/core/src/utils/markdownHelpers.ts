@@ -32,7 +32,10 @@ function sanitizeHtml(html: string): string {
   )
 
   // XSS 处理
-  html = DOMPurify.sanitize(html, { ADD_TAGS: [`mp-common-profile`] })
+  html = DOMPurify.sanitize(html, {
+    ADD_TAGS: [`mp-common-profile`, `section`],
+    ADD_ATTR: [`style`],
+  })
 
   // 还原被保护的内容
   html = html.replace(

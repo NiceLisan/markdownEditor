@@ -14,7 +14,7 @@ export function markedTopwar(): MarkedExtension {
         name: 'topwarContainer',
         level: 'block',
         start(src) {
-          return src.match(/^:::\s*(?:topwar|video)/)?.index;
+          return src.match(/^:::\s*(?:topwar|video)/m)?.index;
         },
         tokenizer(src, _tokens) {
           const match = containerRegex.exec(src);
@@ -43,8 +43,8 @@ export function markedTopwar(): MarkedExtension {
             const defaultUrl = 'https://findermp.video.qq.com/251/20304/stodownload?encfilekey=rjD5jyTuFrIpZ2ibE8T7YmwgiahniaXswqzpDGFLhxs5we4IO1LcRzududuGFb3nF0kjdG92LIYwibL7gchS8ndnlrE6HMjIg8DegGutbPWElQsz0KMIZuPLtw&token=6xykWLEnztLM3B55Xd7sogtiaN5GtkTz4piaPosBlzBVI7hWbQrCtAwQQaqxwmD1nic8rspkrA06dicJpVDoR0kuMu1lSzcMd9CNGuS2CbTX4HvFzTqJ5TL1eatzIJSwb3CdTTv5T12l4wo9icr7CPQwiarAMnibDciajyIDS1LszT4fLK8zegoOVfr1yHnwlkh8kGoFom2rIYBO8yx6Hbxj6q0oCDU5W5z2Od4LnGqe9k0kZpo&hy=SH&idx=1&m=&scene=2&uzid=1&wxampicformat=503&picformat=200';
             const url = lines[2]?.trim() || defaultUrl;
             return `
-<section style="margin: 10px auto;border: 2px solid #4154b5;border-radius: 10px;background-color: #f0f5ff;box-sizing:border-box;">
-  <section style="background-color: #4154b5;padding: 5px 10px 5px 20px;box-sizing:border-box;">
+<section style="margin: 10px auto;border: 2px solid var(--md-primary-color, #4154b5);border-radius: 10px;background-color: #f0f5ff;box-sizing:border-box;">
+  <section style="background-color: var(--md-primary-color, #4154b5);padding: 5px 10px 5px 20px;box-sizing:border-box;">
     <section style="display: flex;justify-content: space-between;">
       <section style="display: flex;">
         <section style="width: 25px;box-sizing:border-box;">
@@ -62,8 +62,8 @@ export function markedTopwar(): MarkedExtension {
           <svg data-name="图层 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.94 30.93" style="display: block;" xml:space="default">
             <g data-name="图层 1">
               <g>
-                <path d="m6.5.5h17.94c3.31,0,6,2.69,6,6v17.93c0,3.31-2.69,6-6,6H6.5c-3.31,0-6-2.69-6-6V6.5C.5,3.19,3.19.5,6.5.5Z" style="fill: #fff;fill-rule: evenodd;stroke: #4154b5;"></path>
-                <path d="m8.72,13.22h14c1.1,0,2,.9,2,2s-.9,2-2,2h-14c-1.1,0-2-.9-2-2s.9-2,2-2Z" style="fill: #4154b5;fill-rule: evenodd;stroke-width: 0px;"></path>
+                <path d="m6.5.5h17.94c3.31,0,6,2.69,6,6v17.93c0,3.31-2.69,6-6,6H6.5c-3.31,0-6-2.69-6-6V6.5C.5,3.19,3.19.5,6.5.5Z" style="fill: #fff;fill-rule: evenodd;stroke: var(--md-primary-color, #4154b5);"></path>
+                <path d="m8.72,13.22h14c1.1,0,2,.9,2,2s-.9,2-2,2h-14c-1.1,0-2-.9-2-2s.9-2,2-2Z" style="fill: var(--md-primary-color, #4154b5);fill-rule: evenodd;stroke-width: 0px;"></path>
               </g>
             </g>
           </svg>
@@ -72,9 +72,9 @@ export function markedTopwar(): MarkedExtension {
           <svg data-name="图层 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.94 30.93" style="display: block;" xml:space="default">
             <g data-name="图层 1">
               <g>
-                <path d="m6.5.5h17.94c3.31,0,6,2.69,6,6v17.93c0,3.31-2.69,6-6,6H6.5c-3.31,0-6-2.69-6-6V6.5C.5,3.19,3.19.5,6.5.5Z" style="fill: #fff;fill-rule: evenodd;stroke: #4154b5;"></path>
-                <path d="m6.84,7.5h11.54v8.44H6.84V7.5Z" style="fill: #fff;fill-rule: evenodd;stroke: #4154b5;stroke-linecap: round;stroke-linejoin: round;stroke-width: 2px;"></path>
-                <path d="m11.04,12.46h14.15v10.5h-14.15v-10.5Z" style="fill: #fff;fill-rule: evenodd;stroke: #4154b5;stroke-linecap: round;stroke-linejoin: round;stroke-width: 2px;"></path>
+                <path d="m6.5.5h17.94c3.31,0,6,2.69,6,6v17.93c0,3.31-2.69,6-6,6H6.5c-3.31,0-6-2.69-6-6V6.5C.5,3.19,3.19.5,6.5.5Z" style="fill: #fff;fill-rule: evenodd;stroke: var(--md-primary-color, #4154b5);"></path>
+                <path d="m6.84,7.5h11.54v8.44H6.84V7.5Z" style="fill: #fff;fill-rule: evenodd;stroke: var(--md-primary-color, #4154b5);stroke-linecap: round;stroke-linejoin: round;stroke-width: 2px;"></path>
+                <path d="m11.04,12.46h14.15v10.5h-14.15v-10.5Z" style="fill: #fff;fill-rule: evenodd;stroke: var(--md-primary-color, #4154b5);stroke-linecap: round;stroke-linejoin: round;stroke-width: 2px;"></path>
               </g>
             </g>
           </svg>
@@ -83,8 +83,8 @@ export function markedTopwar(): MarkedExtension {
           <svg data-name="图层 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.94 30.93" style="display: block;" xml:space="default">
             <g data-name="图层 1">
               <g>
-                <path d="m6.5.5h17.94c3.31,0,6,2.69,6,6v17.93c0,3.31-2.69,6-6,6H6.5c-3.31,0-6-2.69-6-6V6.5C.5,3.19,3.19.5,6.5.5Z" style="fill: #fff;fill-rule: evenodd;stroke: #4154b5;"></path>
-                <path d="m17.93,15.21l3.57,3.57c.78.78.78,2.05,0,2.83l-.02.02c-.78.78-2.05.78-2.83,0l-3.57-3.57-3.53,3.53c-.78.78-2.05.78-2.83,0-.78-.78-.78-2.05,0-2.83l3.53-3.53-3.62-3.62c-.78-.78-.78-2.05,0-2.83l.02-.03c.78-.78,2.05-.78,2.83,0l3.62,3.62,3.52-3.52c.78-.78,2.05-.78,2.83,0,.78.78.78,2.05,0,2.83l-3.52,3.51Z" style="fill: #4154b5;fill-rule: evenodd;stroke-width: 0px;"></path>
+                <path d="m6.5.5h17.94c3.31,0,6,2.69,6,6v17.93c0,3.31-2.69,6-6,6H6.5c-3.31,0-6-2.69-6-6V6.5C.5,3.19,3.19.5,6.5.5Z" style="fill: #fff;fill-rule: evenodd;stroke: var(--md-primary-color, #4154b5);"></path>
+                <path d="m17.93,15.21l3.57,3.57c.78.78.78,2.05,0,2.83l-.02.02c-.78.78-2.05.78-2.83,0l-3.57-3.57-3.53,3.53c-.78.78-2.05.78-2.83,0-.78-.78-.78-2.05,0-2.83l3.53-3.53-3.62-3.62c-.78-.78-.78-2.05,0-2.83l.02-.03c.78-.78,2.05-.78,2.83,0l3.62,3.62,3.52-3.52c.78-.78,2.05-.78,2.83,0,.78.78.78,2.05,0,2.83l-3.52,3.51Z" style="fill: var(--md-primary-color, #4154b5);fill-rule: evenodd;stroke-width: 0px;"></path>
               </g>
             </g>
           </svg>
@@ -125,7 +125,7 @@ export function markedTopwar(): MarkedExtension {
   <section style="display: flex;align-items: center;">
     <section style="flex-shrink: 0;padding: 0 5px 0 0;box-sizing:border-box;">
       <section style="border: 1px solid #724b3b;border-radius: 25px;padding: 1px;box-sizing:border-box;">
-        <section style="background-color: #4154b5;border-radius: 25px;padding: 3px 15px;box-sizing:border-box;">
+        <section style="background-color: var(--md-primary-color, #4154b5);border-radius: 25px;padding: 3px 15px;box-sizing:border-box;">
           <section style="font-size: 14px;color: #ffffff;text-align: center;">
             <span style="font-size:14px;color: #ffffff;"><strong data-brushtype="text" style="color: #ffffff;"><span style="color: #ffffff;">${title}</span></strong></span>
           </section>
@@ -281,7 +281,7 @@ export function markedTopwar(): MarkedExtension {
     </section>
   </section>
   <!-- Content Section -->
-  <section style="margin-top: 20px;margin-right: 30px;margin-left: -30px;padding: 10px 20px;display: inline-block;vertical-align: top;width: auto;align-self: flex-start;flex: 1 1 0%;box-shadow: rgba(255, 255, 255, 0) 0px 0px 0px;height: auto;background-color: #fffaf2;border-style: solid;border-width: 2px;border-radius: 20px;border-color: #4154b5;overflow: hidden;box-sizing:border-box;">
+  <section style="margin-top: 20px;margin-right: 30px;margin-left: -30px;padding: 10px 20px;display: inline-block;vertical-align: top;width: auto;align-self: flex-start;flex: 1 1 0%;box-shadow: rgba(255, 255, 255, 0) 0px 0px 0px;height: auto;background-color: #fffaf2;border-style: solid;border-width: 2px;border-radius: 20px;border-color: var(--md-primary-color, #4154b5);overflow: hidden;box-sizing:border-box;">
     <section>
       <section style="text-align: center;">
         <section style="text-align: justify;">
@@ -321,7 +321,9 @@ export function markedTopwar(): MarkedExtension {
           }
 
           if (type === 'topwar-review') {
-            const figures = text.match(/<figure[\s\S]*?<\/figure>/g) || [];
+            // Clean up the text to remove unnecessary p/br/empty tags that might interfere with matching
+            const cleanedText = text.replace(/<p>|<\/p>|<br\/?>/g, '').trim();
+            const figures = cleanedText.match(/<figure[\s\S]*?<\/figure>/g) || [];
             
             const items = figures.map(fig => {
               const hrefMatch = fig.match(/href="([^"]+)"/);
@@ -343,14 +345,14 @@ export function markedTopwar(): MarkedExtension {
                 const item1 = items[i];
                 const item2 = items[i + 1];
                 
-                const generateColumn = (item) => `
+                const generateColumn = (item: { href: string; img: string; caption: string }) => `
 	<section style="margin: 0px;padding: 0px;max-width: 100%;outline: 0px;display: inline-block;vertical-align: top;width: 49.1525%;flex: 0 0 auto;height: auto;align-self: flex-start;overflow-wrap: break-word !important;box-sizing:border-box;">
-		<section style="margin: 0.5em 0px;padding: 0px 0.5em;max-width: 100%;color: #222222;outline: 0px;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+		<section style="margin: 0.5em 0px 2px 0px;padding: 0px 0.5em;max-width: 100%;color: #222222;outline: 0px;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">
 			<section style="margin: 0px;padding: 0px;max-width: 100%;outline: 0px;box-shadow: #666666 3px 3px 7px;display: inline-block;line-height: 0;border-color: white;overflow-wrap: break-word !important;height: auto !important;box-sizing:border-box;">
-				<a href="${item.href}" imgurl="${item.img}" linktype="image" tab="innerlink" data-itemshowtype="0" target="_blank" data-linktype="1"><span style="margin:0px;padding:0px;max-width:100%;font-size:0px;display:inline-block;overflow:hidden;outline:0px;line-height:0;vertical-align:bottom;box-sizing:border-box !important;overflow-wrap:break-word !important;" class="js_jump_icon h5_image_link"><img src="${item.img}" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="margin: 0px;padding: 0px;vertical-align: middle;outline: 0px;border-width: 0px;border-style: initial;border-color: initial;display: initial;width: 100%;max-width: 100%;overflow-wrap: break-word !important;visibility: visible !important;box-sizing:border-box;" data-aistatus="1" data-ratio="0.42592592592592593" data-w="1080"/></span></a>
+				<a href="${item.href}" imgurl="${item.img}" linktype="image" tab="innerlink" data-itemshowtype="0" target="_blank" data-linktype="1"><span style="margin:0px;padding:0px;max-width:100%;font-size:0px;display:inline-block;overflow:hidden;outline:0px;line-height:0;vertical-align:bottom;box-sizing:border-box !important;overflow-wrap:break-word !important;" class="js_jump_icon h5_image_link"><img src="${item.img}" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="margin: 0px;padding: 0px;vertical-align: top;outline: 0px;border-width: 0px;border-style: initial;border-color: initial;display: block;width: 100%;max-width: 100%;overflow-wrap: break-word !important;visibility: visible !important;box-sizing:border-box;" data-aistatus="1" data-ratio="0.42592592592592593" data-w="1080"/></span></a>
 			</section>
 		</section>
-		<section style="margin: 0px;padding: 0px 5px;max-width: 100%;outline: 0px;font-size: 13px;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+		<section style="margin: 0px 0px 10px 0px;padding: 0px 5px;max-width: 100%;outline: 0px;font-size: 13px;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">
 			<p style="margin: 0px;padding: 0px;max-width: 100%;clear: both;min-height: 1em;outline: 0px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
 				<span style="margin: 0px;padding: 0px;max-width: 100%;color: #3e3e3e;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span>${item.caption}</span></span>
 			</p>

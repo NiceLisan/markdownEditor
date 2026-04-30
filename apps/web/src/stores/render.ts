@@ -80,7 +80,9 @@ export const useRenderStore = defineStore(`render`, () => {
       countStatus: themeStore.isCountStatus,
       isMacCodeBlock: themeStore.isMacCodeBlock,
       isShowLineNumber: themeStore.isShowLineNumber,
+      themeName: themeStore.theme,
       themeMode: uiStore.isDark ? 'dark' : 'light',
+      useImageProxy: true,
     })
 
     // 渲染 Markdown

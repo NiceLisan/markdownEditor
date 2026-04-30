@@ -29,3 +29,150 @@ container {
   color: unset !important;
   letter-spacing: unset !important;
 }
+
+/* ==================== Topwar 容器样式（所有主题共享） ==================== */
+
+/* topwar-intro */
+.topwar-intro {
+  margin: 10px auto;
+  padding: 0;
+  max-width: 100%;
+}
+
+.topwar-intro-border {
+  margin: 0;
+  padding: 15px;
+  background-color: #f7f9ff;
+  font-size: 14px;
+  line-height: 1.75em;
+  letter-spacing: 1.5px;
+}
+
+/* topwar-data */
+.topwar-data-container {
+  margin: 10px auto;
+  border: 2px solid var(--md-primary-color, #4154b5);
+  border-radius: 10px;
+  background-color: #f0f5ff;
+}
+
+.topwar-data-header {
+  background-color: var(--md-primary-color, #4154b5);
+  padding: 5px 10px 5px 20px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.topwar-data-body {
+  padding: 15px;
+  color: #333333;
+  line-height: 1.75;
+}
+
+/* topwar-buff */
+.topwar-buff {
+  margin: 15px 0;
+  padding: 15px;
+  border-left: 4px solid var(--md-primary-color, #4154b5);
+  background-color: #f7f9ff;
+}
+
+/* topwar-bubble */
+.topwar-bubble {
+  display: flex;
+  flex-flow: row;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  transform: translate3d(8px, 0px, 0px);
+}
+
+.topwar-bubble-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #821e1e;
+  flex-shrink: 0;
+}
+
+.topwar-bubble-avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+.topwar-bubble-content {
+  background-color: rgba(189,183,186,0.30);
+  margin: 0px 30px 0px 10px;
+  padding: 16px 10px;
+  border-radius: 8px;
+  flex-grow: 1;
+}
+
+.topwar-bubble-content p {
+  margin: 0;
+  line-height: 2.5em;
+  font-size: 14px;
+}
+
+/* topwar-tip */
+.topwar-tip {
+  margin: 15px 0;
+}
+
+.topwar-tip-header {
+  border: 1px solid #724b3b;
+  border-radius: 25px;
+  padding: 1px;
+  display: inline-block;
+  margin-bottom: -15px;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+}
+
+.topwar-tip-label {
+  background-color: var(--md-primary-color, #4154b5);
+  border-radius: 25px;
+  padding: 3px 15px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.topwar-tip-content {
+  background-color: #fffcf3;
+  padding: 25px 15px 10px;
+  color: #333333;
+  line-height: 1.75;
+  font-size: 14px;
+}
+
+.topwar-tip-content p {
+  margin: 0.5em 0;
+}
+
+/* topwar-review */
+.topwar-review {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* topwar-end */
+.topwar-end {
+  text-align: center;
+  margin: 20px 0;
+  color: #333;
+  font-weight: bold;
+}
+
+/* topwar video */
+.wxw_wechannel_card {
+  margin: 1.5em 0;
+}
+
+/* topwar inline markup */
+.markup-underline {
+  text-decoration: underline;
+  text-decoration-color: var(--md-primary-color, #4154b5);
+  font-size: 14px;
+}

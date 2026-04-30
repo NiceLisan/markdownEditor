@@ -17,7 +17,7 @@ export function markedSwipe(): MarkedExtension {
         name: `swipeContainer`,
         level: `block`,
         start(src) {
-          return src.match(/^:::\s*swipe/)?.index
+          return src.match(/^:::\s*swipe/m)?.index
         },
         tokenizer(src) {
           const match = /^:::\s*swipe\s*\n([\s\S]*?)\n:::/.exec(src)

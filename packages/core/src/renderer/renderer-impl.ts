@@ -13,6 +13,7 @@ import {
   markedMermaid,
   markedPlantUML,
   markedRuby,
+  markedScroll,
   markedSlider,
   markedSwipe,
   markedToc,
@@ -20,6 +21,7 @@ import {
   MDKatex,
 } from '../extensions'
 import { COMMON_LANGUAGES, highlightAndFormatCode } from '../utils/languages'
+import { themeMap, baseCSSContent } from '@md/shared/configs'
 
 Object.entries(COMMON_LANGUAGES).forEach(([name, lang]) => {
   hljs.registerLanguage(name, lang)
@@ -52,6 +54,21 @@ function escapeHtml(text: string): string {
     .replace(/"/g, `&quot;`) // 转义 "
     .replace(/'/g, `&#39;`) // 转义 '
     .replace(/`/g, `&#96;`) // 转义 `
+}
+
+/**
+ * 通过 weserv.nl 代理图片 URL，解决防盗链问题
+ * 仅代理外部 http/https 图片，不处理 data URI、相对路径等
+ */
+function proxyImageUrl(url: string): string {
+  if (!url) return url
+  // 已经是 weserv 代理的 URL，不重复代理
+  if (url.includes('images.weserv.nl')) return url
+  // 仅代理 http/https 开头的外部图片
+  if (/^https?:\/\//i.test(url)) {
+    return `https://images.weserv.nl/?url=${encodeURIComponent(url)}`
+  }
+  return url
 }
 
 function buildAddition(): string {
@@ -143,6 +160,26 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
   let footnoteIndex: number = 0
   const listOrderedStack: boolean[] = []
   const listCounters: number[] = []
+  const headingCounts: Record<string, number> = {}
+  let customRenderers: Record<string, string> = {}
+  let lastThemeName: string | undefined = undefined
+
+  function parseCustomRenderers(themeName: string) {
+    if (lastThemeName === themeName) return
+    lastThemeName = themeName
+    customRenderers = {}
+    
+    const cssContent = `${baseCSSContent}\n${themeMap[themeName as keyof typeof themeMap] || ''}`
+      
+    // Match /* @renderer [token] \n [html] \n */
+    const regex = /\/\*\s*@renderer\s+([a-zA-Z0-9_-]+)\s*\n([\s\S]*?)\*\//g
+    let match
+    while ((match = regex.exec(cssContent)) !== null) {
+      const token = match[1]
+      const html = match[2].trim()
+      customRenderers[token] = html
+    }
+  }
 
   function getOpts(): IOpts {
     return opts
@@ -182,6 +219,9 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
   function reset(newOpts: Partial<IOpts>): void {
     footnotes.length = 0
     footnoteIndex = 0
+    for (const key in headingCounts) {
+      delete headingCounts[key]
+    }
     setOptions(newOpts)
   }
 
@@ -220,6 +260,18 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
   const renderer: RendererObject = {
     heading({ tokens, depth }: Tokens.Heading) {
       const text = this.parser.parseInline(tokens)
+      const tag = `h${depth}`
+      
+      headingCounts[tag] = (headingCounts[tag] || 0) + 1
+      
+      parseCustomRenderers(opts.themeName || 'default')
+      
+      if (customRenderers[tag]) {
+        return customRenderers[tag]
+          .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
+          .replace(/\$\{text\}/g, () => text)
+      }
+
       if (opts.themeName === 'topwar_game' && depth === 2) {
         return `
 <section style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px;margin-top: 30px;box-sizing:border-box;">
@@ -236,23 +288,31 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
       </section>
     </section>
   </section>
-  <section style="width: 250px;background-color: #4154b5;height: 48px;display: flex;justify-content: center;align-items: center;box-sizing: border-box;color: #fff;font-weight: 700;font-size: 20px;letter-spacing: 2px;z-index: 1;">
+  <section style="width: 250px;background-color: var(--md-primary-color, #4154b5);height: 48px;display: flex;justify-content: center;align-items: center;box-sizing: border-box;color: #fff;font-weight: 700;font-size: 20px;letter-spacing: 2px;z-index: 1;">
     <section style="margin-left: 10px;" data-heading="true">
       ${text}
     </section>
   </section>
 </section>`
       }
-      const tag = `h${depth}`
-      return styledContent(tag, text)
+      const finalTag = `h${depth}`
+      return styledContent(finalTag, text)
     },
 
     paragraph({ tokens }: Tokens.Paragraph): string {
       const text = this.parser.parseInline(tokens)
-      const isFigureImage = text.includes(`<figure`) && text.includes(`<img`)
       const isEmpty = text.trim() === ``
+      
+      parseCustomRenderers(opts.themeName || 'default')
+      
+      const isFigureImage = text.includes(`<figure`) && text.includes(`<img`)
       if (isFigureImage || isEmpty) {
         return text
+      }
+
+      if (customRenderers['p'] || customRenderers['paragraph']) {
+        const template = customRenderers['p'] || customRenderers['paragraph']
+        return template.replace(/\$\{text\}/g, () => text)
       }
 
       // Top War Disclaimer Style (Lines starting with '*')
@@ -265,6 +325,12 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
 
     blockquote({ tokens }: Tokens.Blockquote): string {
       const text = this.parser.parse(tokens)
+      
+      parseCustomRenderers(opts.themeName || 'default')
+      if (customRenderers['blockquote']) {
+        return customRenderers['blockquote'].replace(/\$\{text\}/g, () => text)
+      }
+
       // 新主题系统：blockquote 内的 p 标签由 CSS 选择器 `blockquote p` 控制
       return styledContent(`blockquote`, text)
     },
@@ -335,10 +401,11 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
     },
 
     image({ href, title, text }: Tokens.Image): string {
+      const imgHref = opts.useImageProxy ? proxyImageUrl(href) : href
       const newText = opts.legend ? transform(opts.legend, text, title) : ``
       const subText = newText ? styledContent(`figcaption`, newText) : ``
       const titleAttr = title ? ` title="${title}"` : ``
-      return `<figure><img src="${href}"${titleAttr} alt="${text}"/>${subText}</figure>`
+      return `<figure><img src="${imgHref}"${titleAttr} alt="${text}"/>${subText}</figure>`
     },
 
     link({ href, title, text, tokens }: Tokens.Link): string {
@@ -347,7 +414,7 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
 
       if (isImageLink) {
         const imageToken = tokens[0] as Tokens.Image
-        const imgSrc = imageToken.href
+        const imgSrc = opts.useImageProxy ? proxyImageUrl(imageToken.href) : imageToken.href
         const imgAlt = imageToken.text
         const newText = opts.legend
           ? transform(opts.legend, imgAlt, imageToken.title)
@@ -388,7 +455,10 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
       const headerRow = header
         .map((cell) => {
           const text = this.parser.parseInline(cell.tokens)
-          return styledContent(`th`, text)
+          const thStyle = opts.themeName === 'topwar_game' 
+            ? `style="background-color: var(--md-primary-color, #4154b5); color: #fff; padding: 12px; text-align: left; font-weight: 700;"` 
+            : ``;
+          return `<th class="th" ${thStyle}>${text}</th>`
         })
         .join(``)
       const body = rows
@@ -397,9 +467,13 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
           return styledContent(`tr`, rowContent)
         })
         .join(``)
+      const tableStyle = opts.themeName === 'topwar_game' 
+        ? `style="width: 100%; border-collapse: collapse; margin: 20px 8px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border: 1px solid var(--md-primary-color, #4154b5);"` 
+        : `class="preview-table"`;
+
       return `
         <section style="max-width: 100%; overflow: auto">
-          <table class="preview-table">
+          <table ${tableStyle}>
             <thead>${headerRow}</thead>
             <tbody>${body}</tbody>
           </table>
@@ -414,12 +488,18 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
 
     hr(_: Tokens.Hr): string {
       if (opts.themeName === 'topwar_game') {
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 4.97" style="display: block;" xml:space="default"><path style="fill: none;stroke: #4154b5;stroke-width: 1px;fill-rule: evenodd;" d="M373,2214.99c4.632,0,4.632,2.99,9.264,2.99s4.631-2.99,9.263-2.99,4.632,2.99,9.263,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.267,2.99,4.632-2.99,9.264-2.99,4.632,2.99,9.264,2.99,4.633-2.99,9.265-2.99,4.634,2.99,9.268,2.99,4.633-2.99,9.266-2.99,4.632,2.99,9.264,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.268,2.99,4.633-2.99,9.265-2.99,4.633,2.99,9.266,2.99,4.633-2.99,9.266-2.99,4.634,2.99,9.267,2.99,4.633-2.99,9.266-2.99,4.633,2.99,9.267,2.99,4.633-2.99,9.267-2.99,4.633,2.99,9.266,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.267,2.99,4.633-2.99,9.267-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.267-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.267-2.99,4.635,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.268,2.99,4.634-2.99,9.269-2.99,4.635,2.99,9.269,2.99,4.635-2.99,9.269-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.635,2.99,9.269,2.99,4.634-2.99,9.269-2.99,4.633,2.99,9.266,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.268-2.99,4.634,2.99,9.269,2.99,4.634-2.99,9.269-2.99,4.635,2.99,9.271,2.99,4.635-2.99,9.269-2.99,4.635,2.99,9.27,2.99,4.636-2.99,9.271-2.99,4.634,2.99,9.267,2.99,4.635-2.99,9.27-2.99,4.637,2.99,9.273,2.99,4.635-2.99,9.27-2.99,4.639,2.99,9.277,2.99,4.638-2.99,9.276-2.99" transform="translate(-372.5 -2214.5)"/></svg>`
         const img = `<img src="https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzPkpRdEP3bxovreWaicQfI45DTicD3yVhjS82gPhwzPialkLLicctIWF6q4ogqbBkSdic3Tv7I4xgZNJtg/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" style="margin: 0; padding: 0; width: 100%; display: block;" />`
+        // Generate a 5000-unit long path by repeating the wave cycle (~270 times)
+        const cycle = `c4.632,0,4.632,2.99,9.264,2.99s4.631-2.99,9.263-2.99`
+        const pathData = `M0,0.5${cycle.repeat(270)}`
         return `
 <section style="margin: 25px 0 15px; display: flex; align-items: center;">
-  <section style="width: 100%;">${svg}</section>
-  <section style="width: 35px; flex-shrink: 0; margin-left: 5px;">${img}</section>
+  <section style="flex: 1;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="5" viewBox="0 0 5000 5" preserveAspectRatio="xMinYMin slice" style="display: block;" xml:space="default">
+      <path style="fill: none;stroke: var(--md-primary-color, #4154b5);stroke-width: 1px;fill-rule: evenodd;" d="${pathData}" />
+    </svg>
+  </section>
+  <section style="width: 35px; flex-shrink: 0;">${img}</section>
 </section>\n`
       }
       return styledContent(`hr`, ``)
@@ -443,6 +523,7 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
   )
   marked.use(markedInfographic({ themeMode: opts.themeMode }))
   marked.use(markedRuby())
+  marked.use(markedScroll())
   marked.use(markedTopwar())
 
   return {

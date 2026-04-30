@@ -1,4 +1,4 @@
-import { markedAlert, MDKatex } from '@md/core'
+import { MDKatex, markedAlert, markedScroll } from '@md/core'
 import { prefix } from '@md/shared/configs'
 // 直接导入供本文件内部使用
 import {
@@ -68,16 +68,18 @@ export async function exportHTML(title: string = `untitled`) {
   const htmlStr = getHtmlContent()
   const stylesToAdd = await getStylesToAdd()
 
+  // First combine styles and content, then inline and modify structure
+  const inlinedHtml = modifyHtmlStructure(mergeCss(stylesToAdd + htmlStr))
+
   const fullHtml = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>${sanitizeTitle(title)}</title>
-  ${stylesToAdd}
 </head>
 <body>
   <div style="width: 750px; margin: auto; padding: 20px;">
-    ${htmlStr}
+    ${inlinedHtml}
   </div>
 </body>
 </html>`
@@ -93,6 +95,7 @@ export async function exportHTML(title: string = `untitled`) {
 export async function generatePureHTML(raw: string): Promise<string> {
   const markedInstance = new Marked()
   markedInstance.use(markedAlert({ withoutStyle: true }))
+  markedInstance.use(markedScroll())
   markedInstance.use(
     MDKatex({ nonStandard: true }, false),
   )
@@ -308,8 +311,8 @@ export async function processClipboardContent(primaryColor: string) {
   clipboardDiv.innerHTML = clipboardDiv.innerHTML
     .replace(/([^-])top:(.*?)em/g, `$1transform: translateY($2em)`)
     .replace(/hsl\(var\(--foreground\)\)/g, `#3f3f3f`)
-    .replace(/var\(--blockquote-background\)/g, `#f7f7f7`)
-    .replace(/var\(--md-primary-color\)/g, primaryColor)
+    .replace(/var\(--blockquote-background(,\s*[^)]+)?\)/g, `#f7f7f7`)
+    .replace(/var\(--md-primary-color(,\s*[^)]+)?\)/g, primaryColor)
     .replace(/--md-primary-color:.+?;/g, ``)
     .replace(/--md-font-family:.+?;/g, ``)
     .replace(/--md-font-size:.+?;/g, ``)
@@ -321,6 +324,17 @@ export async function processClipboardContent(primaryColor: string) {
       /<span class="edgeLabel"([^>]*)><p[^>]*>(.*?)<\/p><\/span>/g,
       `<span class="edgeLabel"$1>$2</span>`,
     )
+
+  // 还原 weserv 代理的图片 URL 为原始 URL（预览使用代理解决防盗链，但导出/复制时需要原始 URL）
+  clipboardDiv.innerHTML = clipboardDiv.innerHTML
+    .replace(/https:\/\/images\.weserv\.nl\/\?url=([^"&\s]+)/g, (_match, encodedUrl) => {
+      try {
+        return decodeURIComponent(encodedUrl)
+      }
+      catch {
+        return encodedUrl
+      }
+    })
 
   // 处理图片大小
   solveWeChatImage()

@@ -94,7 +94,7 @@ export function markedAlert(options: AlertOptions = {}): MarkedExtension {
         name: `alertContainer`,
         level: `block`,
         start(src) {
-          return src.match(/^:::/)?.index
+          return src.match(/^:::/m)?.index
         },
         tokenizer(src, _tokens) {
           // eslint-disable-next-line regexp/no-super-linear-backtracking

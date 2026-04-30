@@ -105,6 +105,7 @@ export function createServer(port = 8800) {
       isUseJustify = false,
       isUseDefaultTheme = true,
       themeMode = "light",
+      useImageProxy = false,
     } = req.body;
 
     if (!markdown && filePath) {
@@ -139,6 +140,7 @@ export function createServer(port = 8800) {
       isUseJustify,
       isUseDefaultTheme,
       themeMode,
+      useImageProxy,
     });
 
     return { ...result, filePath, title };

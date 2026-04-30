@@ -13,6 +13,8 @@ export interface IOpts {
   isShowLineNumber?: boolean
   themeMode?: 'light' | 'dark'
   themeName?: string
+  /** 是否通过 weserv.nl 代理外部图片，用于解决预览时的防盗链问题 */
+  useImageProxy?: boolean
 }
 
 export interface IConfigOption<VT = string> {

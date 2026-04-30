@@ -7,20 +7,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch index.js",
-    "build:exe": "pkg . --compress Brotli --options max-old-space-size=4096",
-    "build:exe:win": "pkg . --targets node18-win-x64 --compress Brotli --options max-old-space-size=4096",
-    "build:exe:all": "pkg . --targets node18-win-x64,node18-macos-x64,node18-linux-x64 --compress Brotli --options max-old-space-size=4096"
+    "build:exe": "npx @yao-pkg/pkg . --compress Brotli --options max-old-space-size=4096",
+    "build:exe:win": "npx @yao-pkg/pkg . --targets node22-win-x64 --compress Brotli --options max-old-space-size=4096 --no-bytecode --public-packages \"*\" --output build/md-cli-v22.exe",
+    "build:exe:all": "npx @yao-pkg/pkg . --targets node22-win-x64,node22-macos-x64,node22-linux-x64 --compress Brotli --options max-old-space-size=4096"
   },
   "bin": {
-    "md-cli": "index.cjs"
+    "md-cli": "dist-cli/index.cjs"
   },
   "pkg": {
     "assets": [
       "dist/**/*",
       "public/**/*"
     ],
+    "scripts": [
+      "dist-cli/**/*.cjs"
+    ],
     "targets": [
-      "node18-win-x64"
+      "node22-win-x64"
     ],
     "outputPath": "build",
     "compress": "Brotli"
@@ -72,6 +75,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.11",
-    "pkg": "catalog:"
+    "pkg": "catalog:",
+    "tsx": "^4.21.0"
   }
 }
