@@ -1,1040 +1,2124 @@
-<section style="font-size: 15px;line-height: 2;padding: 0px 8px;box-sizing: border-box;font-style: normal;font-weight: 400;text-align: justify;color: rgb(62, 62, 62);font-family:PingFangSC-light;">
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;" >
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNLEX7SqWtZU8XR0aj4CeHvaGiaydpkbr7zVe6BTTbacDoltZ0AhmZ6EGuEoSLG6ZaMiaYB2BOkplXHgp1SticiaP43m2pUyAIQ3r0/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030668" data-aistatus="1" data-ratio="0.1814814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="text-align: left;justify-content: flex-start;display: flex;flex-flow: row;margin: 20px 0px 10px;width: 100%;align-self: flex-start;padding: 24px;background-color: rgb(249, 249, 249);border-radius: 10px;overflow: hidden;box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;box-sizing:border-box;max-width:100% !important;">
-		<section style="text-align: center;width: 100%;box-sizing:border-box;max-width:100% !important;">
-			<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>本文作者：Roy，TRAE 核心用户</span>
-			</p>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>前言</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>过去做市场运营时我一直有个判断：增长工具最难的从来不是想法本身，而是落地。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>尤其在数据库这样的垂直行业，增长不是发一张海报、做一个表单、备几份礼品就能完成的。用户报名、邀请码生成、邀请关系统计、榜单更新、进度查询、规则解释，每个环节单看都不复杂，可一旦缺少统一工具串联，最终都会沉淀成运营同学手里的表格、私信、截图和人工统计。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>本文记录的，正是一名非技术背景的开源社区运营经理，如何借助 TRAE Work 把这条割裂的链路重新接上：围绕开发者认证活动搭建一个邀请榜单工具，将原本散落在飞书表格、活动页面和用户私信里的流程，串成一个可上线、可验证、可复用的增长闭环。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>所以这篇文章想聊的，不是“如何用 TRAE Work 写一个页面”，而是一名运营如何把一个增长想法，从表格、规则和手动流程里拎出来，做成一个真正能跑起来的小工具。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-	</section>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNnUQrIECzLjltRBputno1ZtkCf6o3ibHWb544jMp8UXs2qVpOfnNHE0hbriaeZzJsbvj1QibmGphvoibNX93saKU5ibyrlUnc3cwXU/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030667" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>所面临的问题</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>我负责开源社区运营。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>去年我们上线了自研的技能认证考试系统，随之而来的问题是：认证完成之后，能不能再设计一套邀请增长机制，让更多开发者参与进来？</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>在拆解成熟互联网产品的增长活动时，我意识到它们真正的壁垒并不在活动形式，而在背后那套完整的技术体系支撑。而数据库产品恰恰缺这套底座：</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section class="_135editor" data-role="list">
-		<ul style="list-style-type: disc;margin:0px;padding:0 0 0 30px;list-style-position:outside;" class="list-paddingleft-2">
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>它是基础软件，用户场景多发生在服务端、开发环境甚至内网，不具备 App 那样天然的移动端入口；</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>它没有消费互联网产品的高频行为、强社交链和丰富前端交互；</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>它面对的是一群专业开发者，泛流量转化效率低，用户不会因为一个抽奖或一张海报就轻易参与。</span>
-				</p>
-			</li>
-		</ul>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>换句话说，数据库技术社区做增长，往往不是不想做丰富的互动，而是产品形态、用户场景和技术资源共同决定了——很难直接照搬互联网的裂变玩法。</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: left;justify-content: flex-start;display: flex;flex-flow: row;margin: 10px 0px;width: 100%;align-self: flex-start;padding: 24px;background-color: rgb(249, 249, 249);border-radius: 10px;overflow: hidden;box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;box-sizing:border-box;max-width:100% !important;">
-		<section style="text-align: justify;color: rgb(16, 188, 97);width: 100%;box-sizing:border-box;max-width:100% !important;font-family:PingFangSC-light;">
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<strong style="box-sizing: border-box;"><span>这就引出了最核心的矛盾：增长目标是连续的，但工具链是割裂的。</span></strong>
-			</p>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>报名在飞书表单，汇总在飞书表格，通知在社群，认证行为在另一套系统，咨询又回到私信和群聊。每个工具单独都能用，可一旦放进一场完整的邀请活动，断点就出现了。过去一场活动的流程大致如下：</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section class="_135editor" data-role="list">
-		<ol style="list-style-type: decimal;margin:0px;padding:0 0 0 30px;list-style-position:outside;" class="list-paddingleft-2">
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>用户填写报名表</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>数据汇总到飞书表格</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>运营人工维护邀请码</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>用户邀请新用户</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>新用户填写邀请人信息</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>运营定期查表统计</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>用户反复询问邀请进度</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>运营截图、回复、解释规则</span>
-				</p>
-			</li>
-		</ol>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="color: rgb(16, 188, 97);box-sizing: border-box;font-family:PingFangSC-light;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>流程能跑，但太重。</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>开发者更在意的是：</span><strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>认证是否有价值、规则是否清楚、数据是否透明。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>如果用户邀请后看不到进度、运营每天像“人肉客服”一样查表、负责人也无法实时掌握效果，这类活动就很容易沦为黑盒。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>所以这次我真正要解决的，不是“做一个排行榜”，而是把报名、邀请码、邀请关系、榜单反馈、规则说明和运营统计，尽可能收敛进一个轻量工具里。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 10px 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPJCNWa4RG3W0u64BjNhSsuD3zClADw9I15ucZHNnpKWib6In04QrJ6hFwGpQjCaFPUYHdBckGeaQPqUwtUokfaaNxQNPGy7SPs/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030665" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>如何解决</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>这次做的工具，可以简单理解为一个</span><strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>开发者认证活动邀请榜单</span></span></strong><span>。</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVMpezibBIvaZ6SFCGOCuHxc6LZtsdaWibm0yHOvicuLUIdMia2gCbsHCkUfEPT2qYf7a28GibgsRPB6GSGuVXurzyJc0gWNBGfkAmJU/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030669" data-aistatus="1" data-ratio="0.512962962962963" data-w="1080"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>它面向某数据库技术社区的开发者认证活动，核心目标是把报名、邀请码、邀请关系、榜单排名和活动规则集中到同一个页面。整体链路如下：</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section class="_135editor" data-role="list">
-		<ol style="list-style-type: decimal;margin:0px;padding:0 0 0 30px;list-style-position:outside;" class="list-paddingleft-2">
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>用户通过活动海报填写报名表</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>飞书生成专属邀请码</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>用户前往排行榜复制邀请码并发起邀请</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>新用户认证完成、领取礼品时填写邀请码</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>飞书表格记录邀请关系</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>前端页面展示排行榜与邀请码查询</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>榜单每日 0 点更新</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>用户自助查看进度，运营实时掌握活动情况</span>
-				</p>
-			</li>
-		</ol>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>我的起点不是&quot;做榜单&quot;，而是先拆解整条增长链路，把关键问题问清楚：</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="margin: 10px 0% 8px;text-align: left;justify-content: flex-start;display: flex;flex-flow: row;width: 100%;border-left: 3px solid rgb(219, 219, 219);border-bottom-left-radius: 0px;padding: 0px 0px 0px 8px;align-self: flex-start;box-sizing:border-box;max-width:100% !important;">
-		<section style="color: rgba(0, 0, 0, 0.5);text-align: justify;font-size: 14px;width: 100%;box-sizing:border-box;max-width:100% !important;">
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>用户从哪里进入？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>什么时候获得邀请码？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>邀请关系怎么记录？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>哪些数据需要展示给用户？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>哪些信息需要写进规则？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>运营侧如何判断活动进度？</span>
-			</p>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>由此确定了工具的定位：不做复杂后台，不重构原有流程，而是在现有飞书表格之上，搭一个</span><strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>用户可访问、运营可维护、数据可解释</span></span></strong><span style="box-sizing: border-box;"><span>的轻量增长页面。</span></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="color: rgb(16, 188, 97);box-sizing: border-box;font-family:PingFangSC-light;" data-role="list" class="_135editor">
-		<ul style="list-style-type: disc;margin:0px;padding:0 0 0 30px;list-style-position:outside;" class="list-paddingleft-2">
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<strong style="box-sizing: border-box;"><span>对用户，它降低了参与门槛。</span></strong>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<strong style="box-sizing: border-box;"><span>对运营，它减少了重复查询。</span></strong>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<strong style="box-sizing: border-box;"><span>对活动本身，它让邀请机制真正有了反馈闭环。</span></strong>
-				</p>
-			</li>
-		</ul>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNWTichKvVwFqIuLDx0GzLloMlL36WklWuShenXmhpIoCpSUNQxn5wbkofJYl4qagHiapA3bjiaIBRM4ICKK84kibhEia6Ssb0hk8IA/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030666" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>页面拆解</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>页面的核心只有四个模块：排行榜、邀请码领取、活动规则、礼品领取。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>但每一块的设计，都指向一个具体的运营痛点。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="max-width: 100%;display: inline-block;flex: 100 100 0%;align-self: flex-end;margin: 0px;vertical-align: bottom;box-sizing: border-box;">
-		<section style="height: auto;background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);padding: 0px 0px 0px 15px;border-left: 4px solid rgb(16, 188, 97);box-sizing: border-box;max-width: 100%;text-align: left;">
-			<section style="max-width: 100%;box-sizing: border-box;">
-				<section style="text-align: justify;font-size: 16px;box-sizing: border-box;max-width: 100%;font-family:PingFangSC-light;">
-					<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-						<strong style="box-sizing: border-box;"><span>3.1 排行榜：让用户知道自己不是在&quot;盲邀&quot;</span></strong>
-					</p>
-				</section>
-			</section>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>邀请活动最怕的就是没有反馈。用户花时间邀请别人，若始终不知道是否成功，动力很快就会耗尽。因此我把排行榜放在页面最核心的位置，展示排名、邀请人、邀请码和邀请人数。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>在这里，榜单不是结果展示，而是活动过程中的正反馈机制。用户打开页面就能回答：</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="margin: 10px 0% 8px;text-align: left;justify-content: flex-start;display: flex;flex-flow: row;width: 100%;border-left: 3px solid rgb(219, 219, 219);border-bottom-left-radius: 0px;padding: 0px 0px 0px 8px;align-self: flex-start;box-sizing:border-box;max-width:100% !important;">
-		<section style="color: rgba(0, 0, 0, 0.5);text-align: justify;font-size: 14px;width: 100%;box-sizing:border-box;max-width:100% !important;">
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>我邀请的人数有没有增加？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>我现在排在第几？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>前面的人邀请了多少？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>我还有没有机会冲下一档奖励？</span>
-			</p>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVP7WVwbVQBKPEAxUdhQUW8AdtLvicSDrMa0syZR2QKiaaFp8yQUic2ntZxVxxFcn8x3zIQ7N0piah4HrP4TBHaOXd6nWxFnSSxefCQ/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030672" data-aistatus="1" data-ratio="0.4824074074074074" data-w="1080"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="max-width: 100%;display: inline-block;flex: 100 100 0%;align-self: flex-end;margin: 0px;vertical-align: bottom;box-sizing: border-box;">
-		<section style="height: auto;background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);padding: 0px 0px 0px 15px;border-left: 4px solid rgb(16, 188, 97);box-sizing: border-box;max-width: 100%;text-align: left;">
-			<section style="max-width: 100%;box-sizing: border-box;">
-				<section style="text-align: justify;font-size: 16px;box-sizing: border-box;max-width: 100%;font-family:PingFangSC-light;">
-					<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-						<strong style="box-sizing: border-box;"><span>3.2 邀请码查询：把“找运营查一下”变成“自助完成”</span></strong>
-					</p>
-				</section>
-			</section>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>很多用户不会第一时间保存自己的邀请码。如果每个人都来私信查询，运营就会被这类重复工作拖住。为此页面提供了&quot;查询邀请码&quot;入口，用户可以直接搜索自己的信息，查看并复制邀请码。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>功能看起来不大，却很实用。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>它把“找运营查邀请码”这个动作彻底变成了用户自助。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVMibyOESAQI8QpbqCQU87bz5ktr5Y88szZ25ib9hgfdX8YNdXFa0pg9SZRUCU4LMcVdGRqs6AcB6RC8jVMwzlf4Y2xzT8RpOeuuw/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030671" data-aistatus="1" data-ratio="1.4520255863539446" data-w="938"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="max-width: 100%;display: inline-block;flex: 100 100 0%;align-self: flex-end;margin: 0px;vertical-align: bottom;box-sizing: border-box;">
-		<section style="height: auto;background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);padding: 0px 0px 0px 15px;border-left: 4px solid rgb(16, 188, 97);box-sizing: border-box;max-width: 100%;text-align: left;">
-			<section style="max-width: 100%;box-sizing: border-box;">
-				<section style="text-align: justify;font-size: 16px;box-sizing: border-box;max-width: 100%;font-family:PingFangSC-light;">
-					<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-						<strong style="box-sizing: border-box;"><span>3.3 活动规则：提前把容易扯皮的地方说清楚</span></strong>
-					</p>
-				</section>
-			</section>
-		</section>
-	</section>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>开发者社区活动很怕规则不清楚，尤其涉及认证、邀请人数、排名和奖品时，规则不明确，后续就极易产生误解。因此页面把活动时间、统计截止时间、参与资格、邀请流程、奖励档位、数据更新时间，以及无效数据和重复数据的处理说明，都集中展示出来。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>与其事后一个个解释，不如一开始就写清楚。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNgQyVILRDrzoy9XbQOm9TvmiaKI8NNH9skKJtJrMJ4jR9eV8Hbamib4iazUObQr3UaGbnrJ8jDvIMVlNqVO1zUUyJW5XCAqq1Taw/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030673" data-aistatus="1" data-ratio="0.41574074074074074" data-w="1080"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPWuSkpSZYxySyaN2fl5Ey2Dp0n0t5ZZqh653Rvia7jRR5Z4laNznVpQxxmNV1QCB9Iaunyn1Av7IRVZDI4sWtYuicoILIYhp2lI/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030670" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>如何落地</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>这次我主要用 TRAE Work 完成了几个部分：</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section class="_135editor" data-role="list">
-		<ul style="list-style-type: disc;margin:0px;padding:0 0 0 30px;list-style-position:outside;" class="list-paddingleft-2">
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>前端页面搭建</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>飞书表格对接</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>部署上线</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>页面样式优化</span>
-				</p>
-			</li>
-			<li>
-				<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-					<span>数据展示逻辑调整</span>
-				</p>
-			</li>
-		</ul>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: left;justify-content: flex-start;display: flex;flex-flow: row;margin: 10px 0px;width: 100%;align-self: flex-start;padding: 24px;background-color: rgb(249, 249, 249);border-radius: 10px;overflow: hidden;box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;box-sizing:border-box;max-width:100% !important;">
-		<section style="text-align: justify;color: rgb(16, 188, 97);width: 100%;box-sizing:border-box;max-width:100% !important;font-family:PingFangSC-light;">
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<strong style="box-sizing: border-box;"><span>最大的体会是：Work 模式对非研发岗位的价值，不在于让你“变成程序员”，而在于让你能把业务需求先跑起来。</span></strong>
-			</p>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>过去一个市场活动需求的标准流程是这样的：</span>
-	</p>
-	<section class="code-snippet__fix code-snippet__js">
-		<ul class="code-snippet__line-index code-snippet__js list-paddingleft-2" style="margin:0px;padding:0 0 0 30px;list-style-position:outside;">
-			<li>
-				<p>
-					<br/>
-				</p>
-			</li>
-		</ul>
-		<pre class="code-snippet__js" data-lang="">运营写需求 → 研发评估排期 → 沟通字段 → 确认接口 → 改页面 → 测试 → 部署</pre>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>但现实是，数据库技术社区的增长活动很难一开始就投入完整研发资源；若每个工具都要等排期，活动窗口期可能早就过去了。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>Work 模式重新分配了这条链路上的角色：</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: left;justify-content: flex-start;display: flex;flex-flow: row;margin: 10px 0px;width: 100%;align-self: flex-start;padding: 24px;background-color: rgb(249, 249, 249);border-radius: 10px;overflow: hidden;box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;box-sizing:border-box;max-width:100% !important;">
-		<section style="text-align: justify;color: rgb(16, 188, 97);width: 100%;box-sizing:border-box;max-width:100% !important;font-family:PingFangSC-light;">
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<strong style="box-sizing: border-box;"><span>这次我的角色更像是：</span></strong>
-			</p>
-			<section class="_135editor" data-role="list">
-				<ul style="list-style-type: disc;margin:0px;padding:0 0 0 30px;list-style-position:outside;" class="list-paddingleft-2">
-					<li>
-						<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-							<strong style="box-sizing: border-box;"><span>我负责把增长机制、用户路径、活动规则、字段结构和页面体验讲清楚</span></strong>
-						</p>
-					</li>
-					<li>
-						<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-							<strong style="box-sizing: border-box;"><span>TRAE Work 负责把这些东西拆成可执行的前端页面、数据对接和部署步骤</span></strong>
-						</p>
-					</li>
-				</ul>
-			</section>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>所以我没有一上来就让它写代码，而是先把业务逻辑讲透。给到的需求大致是这样：</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>我想做一个开发者认证活动邀请榜单页面。</span></span></strong>
-		</p>
-		<section data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;padding-top: 0px;padding-bottom: 0px;padding-left: 10px;padding-right: 10px;background-attachment: scroll;background-clip: border-box;background-color: rgba(0, 0, 0, 0);background-image: none;background-origin: padding-box;background-position-x: 0%;background-position-y: 0%;background-repeat: no-repeat;background-size: auto;width: auto;font-size: 16px;color: rgb(0, 0, 0);line-height: 1.5em;word-spacing: 0em;letter-spacing: 0em;word-break: break-word;overflow-wrap: break-word;text-align: left;box-sizing:border-box;font-family:Optima, &#39;Microsoft YaHei&#39;, PingFangSC-regular, serif;" data-pm-slice="0 0 []">
-			<pre data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;margin-left: 0px;margin-right: 0px;padding-top: 0px;padding-bottom: 0px;padding-left: 0px;padding-right: 0px;">活动逻辑：- 用户通过前端按钮跳转飞书表单报名；- 报名成功后，每个用户会获得唯一邀请码，前端通过查询飞书表格信息获取邀请码；- 被邀请用户通过认证后，在填写礼品领取表单时填写邀请人的邀请码，该数据会计入邀请人数；- 页面需要展示邀请排行榜，信息包括：排名、邀请人姓名、邀请码、邀请人数；- 用户需要能查询自己的邀请码；- 页面需要预留活动规则展示区域，具体规则文案后续补充；- 页面需要适配移动端，并方便后续部署；- 页面风格参考 Apple 风格 UI 设计，整体简洁、清爽、留白充足、卡片化，不要太复杂。</pre>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span>请帮我设计页面结构、数据字段、飞书表格对接方式和前端实现方案。</span>
-	</p>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOhFNDB5BWSRDJwiazkNG24lk0l8a3icgKJTIOYXqptxhMNsViaMhmjkOjnaxXfznrtOBkpRC6eyMcr6bVobhibPtuVNsFet6AJCk8/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030674" data-aistatus="1" data-ratio="0.6175925925925926" data-w="1080"/>
-		</section>
-	</section>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="vertical-align: middle;display: inline-block;line-height: 0;width: 100%;height: auto;box-sizing:border-box;max-width:100% !important;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOGJNHwUkgdesLLzoictqiaZ1IGxaoUylHarE1SQVgQqc1ANuf5QW9OLrulWxWv5Xstw9yibzTJeCXZzfJx08cCWsC3kliawVuruFo/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030676" data-aistatus="1" data-ratio="0.7555555555555555" data-w="1080"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="max-width: 100%;display: inline-block;flex: 100 100 0%;align-self: flex-end;margin: 0px;vertical-align: bottom;box-sizing: border-box;">
-		<section style="height: auto;background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);padding: 0px 0px 0px 15px;border-left: 4px solid rgb(16, 188, 97);box-sizing: border-box;max-width: 100%;text-align: left;">
-			<section style="max-width: 100%;box-sizing: border-box;">
-				<section style="text-align: justify;font-size: 16px;box-sizing: border-box;max-width: 100%;font-family:PingFangSC-light;">
-					<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-						<strong style="box-sizing: border-box;"><span>4.1 不做重后台：飞书表格就是我的轻量数据源</span></strong>
-					</p>
-				</section>
-			</section>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>这次我没有单独搭后台，而是直接复用运营侧已经在用的飞书表格。这样做有两个好处。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>第一，不打断原有运营流程。</span></span></strong><span>报名数据本就在飞书里，运营同学也习惯在飞书里管理数据；若为这个活动再单独做一套后台，反而增加维护成本。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>第二，足够轻。</span></span></strong><span>对一个增长活动而言，我更需要的是快速上线、快速验证、快速调整，而不是一开始就搭一个大而全的系统。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>于是我的思路很清晰：飞书表格继续作为数据源，前端页面负责把表格里的邀请关系和统计结果展示出来。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>对数据库技术社区运营来说，增长工具不必一开始就做得很重，但必须足够贴近真实的运营流程。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="display: inline-block;width: 100%;vertical-align: top;overflow-x: auto;box-sizing:border-box;max-width:100% !important;">
-		<section style="width: 500%;overflow-x: hidden;max-width: 500% !important;box-sizing:border-box;">
-			<section style="display: inline-block;vertical-align: middle;width: 20%;box-sizing:border-box;max-width:20% !important;">
-				<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-					<section style="vertical-align: middle;display: inline-block;line-height: 0;width: 92%;height: auto;box-sizing:border-box;max-width:92% !important;">
-						<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPj09rm55rTKibNHRVMjA7VITBXb3scmF1zunrficRChrf7IgicShiaIKzPWyczicibuAtm2RTSNExOx3RyAicf5oIgwiauSRdlYrxicvNs/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030675" data-aistatus="1" data-ratio="0.8324074074074074" data-w="1080"/>
-					</section>
-				</section>
-			</section>
-			<section style="display: inline-block;vertical-align: top;width: 20%;box-sizing:border-box;max-width:20% !important;">
-				<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-					<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-						<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOTOibpdSibNYU7kGAwbMExcgA8Uib77Ks377YIjhjefJsJ15oCAnyqWfT0s1H0pCFQQMnUpSIJqZ201TGmcMoBjaYaPJX9lNyuZ8/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030677" data-aistatus="1" data-ratio="0.7620370370370371" data-w="1080"/>
-					</section>
-				</section>
-			</section>
-			<section style="display: inline-block;vertical-align: top;width: 20%;box-sizing:border-box;max-width:20% !important;">
-				<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;width: 100%;box-sizing:border-box;max-width:100% !important;">
-					<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-						<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOibQiaAkKtDTtCAibZ7IiaiaAwFoEPOcBicXjAUdKVMrQ8TOMgEj4egNDPlUXT0XWeibTnCtZt1bKHiba1xkdVN6vCntTeNvgXRpf7V2E/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030679" data-aistatus="1" data-ratio="0.42407407407407405" data-w="1080"/>
-					</section>
-				</section>
-			</section>
-			<section style="display: inline-block;vertical-align: top;width: 20%;box-sizing:border-box;max-width:20% !important;">
-				<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;width: 100%;box-sizing:border-box;max-width:100% !important;">
-					<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-						<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOzVBUnwibMa4EGksz6ELv9JrUme0bMHV0mK1SYBzicyiamPTzP3EwMkzicF2T3tL9abjSlicAZG3yeFYOjDkcm83AfgRxgc4GfBLM4/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030678" data-aistatus="1" data-ratio="0.7638888888888888" data-w="1080"/>
-					</section>
-				</section>
-			</section>
-			<section style="display: inline-block;vertical-align: top;width: 20%;box-sizing:border-box;max-width:20% !important;">
-				<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;width: 100%;box-sizing:border-box;max-width:100% !important;">
-					<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-						<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNToSC8FwetmhvTZRMIMNqfumzBMre5nycpKia4H7V5DUYOAKWKrRBaJ6nnv1UBia7o4ibeDORMRK8gGia5P0qVXicE8n4kb5MOFpv8/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030683" data-aistatus="1" data-ratio="0.762962962962963" data-w="1080"/>
-					</section>
-				</section>
-			</section>
-		</section>
-	</section>
-	<section style="max-width: 100%;box-sizing: border-box;">
-		<section style="text-align: center;justify-content: center;display: flex;flex-flow: row;box-sizing: border-box;max-width: 100%;margin: 0px;">
-			<section style="display: inline-block;vertical-align: middle;width: auto;align-self: center;flex: 0 0 0%;height: auto;line-height: 0;box-sizing:border-box;">
-				<section style=";transform-style: flat;box-sizing: border-box;max-width: 100%;transform: perspective(0px);-webkit-transform: perspective(0px);-moz-transform: perspective(0px);-o-transform: perspective(0px);">
-					<section style="justify-content: center;display: flex;flex-flow: row;margin: 0px 0%;box-sizing: border-box;max-width: 100%;transform: rotateY(180deg);-webkit-transform: rotateY(180deg);-moz-transform: rotateY(180deg);-o-transform: rotateY(180deg);">
-						<section style="display: inline-block;width: 0px;vertical-align: top;align-self: flex-start;flex: 0 1 auto;height: 0px;overflow: hidden;border-style: solid;border-width: 4px 0px 4px 6px;border-color: rgba(255, 255, 255, 0) rgb(240, 244, 255) rgba(255, 255, 255, 0) rgb(100, 100, 100);box-sizing:border-box;">
-							<svg viewbox="0 0 1 1" style="float:left;line-height:0;width:0;vertical-align:top;box-sizing:border-box;" xml:space="default"></svg>
-						</section>
-					</section>
-				</section>
-			</section>
-			<section style="display: inline-block;vertical-align: middle;width: auto;align-self: center;flex: 0 0 auto;min-width: 10%;max-width: 100%;height: auto;border-width: 0px;box-sizing:border-box;">
-				<section style="margin: 0px 0%;box-sizing: border-box;max-width: 100%;">
-					<section style="max-width: 100%;box-sizing: border-box;">
-						<section style="letter-spacing: 1px;line-height: 1.8;color: rgb(100, 100, 100);padding: 0px 8px;font-size: 12px;box-sizing: border-box;max-width: 100%;">
-							<p style="margin: 0px;padding: 0px;box-sizing: border-box;">
-								<span>左右滑动查看更多精彩内容</span>
-							</p>
-						</section>
-					</section>
-				</section>
-			</section>
-			<section style="display: inline-block;vertical-align: middle;width: auto;align-self: center;flex: 0 0 0%;height: auto;line-height: 0;box-sizing:border-box;">
-				<section style="max-width: 100%;box-sizing: border-box;">
-					<section style="justify-content: center;display: flex;flex-flow: row;margin: 0px 0%;box-sizing: border-box;max-width: 100%;">
-						<section style="display: inline-block;width: 0px;vertical-align: top;align-self: flex-start;flex: 0 1 auto;height: 0px;overflow: hidden;border-style: solid;border-width: 4px 0px 4px 6px;border-color: rgba(255, 255, 255, 0) rgb(240, 244, 255) rgba(255, 255, 255, 0) rgb(100, 100, 100);box-sizing:border-box;">
-							<svg viewbox="0 0 1 1" style="float:left;line-height:0;width:0;vertical-align:top;box-sizing:border-box;" xml:space="default"></svg>
-						</section>
-					</section>
-				</section>
-			</section>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="max-width: 100%;display: inline-block;flex: 100 100 0%;align-self: flex-end;margin: 0px;vertical-align: bottom;box-sizing: border-box;">
-		<section style="height: auto;background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);padding: 0px 0px 0px 15px;border-left: 4px solid rgb(16, 188, 97);box-sizing: border-box;max-width: 100%;text-align: left;">
-			<section style="max-width: 100%;box-sizing: border-box;">
-				<section style="text-align: justify;font-size: 16px;box-sizing: border-box;max-width: 100%;font-family:PingFangSC-light;">
-					<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-						<strong style="box-sizing: border-box;"><span>4.2 邀请码生成：先用飞书自动化把数据源跑起来</span></strong>
-					</p>
-				</section>
-			</section>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>邀请码生成同样优先复用飞书表格的自动化能力。报名数据本就沉淀在表格里，若再单独维护一套生成系统，只会让流程变重。对增长活动而言，第一阶段最重要的不是系统多复杂，而是能否快速把核心链路跑通。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>具体做法是在飞书表格里配置一个自动化流程：当有新用户提交报名表单、且关键字段不为空时，系统自动在该用户所在行生成唯一的邀请码 ID。这样用户报名后无需运营手动分配、也无需私信确认，前端页面只要查询表格中的对应信息，就能展示用户的专属邀请码。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>这个设计看似很小，对运营效率的提升却很明显。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>过去邀请码靠人工维护，人数一多就会出现大量重复工作：生成、复制、核对是否发过、用户忘记后再查一遍。现在这一步交给自动化，运营只需关注异常数据和活动节奏。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>对整条增长链路来说，这一步是后续排行榜和邀请码查询的基础。只有邀请码能稳定生成、稳定记录，前端的查询、展示和统计才能成立。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNkn28IKPlGuTMJ4ibGHmMKPKxDKkRphu5UUhqPB1DJj8icwKrEiav44UFmDBeO2ujgbn6D7jAAr06p3eDTySzb5IPfTWXU4Pu1YI/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030684" data-aistatus="1" data-ratio="0.6564814814814814" data-w="1080"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOlVOMjNeRyoUIELyJYHF3B0wPiclZAumsCNONbKy0b1SPhtVoyicBREc0l4lgPPoveaArYGR6hnKAwbIsIqPCwFSdQSPXTarP5A/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030680" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>继续优化</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>一开始我当然希望榜单尽可能实时：邀请活动里，反馈越快越好。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>但真实跑起来后，一个问题浮现：活动不限制单账号提交次数，用户可能多次提交相同数据。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>如果前端直接实时读取，邀请人数就会频繁波动。比如用户刚看到自己的邀请数涨了，运营按规则清理重复数据后，这个数字又掉了回去，很容易引发误解：</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-	</section>
-	<section style="margin: 10px 0% 8px;text-align: left;justify-content: flex-start;display: flex;flex-flow: row;width: 100%;border-left: 3px solid rgb(219, 219, 219);border-bottom-left-radius: 0px;padding: 0px 0px 0px 8px;align-self: flex-start;box-sizing:border-box;max-width:100% !important;">
-		<section style="color: rgba(0, 0, 0, 0.5);text-align: justify;font-size: 14px;width: 100%;box-sizing:border-box;max-width:100% !important;">
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>为什么我刚才看到是 10 个，现在变成 8 个了？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>是不是系统算错了？</span>
-			</p>
-			<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-				<span>是不是我的邀请没算进去？</span>
-			</p>
-		</section>
-	</section>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>因此我最终把榜单从“实时刷新”调整为“每日 0 点更新”。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>这不是因为技术上做不到实时，而是因为在增长活动里，</span><strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>数据稳定性和用户信任感，比看起来更实时更重要。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>很多功能从技术视角看当然越快越好，但从用户理解和活动公平性看，稳定、清晰、可解释往往更关键。尤其在数据库技术社区，开发者对规则和数据格外敏感——比起绝对实时，稳定、透明、可解释才是更好的体验。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-	</section>
-	<section style="text-align: center;margin: 0px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNBhAmUkSsU73pOSRJBHg7eOiaoer1FKVia1sMxXPeehW26wBf7zR5TziaehtcmHj4IoL7Ty5WkTEogg7TH7F5TBibDtCefyEP7DVA/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030682" data-aistatus="1" data-ratio="0.6212962962962963" data-w="1080"/>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVPzKSmGbbhD6CuiabibHpEVgMibyEBGpM3EeSBMRayd2x9Pic3dOmJ6t9AtO6a3RXiaOyR67zicup7gKDYS3icYBfXzfsWrQiczIXlFA1w/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030681" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;font-family:PingFangSC-light;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>成果：活动从&quot;人工推动&quot;变成&quot;机制驱动&quot;</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>在几轮前端样式优化后，这套工具支撑了一场持续近两个月的开发者认证增长活动。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>活动累计带来数百名报名用户和数百次邀请，几十位核心用户参与传播，头部邀请用户贡献了数十位新增用户。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>对一个数据库技术社区而言，这个结果已经超出了我最初对单次认证活动的预期。更重要的是，它不是靠单次曝光堆出来的，而是通过邀请码、榜单反馈、规则透明和用户自助查询，让活动获得了持续运转的动力。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>从结果看</span></span></strong><span>，邀请机制确实带来了明显增量，而榜单页面也不只是展示工具，它本身成了活动增长机制的一部分。这里最有价值的不是页面，而是活动从“运营人工推动”变成了“机制驱动”：用户知道自己在什么位置，就更愿意继续参与；运营知道活动推进到哪一步，就能及时调整节奏。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;box-sizing: border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNYbxn2JnibiaEhYTUwb5ZevVlc2FkGEXR2JHiac74PPe78yib3RibCsDysODiaRSdxwibDHjaoPia4ic7R2iaBxnWvfmDTrheRfH9tH7G0w/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030685" data-aistatus="1" data-ratio="0.12314814814814815" data-w="1080"/>
-		</section>
-	</section>
-	<section style="font-size: 21px;color: rgb(16, 188, 97);box-sizing: border-box;font-family:PingFangSC-light;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>写在最后：运营终于不只是会提需求</span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>这次实践让我对数据库技术社区运营有了新的认识。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>过去我们做增长，很多时候是在协调资源、整理表格、手动统计、反复同步。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>而借助 TRAE Work，运营完全可以把自己的业务理解，变成一个真实可运行的工具。这次做出来的表面是一个邀请榜单，背后却是一套完整的开发者认证增长闭环：</span><strong style="box-sizing: border-box;"><span style="color: rgb(16, 188, 97);box-sizing: border-box;"><span>从报名到邀请码，从邀请到榜单反馈，从用户参与到运营复盘。它不复杂，但有效。</span></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>对非研发岗位来说，这种能力的变化或许会越来越重要。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>未来的运营不只是做活动、写文案、发海报，也会越来越多地参与到工具设计、数据链路和增长系统的搭建中。</span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span>尤其是数据库技术社区运营，增长越来越不是单点动作，而是一套系统：用户路径怎么设计、激励机制怎么设置、数据反馈怎么呈现、运营成本怎么降低、活动结束后又如何复盘和复用。</span>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin: 0px;box-sizing: border-box;">
-		<section style="background-color: rgb(234, 234, 234);height: 1px;box-sizing: border-box;">
-			<svg viewbox="0 0 1 1" style="float:left;line-height:0;width:0;vertical-align:top;box-sizing:border-box;" xml:space="default"></svg>
-		</section>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="color: rgb(16, 188, 97);box-sizing: border-box;">
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span>运营终于不只是会提需求，也可以自己先把需求跑起来。</span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span><br/></span></strong>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><span textstyle="" style="color: rgb(62, 62, 62);">TRAE AI 创造力大赛也正在火热进行中，超百万奖金池等你来赢！单作品最高 35万现金激励！</span></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><br/></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<span><span textstyle="" style="color: rgb(62, 62, 62);">点击</span></span><span style="font-size: 15px;line-height: 2;font-style: normal;text-align: justify;color: rgb(16, 188, 97);box-sizing: border-box;font-family:PingFangSC-light;"><strong>阅读原文</strong></span><span><span textstyle="" style="color: rgb(62, 62, 62);">立即了解！</span></span>
-		</p>
-		<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-			<strong style="box-sizing: border-box;"><span><br/></span></strong>
-		</p>
-	</section>
-	<p style="white-space: normal;margin: 0px;padding: 0px;box-sizing: border-box;">
-		<span><br/></span>
-	</p>
-	<section style="text-align: center;margin-top: 10px;margin-bottom: 10px;line-height: 0;box-sizing: border-box;">
-		<section style="max-width: 100%;vertical-align: middle;display: inline-block;line-height: 0;width: 100%;box-sizing:border-box;">
-			<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVOldofMxXtALZwDlwxnYFQAbc4U3uNYkIicxicFhQDZ4SLJDPXpiac55icMficGGZm2J2lo9d552E8TCibzeBGMPyic8pamlQGIDaMvWM/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" data-s="300,640" data-type="png" style="vertical-align: middle;width: 100%;box-sizing:border-box;max-width:100% !important;" data-imgfileid="100030686" data-aistatus="1" data-ratio="1.1046296296296296" data-w="1080"/>
-		</section>
-	</section>
-	<section class="js_uneditable custom_select_card mp_profile_iframe _135editor" style="box-sizing: border-box;">
-		<mp-common-profile data-pluginname="mpprofile" data-nickname="Trae-Real AI Engineer" data-headimg="https://mmbiz.qlogo.cn/mmbiz_png/oQ0houcyEiciavP0IXXGuju5hNSLmUKEZEQmo9gLuQLrdaQtrhVtecMMKhHIzsIRLS4BOHrzPnntcBu0lK53Wibhw/0?wx_fmt=png" data-signature="Trae ，智能无限，协作无间 。" data-id="MzkxMTY4NTAyNQ=="></mp-common-profile>
-	</section>
+<section
+  style="
+    font-size: 15px;
+    line-height: 2;
+    padding: 0px 8px;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: 400;
+    text-align: justify;
+    color: rgb(62, 62, 62);
+    font-family: PingFangSC-light;
+  "
+>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNLEX7SqWtZU8XR0aj4CeHvaGiaydpkbr7zVe6BTTbacDoltZ0AhmZ6EGuEoSLG6ZaMiaYB2BOkplXHgp1SticiaP43m2pUyAIQ3r0/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030668"
+        data-aistatus="1"
+        data-ratio="0.1814814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section
+    style="
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      margin: 20px 0px 10px;
+      width: 100%;
+      align-self: flex-start;
+      padding: 24px;
+      background-color: rgb(249, 249, 249);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section style="text-align: center; width: 100%; box-sizing: border-box; max-width: 100% !important">
+      <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>本文作者：Roy，TRAE 核心用户</span>
+      </p>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>前言</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>过去做市场运营时我一直有个判断：增长工具最难的从来不是想法本身，而是落地。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >尤其在数据库这样的垂直行业，增长不是发一张海报、做一个表单、备几份礼品就能完成的。用户报名、邀请码生成、邀请关系统计、榜单更新、进度查询、规则解释，每个环节单看都不复杂，可一旦缺少统一工具串联，最终都会沉淀成运营同学手里的表格、私信、截图和人工统计。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >本文记录的，正是一名非技术背景的开源社区运营经理，如何借助 TRAE Work
+        把这条割裂的链路重新接上：围绕开发者认证活动搭建一个邀请榜单工具，将原本散落在飞书表格、活动页面和用户私信里的流程，串成一个可上线、可验证、可复用的增长闭环。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span
+            >所以这篇文章想聊的，不是“如何用 TRAE Work
+            写一个页面”，而是一名运营如何把一个增长想法，从表格、规则和手动流程里拎出来，做成一个真正能跑起来的小工具。</span
+          ></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+  </section>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNnUQrIECzLjltRBputno1ZtkCf6o3ibHWb544jMp8UXs2qVpOfnNHE0hbriaeZzJsbvj1QibmGphvoibNX93saKU5ibyrlUnc3cwXU/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030667"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>所面临的问题</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>我负责开源社区运营。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >去年我们上线了自研的技能认证考试系统，随之而来的问题是：认证完成之后，能不能再设计一套邀请增长机制，让更多开发者参与进来？</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >在拆解成熟互联网产品的增长活动时，我意识到它们真正的壁垒并不在活动形式，而在背后那套完整的技术体系支撑。而数据库产品恰恰缺这套底座：</span
+      >
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section class="_135editor" data-role="list">
+    <ul
+      style="list-style-type: disc; margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+      class="list-paddingleft-2"
+    >
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>它是基础软件，用户场景多发生在服务端、开发环境甚至内网，不具备 App 那样天然的移动端入口；</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>它没有消费互联网产品的高频行为、强社交链和丰富前端交互；</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>它面对的是一群专业开发者，泛流量转化效率低，用户不会因为一个抽奖或一张海报就轻易参与。</span>
+        </p>
+      </li>
+    </ul>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span
+      >换句话说，数据库技术社区做增长，往往不是不想做丰富的互动，而是产品形态、用户场景和技术资源共同决定了——很难直接照搬互联网的裂变玩法。</span
+    >
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      margin: 10px 0px;
+      width: 100%;
+      align-self: flex-start;
+      padding: 24px;
+      background-color: rgb(249, 249, 249);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section
+      style="
+        text-align: justify;
+        color: rgb(16, 188, 97);
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100% !important;
+        font-family: PingFangSC-light;
+      "
+    >
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <strong style="box-sizing: border-box"
+          ><span>这就引出了最核心的矛盾：增长目标是连续的，但工具链是割裂的。</span></strong
+        >
+      </p>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span
+      >报名在飞书表单，汇总在飞书表格，通知在社群，认证行为在另一套系统，咨询又回到私信和群聊。每个工具单独都能用，可一旦放进一场完整的邀请活动，断点就出现了。过去一场活动的流程大致如下：</span
+    >
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section class="_135editor" data-role="list">
+    <ol
+      style="list-style-type: decimal; margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+      class="list-paddingleft-2"
+    >
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>用户填写报名表</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>数据汇总到飞书表格</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>运营人工维护邀请码</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>用户邀请新用户</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>新用户填写邀请人信息</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>运营定期查表统计</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>用户反复询问邀请进度</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>运营截图、回复、解释规则</span>
+        </p>
+      </li>
+    </ol>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="color: rgb(16, 188, 97); box-sizing: border-box; font-family: PingFangSC-light">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>流程能跑，但太重。</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>开发者更在意的是：</span
+      ><strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>认证是否有价值、规则是否清楚、数据是否透明。</span></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >如果用户邀请后看不到进度、运营每天像“人肉客服”一样查表、负责人也无法实时掌握效果，这类活动就很容易沦为黑盒。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >所以这次我真正要解决的，不是“做一个排行榜”，而是把报名、邀请码、邀请关系、榜单反馈、规则说明和运营统计，尽可能收敛进一个轻量工具里。</span
+      >
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 10px 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPJCNWa4RG3W0u64BjNhSsuD3zClADw9I15ucZHNnpKWib6In04QrJ6hFwGpQjCaFPUYHdBckGeaQPqUwtUokfaaNxQNPGy7SPs/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030665"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>如何解决</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span>这次做的工具，可以简单理解为一个</span
+    ><strong style="box-sizing: border-box"
+      ><span style="color: rgb(16, 188, 97); box-sizing: border-box"><span>开发者认证活动邀请榜单</span></span></strong
+    ><span>。</span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVMpezibBIvaZ6SFCGOCuHxc6LZtsdaWibm0yHOvicuLUIdMia2gCbsHCkUfEPT2qYf7a28GibgsRPB6GSGuVXurzyJc0gWNBGfkAmJU/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030669"
+        data-aistatus="1"
+        data-ratio="0.512962962962963"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span
+      >它面向某数据库技术社区的开发者认证活动，核心目标是把报名、邀请码、邀请关系、榜单排名和活动规则集中到同一个页面。整体链路如下：</span
+    >
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section class="_135editor" data-role="list">
+    <ol
+      style="list-style-type: decimal; margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+      class="list-paddingleft-2"
+    >
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>用户通过活动海报填写报名表</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>飞书生成专属邀请码</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>用户前往排行榜复制邀请码并发起邀请</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>新用户认证完成、领取礼品时填写邀请码</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>飞书表格记录邀请关系</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>前端页面展示排行榜与邀请码查询</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>榜单每日 0 点更新</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>用户自助查看进度，运营实时掌握活动情况</span>
+        </p>
+      </li>
+    </ol>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span>我的起点不是&quot;做榜单&quot;，而是先拆解整条增长链路，把关键问题问清楚：</span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      margin: 10px 0% 8px;
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      width: 100%;
+      border-left: 3px solid rgb(219, 219, 219);
+      border-bottom-left-radius: 0px;
+      padding: 0px 0px 0px 8px;
+      align-self: flex-start;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section
+      style="
+        color: rgba(0, 0, 0, 0.5);
+        text-align: justify;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100% !important;
+      "
+    >
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>用户从哪里进入？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>什么时候获得邀请码？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>邀请关系怎么记录？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>哪些数据需要展示给用户？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>哪些信息需要写进规则？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>运营侧如何判断活动进度？</span>
+      </p>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span>由此确定了工具的定位：不做复杂后台，不重构原有流程，而是在现有飞书表格之上，搭一个</span
+    ><strong style="box-sizing: border-box"
+      ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+        ><span>用户可访问、运营可维护、数据可解释</span></span
+      ></strong
+    ><span style="box-sizing: border-box"><span>的轻量增长页面。</span></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="color: rgb(16, 188, 97); box-sizing: border-box; font-family: PingFangSC-light"
+    data-role="list"
+    class="_135editor"
+  >
+    <ul
+      style="list-style-type: disc; margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+      class="list-paddingleft-2"
+    >
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <strong style="box-sizing: border-box"><span>对用户，它降低了参与门槛。</span></strong>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <strong style="box-sizing: border-box"><span>对运营，它减少了重复查询。</span></strong>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <strong style="box-sizing: border-box"><span>对活动本身，它让邀请机制真正有了反馈闭环。</span></strong>
+        </p>
+      </li>
+    </ul>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNWTichKvVwFqIuLDx0GzLloMlL36WklWuShenXmhpIoCpSUNQxn5wbkofJYl4qagHiapA3bjiaIBRM4ICKK84kibhEia6Ssb0hk8IA/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030666"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>页面拆解</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>页面的核心只有四个模块：排行榜、邀请码领取、活动规则、礼品领取。</span></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>但每一块的设计，都指向一个具体的运营痛点。</span>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      max-width: 100%;
+      display: inline-block;
+      flex: 100 100 0%;
+      align-self: flex-end;
+      margin: 0px;
+      vertical-align: bottom;
+      box-sizing: border-box;
+    "
+  >
+    <section
+      style="
+        height: auto;
+        background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);
+        padding: 0px 0px 0px 15px;
+        border-left: 4px solid rgb(16, 188, 97);
+        box-sizing: border-box;
+        max-width: 100%;
+        text-align: left;
+      "
+    >
+      <section style="max-width: 100%; box-sizing: border-box">
+        <section
+          style="
+            text-align: justify;
+            font-size: 16px;
+            box-sizing: border-box;
+            max-width: 100%;
+            font-family: PingFangSC-light;
+          "
+        >
+          <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+            <strong style="box-sizing: border-box"
+              ><span>3.1 排行榜：让用户知道自己不是在&quot;盲邀&quot;</span></strong
+            >
+          </p>
+        </section>
+      </section>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >邀请活动最怕的就是没有反馈。用户花时间邀请别人，若始终不知道是否成功，动力很快就会耗尽。因此我把排行榜放在页面最核心的位置，展示排名、邀请人、邀请码和邀请人数。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>在这里，榜单不是结果展示，而是活动过程中的正反馈机制。用户打开页面就能回答：</span>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      margin: 10px 0% 8px;
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      width: 100%;
+      border-left: 3px solid rgb(219, 219, 219);
+      border-bottom-left-radius: 0px;
+      padding: 0px 0px 0px 8px;
+      align-self: flex-start;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section
+      style="
+        color: rgba(0, 0, 0, 0.5);
+        text-align: justify;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100% !important;
+      "
+    >
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>我邀请的人数有没有增加？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>我现在排在第几？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>前面的人邀请了多少？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>我还有没有机会冲下一档奖励？</span>
+      </p>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVP7WVwbVQBKPEAxUdhQUW8AdtLvicSDrMa0syZR2QKiaaFp8yQUic2ntZxVxxFcn8x3zIQ7N0piah4HrP4TBHaOXd6nWxFnSSxefCQ/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030672"
+        data-aistatus="1"
+        data-ratio="0.4824074074074074"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      max-width: 100%;
+      display: inline-block;
+      flex: 100 100 0%;
+      align-self: flex-end;
+      margin: 0px;
+      vertical-align: bottom;
+      box-sizing: border-box;
+    "
+  >
+    <section
+      style="
+        height: auto;
+        background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);
+        padding: 0px 0px 0px 15px;
+        border-left: 4px solid rgb(16, 188, 97);
+        box-sizing: border-box;
+        max-width: 100%;
+        text-align: left;
+      "
+    >
+      <section style="max-width: 100%; box-sizing: border-box">
+        <section
+          style="
+            text-align: justify;
+            font-size: 16px;
+            box-sizing: border-box;
+            max-width: 100%;
+            font-family: PingFangSC-light;
+          "
+        >
+          <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+            <strong style="box-sizing: border-box"><span>3.2 邀请码查询：把“找运营查一下”变成“自助完成”</span></strong>
+          </p>
+        </section>
+      </section>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >很多用户不会第一时间保存自己的邀请码。如果每个人都来私信查询，运营就会被这类重复工作拖住。为此页面提供了&quot;查询邀请码&quot;入口，用户可以直接搜索自己的信息，查看并复制邀请码。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>功能看起来不大，却很实用。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>它把“找运营查邀请码”这个动作彻底变成了用户自助。</span>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVMibyOESAQI8QpbqCQU87bz5ktr5Y88szZ25ib9hgfdX8YNdXFa0pg9SZRUCU4LMcVdGRqs6AcB6RC8jVMwzlf4Y2xzT8RpOeuuw/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030671"
+        data-aistatus="1"
+        data-ratio="1.4520255863539446"
+        data-w="938"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      max-width: 100%;
+      display: inline-block;
+      flex: 100 100 0%;
+      align-self: flex-end;
+      margin: 0px;
+      vertical-align: bottom;
+      box-sizing: border-box;
+    "
+  >
+    <section
+      style="
+        height: auto;
+        background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);
+        padding: 0px 0px 0px 15px;
+        border-left: 4px solid rgb(16, 188, 97);
+        box-sizing: border-box;
+        max-width: 100%;
+        text-align: left;
+      "
+    >
+      <section style="max-width: 100%; box-sizing: border-box">
+        <section
+          style="
+            text-align: justify;
+            font-size: 16px;
+            box-sizing: border-box;
+            max-width: 100%;
+            font-family: PingFangSC-light;
+          "
+        >
+          <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+            <strong style="box-sizing: border-box"><span>3.3 活动规则：提前把容易扯皮的地方说清楚</span></strong>
+          </p>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >开发者社区活动很怕规则不清楚，尤其涉及认证、邀请人数、排名和奖品时，规则不明确，后续就极易产生误解。因此页面把活动时间、统计截止时间、参与资格、邀请流程、奖励档位、数据更新时间，以及无效数据和重复数据的处理说明，都集中展示出来。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>与其事后一个个解释，不如一开始就写清楚。</span>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNgQyVILRDrzoy9XbQOm9TvmiaKI8NNH9skKJtJrMJ4jR9eV8Hbamib4iazUObQr3UaGbnrJ8jDvIMVlNqVO1zUUyJW5XCAqq1Taw/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030673"
+        data-aistatus="1"
+        data-ratio="0.41574074074074074"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPWuSkpSZYxySyaN2fl5Ey2Dp0n0t5ZZqh653Rvia7jRR5Z4laNznVpQxxmNV1QCB9Iaunyn1Av7IRVZDI4sWtYuicoILIYhp2lI/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030670"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>如何落地</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span>这次我主要用 TRAE Work 完成了几个部分：</span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section class="_135editor" data-role="list">
+    <ul
+      style="list-style-type: disc; margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+      class="list-paddingleft-2"
+    >
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>前端页面搭建</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>飞书表格对接</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>部署上线</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>页面样式优化</span>
+        </p>
+      </li>
+      <li>
+        <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+          <span>数据展示逻辑调整</span>
+        </p>
+      </li>
+    </ul>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      margin: 10px 0px;
+      width: 100%;
+      align-self: flex-start;
+      padding: 24px;
+      background-color: rgb(249, 249, 249);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section
+      style="
+        text-align: justify;
+        color: rgb(16, 188, 97);
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100% !important;
+        font-family: PingFangSC-light;
+      "
+    >
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <strong style="box-sizing: border-box"
+          ><span
+            >最大的体会是：Work 模式对非研发岗位的价值，不在于让你“变成程序员”，而在于让你能把业务需求先跑起来。</span
+          ></strong
+        >
+      </p>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span>过去一个市场活动需求的标准流程是这样的：</span>
+  </p>
+  <section class="code-snippet__fix code-snippet__js">
+    <ul
+      class="code-snippet__line-index code-snippet__js list-paddingleft-2"
+      style="margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+    >
+      <li>
+        <p>
+          <br />
+        </p>
+      </li>
+    </ul>
+    <pre class="code-snippet__js" data-lang="">
+运营写需求 → 研发评估排期 → 沟通字段 → 确认接口 → 改页面 → 测试 → 部署</pre
+    >
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >但现实是，数据库技术社区的增长活动很难一开始就投入完整研发资源；若每个工具都要等排期，活动窗口期可能早就过去了。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>Work 模式重新分配了这条链路上的角色：</span>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      margin: 10px 0px;
+      width: 100%;
+      align-self: flex-start;
+      padding: 24px;
+      background-color: rgb(249, 249, 249);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: rgb(255, 255, 250) 1px 1px 5px 0px;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section
+      style="
+        text-align: justify;
+        color: rgb(16, 188, 97);
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100% !important;
+        font-family: PingFangSC-light;
+      "
+    >
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <strong style="box-sizing: border-box"><span>这次我的角色更像是：</span></strong>
+      </p>
+      <section class="_135editor" data-role="list">
+        <ul
+          style="list-style-type: disc; margin: 0px; padding: 0 0 0 30px; list-style-position: outside"
+          class="list-paddingleft-2"
+        >
+          <li>
+            <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+              <strong style="box-sizing: border-box"
+                ><span>我负责把增长机制、用户路径、活动规则、字段结构和页面体验讲清楚</span></strong
+              >
+            </p>
+          </li>
+          <li>
+            <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+              <strong style="box-sizing: border-box"
+                ><span>TRAE Work 负责把这些东西拆成可执行的前端页面、数据对接和部署步骤</span></strong
+              >
+            </p>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>所以我没有一上来就让它写代码，而是先把业务逻辑讲透。给到的需求大致是这样：</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>我想做一个开发者认证活动邀请榜单页面。</span></span
+        ></strong
+      >
+    </p>
+    <section
+      data-tool="mdnice编辑器"
+      data-website="https://www.mdnice.com"
+      style="margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;padding-top: 0px;padding-bottom: 0px;padding-left: 10px;padding-right: 10px;background-attachment: scroll;background-clip: border-box;background-color: rgba(0, 0, 0, 0);background-image: none;background-origin: padding-box;background-position-x: 0%;background-position-y: 0%;background-repeat: no-repeat;background-size: auto;width: auto;font-size: 16px;color: rgb(0, 0, 0);line-height: 1.5em;word-spacing: 0em;letter-spacing: 0em;word-break: break-word;overflow-wrap: break-word;text-align: left;box-sizing:border-box;font-family:Optima, &#39;Microsoft YaHei&#39;, PingFangSC-regular, serif;"
+      data-pm-slice="0 0 []"
+    >
+      <pre
+        data-tool="mdnice编辑器"
+        style="
+          margin-top: 10px;
+          margin-bottom: 10px;
+          margin-left: 0px;
+          margin-right: 0px;
+          padding-top: 0px;
+          padding-bottom: 0px;
+          padding-left: 0px;
+          padding-right: 0px;
+        "
+      >
+活动逻辑：- 用户通过前端按钮跳转飞书表单报名；- 报名成功后，每个用户会获得唯一邀请码，前端通过查询飞书表格信息获取邀请码；- 被邀请用户通过认证后，在填写礼品领取表单时填写邀请人的邀请码，该数据会计入邀请人数；- 页面需要展示邀请排行榜，信息包括：排名、邀请人姓名、邀请码、邀请人数；- 用户需要能查询自己的邀请码；- 页面需要预留活动规则展示区域，具体规则文案后续补充；- 页面需要适配移动端，并方便后续部署；- 页面风格参考 Apple 风格 UI 设计，整体简洁、清爽、留白充足、卡片化，不要太复杂。</pre
+      >
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span>请帮我设计页面结构、数据字段、飞书表格对接方式和前端实现方案。</span>
+  </p>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOhFNDB5BWSRDJwiazkNG24lk0l8a3icgKJTIOYXqptxhMNsViaMhmjkOjnaxXfznrtOBkpRC6eyMcr6bVobhibPtuVNsFet6AJCk8/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030674"
+        data-aistatus="1"
+        data-ratio="0.6175925925925926"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+        max-width: 100% !important;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOGJNHwUkgdesLLzoictqiaZ1IGxaoUylHarE1SQVgQqc1ANuf5QW9OLrulWxWv5Xstw9yibzTJeCXZzfJx08cCWsC3kliawVuruFo/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030676"
+        data-aistatus="1"
+        data-ratio="0.7555555555555555"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      max-width: 100%;
+      display: inline-block;
+      flex: 100 100 0%;
+      align-self: flex-end;
+      margin: 0px;
+      vertical-align: bottom;
+      box-sizing: border-box;
+    "
+  >
+    <section
+      style="
+        height: auto;
+        background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);
+        padding: 0px 0px 0px 15px;
+        border-left: 4px solid rgb(16, 188, 97);
+        box-sizing: border-box;
+        max-width: 100%;
+        text-align: left;
+      "
+    >
+      <section style="max-width: 100%; box-sizing: border-box">
+        <section
+          style="
+            text-align: justify;
+            font-size: 16px;
+            box-sizing: border-box;
+            max-width: 100%;
+            font-family: PingFangSC-light;
+          "
+        >
+          <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+            <strong style="box-sizing: border-box"><span>4.1 不做重后台：飞书表格就是我的轻量数据源</span></strong>
+          </p>
+        </section>
+      </section>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>这次我没有单独搭后台，而是直接复用运营侧已经在用的飞书表格。这样做有两个好处。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>第一，不打断原有运营流程。</span></span
+        ></strong
+      ><span
+        >报名数据本就在飞书里，运营同学也习惯在飞书里管理数据；若为这个活动再单独做一套后台，反而增加维护成本。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"><span>第二，足够轻。</span></span></strong
+      ><span>对一个增长活动而言，我更需要的是快速上线、快速验证、快速调整，而不是一开始就搭一个大而全的系统。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>于是我的思路很清晰：飞书表格继续作为数据源，前端页面负责把表格里的邀请关系和统计结果展示出来。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>对数据库技术社区运营来说，增长工具不必一开始就做得很重，但必须足够贴近真实的运营流程。</span>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      display: inline-block;
+      width: 100%;
+      vertical-align: top;
+      overflow-x: auto;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section style="width: 500%; overflow-x: hidden; max-width: 500% !important; box-sizing: border-box">
+      <section
+        style="
+          display: inline-block;
+          vertical-align: middle;
+          width: 20%;
+          box-sizing: border-box;
+          max-width: 20% !important;
+        "
+      >
+        <section
+          style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box"
+        >
+          <section
+            style="
+              vertical-align: middle;
+              display: inline-block;
+              line-height: 0;
+              width: 92%;
+              height: auto;
+              box-sizing: border-box;
+              max-width: 92% !important;
+            "
+          >
+            <img
+              src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPj09rm55rTKibNHRVMjA7VITBXb3scmF1zunrficRChrf7IgicShiaIKzPWyczicibuAtm2RTSNExOx3RyAicf5oIgwiauSRdlYrxicvNs/640?wx_fmt=png&from=appmsg"
+              class="rich_pages wxw-img"
+              data-s="300,640"
+              data-type="png"
+              style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+              data-imgfileid="100030675"
+              data-aistatus="1"
+              data-ratio="0.8324074074074074"
+              data-w="1080"
+            />
+          </section>
+        </section>
+      </section>
+      <section
+        style="
+          display: inline-block;
+          vertical-align: top;
+          width: 20%;
+          box-sizing: border-box;
+          max-width: 20% !important;
+        "
+      >
+        <section
+          style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box"
+        >
+          <section
+            style="
+              max-width: 100%;
+              vertical-align: middle;
+              display: inline-block;
+              line-height: 0;
+              box-sizing: border-box;
+            "
+          >
+            <img
+              src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOTOibpdSibNYU7kGAwbMExcgA8Uib77Ks377YIjhjefJsJ15oCAnyqWfT0s1H0pCFQQMnUpSIJqZ201TGmcMoBjaYaPJX9lNyuZ8/640?wx_fmt=png&from=appmsg"
+              class="rich_pages wxw-img"
+              data-s="300,640"
+              data-type="png"
+              style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+              data-imgfileid="100030677"
+              data-aistatus="1"
+              data-ratio="0.7620370370370371"
+              data-w="1080"
+            />
+          </section>
+        </section>
+      </section>
+      <section
+        style="
+          display: inline-block;
+          vertical-align: top;
+          width: 20%;
+          box-sizing: border-box;
+          max-width: 20% !important;
+        "
+      >
+        <section
+          style="
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 100% !important;
+          "
+        >
+          <section
+            style="
+              max-width: 100%;
+              vertical-align: middle;
+              display: inline-block;
+              line-height: 0;
+              width: 100%;
+              box-sizing: border-box;
+            "
+          >
+            <img
+              src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOibQiaAkKtDTtCAibZ7IiaiaAwFoEPOcBicXjAUdKVMrQ8TOMgEj4egNDPlUXT0XWeibTnCtZt1bKHiba1xkdVN6vCntTeNvgXRpf7V2E/640?wx_fmt=png&from=appmsg"
+              class="rich_pages wxw-img"
+              data-s="300,640"
+              data-type="png"
+              style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+              data-imgfileid="100030679"
+              data-aistatus="1"
+              data-ratio="0.42407407407407405"
+              data-w="1080"
+            />
+          </section>
+        </section>
+      </section>
+      <section
+        style="
+          display: inline-block;
+          vertical-align: top;
+          width: 20%;
+          box-sizing: border-box;
+          max-width: 20% !important;
+        "
+      >
+        <section
+          style="
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 100% !important;
+          "
+        >
+          <section
+            style="
+              max-width: 100%;
+              vertical-align: middle;
+              display: inline-block;
+              line-height: 0;
+              width: 100%;
+              box-sizing: border-box;
+            "
+          >
+            <img
+              src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOzVBUnwibMa4EGksz6ELv9JrUme0bMHV0mK1SYBzicyiamPTzP3EwMkzicF2T3tL9abjSlicAZG3yeFYOjDkcm83AfgRxgc4GfBLM4/640?wx_fmt=png&from=appmsg"
+              class="rich_pages wxw-img"
+              data-s="300,640"
+              data-type="png"
+              style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+              data-imgfileid="100030678"
+              data-aistatus="1"
+              data-ratio="0.7638888888888888"
+              data-w="1080"
+            />
+          </section>
+        </section>
+      </section>
+      <section
+        style="
+          display: inline-block;
+          vertical-align: top;
+          width: 20%;
+          box-sizing: border-box;
+          max-width: 20% !important;
+        "
+      >
+        <section
+          style="
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 100% !important;
+          "
+        >
+          <section
+            style="
+              max-width: 100%;
+              vertical-align: middle;
+              display: inline-block;
+              line-height: 0;
+              width: 100%;
+              box-sizing: border-box;
+            "
+          >
+            <img
+              src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNToSC8FwetmhvTZRMIMNqfumzBMre5nycpKia4H7V5DUYOAKWKrRBaJ6nnv1UBia7o4ibeDORMRK8gGia5P0qVXicE8n4kb5MOFpv8/640?wx_fmt=png&from=appmsg"
+              class="rich_pages wxw-img"
+              data-s="300,640"
+              data-type="png"
+              style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+              data-imgfileid="100030683"
+              data-aistatus="1"
+              data-ratio="0.762962962962963"
+              data-w="1080"
+            />
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section style="max-width: 100%; box-sizing: border-box">
+    <section
+      style="
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        flex-flow: row;
+        box-sizing: border-box;
+        max-width: 100%;
+        margin: 0px;
+      "
+    >
+      <section
+        style="
+          display: inline-block;
+          vertical-align: middle;
+          width: auto;
+          align-self: center;
+          flex: 0 0 0%;
+          height: auto;
+          line-height: 0;
+          box-sizing: border-box;
+        "
+      >
+        <section
+          style="
+            transform-style: flat;
+            box-sizing: border-box;
+            max-width: 100%;
+            transform: perspective(0px);
+            -webkit-transform: perspective(0px);
+            -moz-transform: perspective(0px);
+            -o-transform: perspective(0px);
+          "
+        >
+          <section
+            style="
+              justify-content: center;
+              display: flex;
+              flex-flow: row;
+              margin: 0px 0%;
+              box-sizing: border-box;
+              max-width: 100%;
+              transform: rotateY(180deg);
+              -webkit-transform: rotateY(180deg);
+              -moz-transform: rotateY(180deg);
+              -o-transform: rotateY(180deg);
+            "
+          >
+            <section
+              style="
+                display: inline-block;
+                width: 0px;
+                vertical-align: top;
+                align-self: flex-start;
+                flex: 0 1 auto;
+                height: 0px;
+                overflow: hidden;
+                border-style: solid;
+                border-width: 4px 0px 4px 6px;
+                border-color: rgba(255, 255, 255, 0) rgb(240, 244, 255) rgba(255, 255, 255, 0) rgb(100, 100, 100);
+                box-sizing: border-box;
+              "
+            >
+              <svg
+                viewbox="0 0 1 1"
+                style="float: left; line-height: 0; width: 0; vertical-align: top; box-sizing: border-box"
+                xml:space="default"
+              ></svg>
+            </section>
+          </section>
+        </section>
+      </section>
+      <section
+        style="
+          display: inline-block;
+          vertical-align: middle;
+          width: auto;
+          align-self: center;
+          flex: 0 0 auto;
+          min-width: 10%;
+          max-width: 100%;
+          height: auto;
+          border-width: 0px;
+          box-sizing: border-box;
+        "
+      >
+        <section style="margin: 0px 0%; box-sizing: border-box; max-width: 100%">
+          <section style="max-width: 100%; box-sizing: border-box">
+            <section
+              style="
+                letter-spacing: 1px;
+                line-height: 1.8;
+                color: rgb(100, 100, 100);
+                padding: 0px 8px;
+                font-size: 12px;
+                box-sizing: border-box;
+                max-width: 100%;
+              "
+            >
+              <p style="margin: 0px; padding: 0px; box-sizing: border-box">
+                <span>左右滑动查看更多精彩内容</span>
+              </p>
+            </section>
+          </section>
+        </section>
+      </section>
+      <section
+        style="
+          display: inline-block;
+          vertical-align: middle;
+          width: auto;
+          align-self: center;
+          flex: 0 0 0%;
+          height: auto;
+          line-height: 0;
+          box-sizing: border-box;
+        "
+      >
+        <section style="max-width: 100%; box-sizing: border-box">
+          <section
+            style="
+              justify-content: center;
+              display: flex;
+              flex-flow: row;
+              margin: 0px 0%;
+              box-sizing: border-box;
+              max-width: 100%;
+            "
+          >
+            <section
+              style="
+                display: inline-block;
+                width: 0px;
+                vertical-align: top;
+                align-self: flex-start;
+                flex: 0 1 auto;
+                height: 0px;
+                overflow: hidden;
+                border-style: solid;
+                border-width: 4px 0px 4px 6px;
+                border-color: rgba(255, 255, 255, 0) rgb(240, 244, 255) rgba(255, 255, 255, 0) rgb(100, 100, 100);
+                box-sizing: border-box;
+              "
+            >
+              <svg
+                viewbox="0 0 1 1"
+                style="float: left; line-height: 0; width: 0; vertical-align: top; box-sizing: border-box"
+                xml:space="default"
+              ></svg>
+            </section>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section
+    style="
+      max-width: 100%;
+      display: inline-block;
+      flex: 100 100 0%;
+      align-self: flex-end;
+      margin: 0px;
+      vertical-align: bottom;
+      box-sizing: border-box;
+    "
+  >
+    <section
+      style="
+        height: auto;
+        background-image: linear-gradient(90deg, rgb(247, 247, 247) 0%, rgba(255, 246, 222, 0) 100%);
+        padding: 0px 0px 0px 15px;
+        border-left: 4px solid rgb(16, 188, 97);
+        box-sizing: border-box;
+        max-width: 100%;
+        text-align: left;
+      "
+    >
+      <section style="max-width: 100%; box-sizing: border-box">
+        <section
+          style="
+            text-align: justify;
+            font-size: 16px;
+            box-sizing: border-box;
+            max-width: 100%;
+            font-family: PingFangSC-light;
+          "
+        >
+          <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+            <strong style="box-sizing: border-box"><span>4.2 邀请码生成：先用飞书自动化把数据源跑起来</span></strong>
+          </p>
+        </section>
+      </section>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >邀请码生成同样优先复用飞书表格的自动化能力。报名数据本就沉淀在表格里，若再单独维护一套生成系统，只会让流程变重。对增长活动而言，第一阶段最重要的不是系统多复杂，而是能否快速把核心链路跑通。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >具体做法是在飞书表格里配置一个自动化流程：当有新用户提交报名表单、且关键字段不为空时，系统自动在该用户所在行生成唯一的邀请码
+        ID。这样用户报名后无需运营手动分配、也无需私信确认，前端页面只要查询表格中的对应信息，就能展示用户的专属邀请码。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>这个设计看似很小，对运营效率的提升却很明显。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >过去邀请码靠人工维护，人数一多就会出现大量重复工作：生成、复制、核对是否发过、用户忘记后再查一遍。现在这一步交给自动化，运营只需关注异常数据和活动节奏。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >对整条增长链路来说，这一步是后续排行榜和邀请码查询的基础。只有邀请码能稳定生成、稳定记录，前端的查询、展示和统计才能成立。</span
+      >
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNkn28IKPlGuTMJ4ibGHmMKPKxDKkRphu5UUhqPB1DJj8icwKrEiav44UFmDBeO2ujgbn6D7jAAr06p3eDTySzb5IPfTWXU4Pu1YI/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030684"
+        data-aistatus="1"
+        data-ratio="0.6564814814814814"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOlVOMjNeRyoUIELyJYHF3B0wPiclZAumsCNONbKy0b1SPhtVoyicBREc0l4lgPPoveaArYGR6hnKAwbIsIqPCwFSdQSPXTarP5A/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030680"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>继续优化</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>一开始我当然希望榜单尽可能实时：邀请活动里，反馈越快越好。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>但真实跑起来后，一个问题浮现：活动不限制单账号提交次数，用户可能多次提交相同数据。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >如果前端直接实时读取，邀请人数就会频繁波动。比如用户刚看到自己的邀请数涨了，运营按规则清理重复数据后，这个数字又掉了回去，很容易引发误解：</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+  </section>
+  <section
+    style="
+      margin: 10px 0% 8px;
+      text-align: left;
+      justify-content: flex-start;
+      display: flex;
+      flex-flow: row;
+      width: 100%;
+      border-left: 3px solid rgb(219, 219, 219);
+      border-bottom-left-radius: 0px;
+      padding: 0px 0px 0px 8px;
+      align-self: flex-start;
+      box-sizing: border-box;
+      max-width: 100% !important;
+    "
+  >
+    <section
+      style="
+        color: rgba(0, 0, 0, 0.5);
+        text-align: justify;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100% !important;
+      "
+    >
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>为什么我刚才看到是 10 个，现在变成 8 个了？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>是不是系统算错了？</span>
+      </p>
+      <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+        <span>是不是我的邀请没算进去？</span>
+      </p>
+    </section>
+  </section>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>因此我最终把榜单从“实时刷新”调整为“每日 0 点更新”。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>这不是因为技术上做不到实时，而是因为在增长活动里，</span
+      ><strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>数据稳定性和用户信任感，比看起来更实时更重要。</span></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >很多功能从技术视角看当然越快越好，但从用户理解和活动公平性看，稳定、清晰、可解释往往更关键。尤其在数据库技术社区，开发者对规则和数据格外敏感——比起绝对实时，稳定、透明、可解释才是更好的体验。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+  </section>
+  <section style="text-align: center; margin: 0px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNBhAmUkSsU73pOSRJBHg7eOiaoer1FKVia1sMxXPeehW26wBf7zR5TziaehtcmHj4IoL7Ty5WkTEogg7TH7F5TBibDtCefyEP7DVA/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030682"
+        data-aistatus="1"
+        data-ratio="0.6212962962962963"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVPzKSmGbbhD6CuiabibHpEVgMibyEBGpM3EeSBMRayd2x9Pic3dOmJ6t9AtO6a3RXiaOyR67zicup7gKDYS3icYBfXzfsWrQiczIXlFA1w/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030681"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box; font-family: PingFangSC-light">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span>成果：活动从&quot;人工推动&quot;变成&quot;机制驱动&quot;</span></strong
+      >
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>在几轮前端样式优化后，这套工具支撑了一场持续近两个月的开发者认证增长活动。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span
+            >活动累计带来数百名报名用户和数百次邀请，几十位核心用户参与传播，头部邀请用户贡献了数十位新增用户。</span
+          ></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >对一个数据库技术社区而言，这个结果已经超出了我最初对单次认证活动的预期。更重要的是，它不是靠单次曝光堆出来的，而是通过邀请码、榜单反馈、规则透明和用户自助查询，让活动获得了持续运转的动力。</span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"><span>从结果看</span></span></strong
+      ><span
+        >，邀请机制确实带来了明显增量，而榜单页面也不只是展示工具，它本身成了活动增长机制的一部分。这里最有价值的不是页面，而是活动从“运营人工推动”变成了“机制驱动”：用户知道自己在什么位置，就更愿意继续参与；运营知道活动推进到哪一步，就能及时调整节奏。</span
+      >
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="max-width: 100%; vertical-align: middle; display: inline-block; line-height: 0; box-sizing: border-box"
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNYbxn2JnibiaEhYTUwb5ZevVlc2FkGEXR2JHiac74PPe78yib3RibCsDysODiaRSdxwibDHjaoPia4ic7R2iaBxnWvfmDTrheRfH9tH7G0w/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030685"
+        data-aistatus="1"
+        data-ratio="0.12314814814814815"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section style="font-size: 21px; color: rgb(16, 188, 97); box-sizing: border-box; font-family: PingFangSC-light">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>写在最后：运营终于不只是会提需求</span></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>这次实践让我对数据库技术社区运营有了新的认识。</span></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>过去我们做增长，很多时候是在协调资源、整理表格、手动统计、反复同步。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >而借助 TRAE
+        Work，运营完全可以把自己的业务理解，变成一个真实可运行的工具。这次做出来的表面是一个邀请榜单，背后却是一套完整的开发者认证增长闭环：</span
+      ><strong style="box-sizing: border-box"
+        ><span style="color: rgb(16, 188, 97); box-sizing: border-box"
+          ><span>从报名到邀请码，从邀请到榜单反馈，从用户参与到运营复盘。它不复杂，但有效。</span></span
+        ></strong
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>对非研发岗位来说，这种能力的变化或许会越来越重要。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span>未来的运营不只是做活动、写文案、发海报，也会越来越多地参与到工具设计、数据链路和增长系统的搭建中。</span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        >尤其是数据库技术社区运营，增长越来越不是单点动作，而是一套系统：用户路径怎么设计、激励机制怎么设置、数据反馈怎么呈现、运营成本怎么降低、活动结束后又如何复盘和复用。</span
+      >
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin: 0px; box-sizing: border-box">
+    <section style="background-color: rgb(234, 234, 234); height: 1px; box-sizing: border-box">
+      <svg
+        viewbox="0 0 1 1"
+        style="float: left; line-height: 0; width: 0; vertical-align: top; box-sizing: border-box"
+        xml:space="default"
+      ></svg>
+    </section>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="color: rgb(16, 188, 97); box-sizing: border-box">
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"><span>运营终于不只是会提需求，也可以自己先把需求跑起来。</span></strong>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span><br /></span
+      ></strong>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span
+        ><span textstyle="" style="color: rgb(62, 62, 62)"
+          >TRAE AI 创造力大赛也正在火热进行中，超百万奖金池等你来赢！单作品最高 35万现金激励！</span
+        ></span
+      >
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><br /></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <span><span textstyle="" style="color: rgb(62, 62, 62)">点击</span></span
+      ><span
+        style="
+          font-size: 15px;
+          line-height: 2;
+          font-style: normal;
+          text-align: justify;
+          color: rgb(16, 188, 97);
+          box-sizing: border-box;
+          font-family: PingFangSC-light;
+        "
+        ><strong>阅读原文</strong></span
+      ><span><span textstyle="" style="color: rgb(62, 62, 62)">立即了解！</span></span>
+    </p>
+    <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+      <strong style="box-sizing: border-box"
+        ><span><br /></span
+      ></strong>
+    </p>
+  </section>
+  <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box">
+    <span><br /></span>
+  </p>
+  <section style="text-align: center; margin-top: 10px; margin-bottom: 10px; line-height: 0; box-sizing: border-box">
+    <section
+      style="
+        max-width: 100%;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 0;
+        width: 100%;
+        box-sizing: border-box;
+      "
+    >
+      <img
+        src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVOldofMxXtALZwDlwxnYFQAbc4U3uNYkIicxicFhQDZ4SLJDPXpiac55icMficGGZm2J2lo9d552E8TCibzeBGMPyic8pamlQGIDaMvWM/640?wx_fmt=png&from=appmsg"
+        class="rich_pages wxw-img"
+        data-s="300,640"
+        data-type="png"
+        style="vertical-align: middle; width: 100%; box-sizing: border-box; max-width: 100% !important"
+        data-imgfileid="100030686"
+        data-aistatus="1"
+        data-ratio="1.1046296296296296"
+        data-w="1080"
+      />
+    </section>
+  </section>
+  <section class="js_uneditable custom_select_card mp_profile_iframe _135editor" style="box-sizing: border-box">
+    <mp-common-profile
+      data-pluginname="mpprofile"
+      data-nickname="Trae-Real AI Engineer"
+      data-headimg="https://mmbiz.qlogo.cn/mmbiz_png/oQ0houcyEiciavP0IXXGuju5hNSLmUKEZEQmo9gLuQLrdaQtrhVtecMMKhHIzsIRLS4BOHrzPnntcBu0lK53Wibhw/0?wx_fmt=png"
+      data-signature="Trae ，智能无限，协作无间 。"
+      data-id="MzkxMTY4NTAyNQ=="
+    ></mp-common-profile>
+  </section>
 </section>
-<p style="display: none;">
-	<br/>
+<p style="display: none">
+  <br />
 </p>
 <section class="_135editor">
-	<mp-style-type data-value="3"></mp-style-type>
+  <mp-style-type data-value="3"></mp-style-type>
 </section>

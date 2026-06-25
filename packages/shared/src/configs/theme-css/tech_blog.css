@@ -42,6 +42,52 @@ h1::after {
   content: '';
 }
 
+h1:nth-of-type(1)::before,
+h1:nth-of-type(2)::before,
+h1:nth-of-type(3)::before,
+h1:nth-of-type(4)::before,
+h1:nth-of-type(5)::before,
+h1:nth-of-type(6)::before,
+h1:nth-of-type(7)::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 0;
+  padding-bottom: 12.31%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto 10px;
+}
+
+h1:nth-of-type(1)::before {
+  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNnUQrIECzLjltRBputno1ZtkCf6o3ibHWb544jMp8UXs2qVpOfnNHE0hbriaeZzJsbvj1QibmGphvoibNX93saKU5ibyrlUnc3cwXU/640?wx_fmt=png&from=appmsg');
+}
+
+h1:nth-of-type(2)::before {
+  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPJCNWa4RG3W0u64BjNhSsuD3zClADw9I15ucZHNnpKWib6In04QrJ6hFwGpQjCaFPUYHdBckGeaQPqUwtUokfaaNxQNPGy7SPs/640?wx_fmt=png&from=appmsg');
+}
+
+h1:nth-of-type(3)::before {
+  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNWTichKvVwFqIuLDx0GzLloMlL36WklWuShenXmhpIoCpSUNQxn5wbkofJYl4qagHiapA3bjiaIBRM4ICKK84kibhEia6Ssb0hk8IA/640?wx_fmt=png&from=appmsg');
+}
+
+h1:nth-of-type(4)::before {
+  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPWuSkpSZYxySyaN2fl5Ey2Dp0n0t5ZZqh653Rvia7jRR5Z4laNznVpQxxmNV1QCB9Iaunyn1Av7IRVZDI4sWtYuicoILIYhp2lI/640?wx_fmt=png&from=appmsg');
+}
+
+h1:nth-of-type(5)::before {
+  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOlVOMjNeRyoUIELyJYHF3B0wPiclZAumsCNONbKy0b1SPhtVoyicBREc0l4lgPPoveaArYGR6hnKAwbIsIqPCwFSdQSPXTarP5A/640?wx_fmt=png&from=appmsg');
+}
+
+h1:nth-of-type(6)::before {
+  background-image: url('https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVPzKSmGbbhD6CuiabibHpEVgMibyEBGpM3EeSBMRayd2x9Pic3dOmJ6t9AtO6a3RXiaOyR67zicup7gKDYS3icYBfXzfsWrQiczIXlFA1w/640?wx_fmt=png&from=appmsg');
+}
+
+h1:nth-of-type(7)::before {
+  background-image: url('https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNYbxn2JnibiaEhYTUwb5ZevVlc2FkGEXR2JHiac74PPe78yib3RibCsDysODiaRSdxwibDHjaoPia4ic7R2iaBxnWvfmDTrheRfH9tH7G0w/640?wx_fmt=png&from=appmsg');
+}
+
 h2 {
   margin: 2.4em 8px 1em;
   color: #10bc61;

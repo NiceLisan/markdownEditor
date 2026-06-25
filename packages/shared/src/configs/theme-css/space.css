@@ -111,13 +111,12 @@
 </section>
 */
 
-
 /* ===== 基础与排版样式 ===== */
 
 /* 背景：深邃星空（浅色和深色模式均一致采用，突出沉浸感） */
 .container {
   background-color: rgb(40, 31, 73);
-  background-image: url("https://bcn.135editor.com/files/images/editor_styles/003efa1569d3460961b6a0353cd9f30d.png");
+  background-image: url('https://bcn.135editor.com/files/images/editor_styles/003efa1569d3460961b6a0353cd9f30d.png');
   background-size: contain;
   background-repeat: repeat-y;
   background-position: center center;
@@ -171,7 +170,8 @@ h4 {
   margin: 18px 8px 12px;
 }
 
-h5, h6 {
+h5,
+h6 {
   font-size: var(--md-font-size);
   font-weight: 700;
   color: #ffd364;
@@ -194,7 +194,8 @@ blockquote > p {
 }
 
 /* ===== 列表 ===== */
-ul, ol {
+ul,
+ol {
   margin: 20px 8px;
   padding-left: 1.5em;
   color: #ecf0ff;
@@ -229,7 +230,6 @@ figcaption,
 p.footnotes {
   color: #8d95e1;
 }
-
 
 .md-list-prefix {
   display: none;

@@ -17,7 +17,7 @@ export function markedScroll(): MarkedExtension {
           return src.match(/^:::\s*scroll/m)?.index
         },
         tokenizer(src) {
-          const match = /^:::\s*scroll(?:\s+height=([^\s\n]+))?\s*\n([\s\S]*?)\n:::/.exec(src)
+          const match = /^:::\s*scroll(?:\s+height=(\S+))?\s*\n([\s\S]*?)\n:::/.exec(src)
           if (match) {
             const height = match[1] || '240px'
             const content = match[2].trim()

@@ -3,16 +3,17 @@ async function test() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      markdown: '![image](https://example.com/test.png)'
-    })
-  });
-  const data = await response.json();
-  console.log(data.html);
+      markdown: '![image](https://example.com/test.png)',
+    }),
+  })
+  const data = await response.json()
+  console.log(data.html)
   if (data.html.includes('images.weserv.nl')) {
-    console.error('❌ Test failed: Image proxy is still active by default.');
-  } else {
-    console.log('✅ Test passed: Image proxy is disabled by default.');
+    console.error('❌ Test failed: Image proxy is still active by default.')
+  }
+  else {
+    console.log('✅ Test passed: Image proxy is disabled by default.')
   }
 }
 
-test();
+test()

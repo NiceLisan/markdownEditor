@@ -1,11 +1,11 @@
+catalogMode: prefer
+
+shellEmulator: true
+trustPolicy: no-downgrade
+
 packages:
   - apps/*
   - packages/*
-
-catalog:
-  pkg: 5.8.1
-
-catalogMode: prefer
 
 overrides:
   '@codemirror/state': 6.6.0
@@ -43,6 +43,5 @@ patchedDependencies:
   '@codemirror/view@6.41.1': patches/@codemirror__view@6.41.1.patch
   juice@11.1.1: patches/juice@11.1.1.patch
 
-shellEmulator: true
-
-
+catalog:
+  pkg: 5.8.1

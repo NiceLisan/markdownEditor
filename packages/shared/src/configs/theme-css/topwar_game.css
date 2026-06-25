@@ -4,7 +4,8 @@
  */
 
 #wx-renderer {
-  font-family: -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+  font-family: -apple-system-font, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei UI', 'Microsoft YaHei', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.75;
   color: #333333;
@@ -36,7 +37,10 @@ h3 {
   border-left: 4px solid var(--md-primary-color);
   border-bottom: 1px dashed var(--md-primary-color);
 }
-#wx-renderer h1, #wx-renderer h2, #wx-renderer h3, #wx-renderer h4 {
+#wx-renderer h1,
+#wx-renderer h2,
+#wx-renderer h3,
+#wx-renderer h4 {
   color: var(--md-primary-color, #4154b5);
   font-weight: bold;
 }
@@ -78,7 +82,8 @@ h3 {
   padding: 2px 4px;
 }
 
-#wx-renderer figure, #wx-renderer img {
+#wx-renderer figure,
+#wx-renderer img {
   margin: 0;
   padding: 0;
   max-width: 100% !important;
@@ -111,7 +116,7 @@ h3 {
 #wx-renderer tr:nth-child(even) {
   background-color: #f7f9ff;
 } */
- table {
+table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 8px;
@@ -147,9 +152,8 @@ tr:nth-child(even) {
   background-color: rgba(255, 182, 193, 0.08);
 }
 
-
-/* 
- * Specific Custom Container Styles 
+/*
+ * Specific Custom Container Styles
  */
 
 /* topwar-intro */
@@ -225,7 +229,7 @@ tr:nth-child(even) {
 }
 
 #wx-renderer .topwar-bubble-content {
-  background-color: rgba(189,183,186,0.30);
+  background-color: rgba(189, 183, 186, 0.3);
   margin: 0px 30px 0px 10px;
   padding: 16px 10px;
   border-radius: 8px;

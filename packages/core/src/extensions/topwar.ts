@@ -6,21 +6,21 @@ import type { MarkedExtension } from 'marked'
  */
 export function markedTopwar(): MarkedExtension {
   // Capture: 1. Type, 2. Optional title on same line, 3. Multiline content
-  const containerRegex = /^:::\s*(topwar-intro|video|topwar-data|topwar-buff|topwar-bubble|topwar-tip|topwar-head|topwar-review|topwar-end)([^\n]*)\n([\s\S]*?)\n:::/;
-  
+  const containerRegex = /^:::\s*(topwar-intro|video|topwar-data|topwar-buff|topwar-bubble|topwar-tip|topwar-head|topwar-review|topwar-end)([^\n]*)\n([\s\S]*?)\n:::/
+
   return {
     extensions: [
       {
         name: 'topwarContainer',
         level: 'block',
         start(src) {
-          return src.match(/^:::\s*(?:topwar|video)/m)?.index;
+          return src.match(/^:::\s*(?:topwar|video)/m)?.index
         },
         tokenizer(src, _tokens) {
-          const match = containerRegex.exec(src);
+          const match = containerRegex.exec(src)
           if (match) {
-            const [raw, type, title = '', content = ''] = match;
-            console.log(`[TopWar] Detected ${type} with title: "${title.trim()}"`);
+            const [raw, type, title = '', content = ''] = match
+            console.log(`[TopWar] Detected ${type} with title: "${title.trim()}"`)
             return {
               type: 'topwarContainer',
               raw,
@@ -28,21 +28,21 @@ export function markedTopwar(): MarkedExtension {
               containerTitle: title.trim(), // Keep raw title, will handle braces in renderer
               text: content.trim(),
               tokens: this.lexer.blockTokens(content.trim()),
-            };
+            }
           }
-          return undefined;
+          return undefined
         },
         renderer(token) {
-          const type = token.containerType;
-          console.log('[DEBUG] topwar renderer called for type:', type);
-          const text = this.parser.parse(token.tokens || []);
+          const type = token.containerType
+          console.log('[DEBUG] topwar renderer called for type:', type)
+          const text = this.parser.parse(token.tokens || [])
 
           if (type === 'video') {
-            const lines = token.text.split('\n');
-            const nickname = lines[0]?.trim() || '';
-            const desc = lines[1]?.trim() || '';
-            const defaultUrl = 'https://findermp.video.qq.com/251/20304/stodownload?encfilekey=rjD5jyTuFrIpZ2ibE8T7YmwgiahniaXswqzpDGFLhxs5we4IO1LcRzududuGFb3nF0kjdG92LIYwibL7gchS8ndnlrE6HMjIg8DegGutbPWElQsz0KMIZuPLtw&token=6xykWLEnztLM3B55Xd7sogtiaN5GtkTz4piaPosBlzBVI7hWbQrCtAwQQaqxwmD1nic8rspkrA06dicJpVDoR0kuMu1lSzcMd9CNGuS2CbTX4HvFzTqJ5TL1eatzIJSwb3CdTTv5T12l4wo9icr7CPQwiarAMnibDciajyIDS1LszT4fLK8zegoOVfr1yHnwlkh8kGoFom2rIYBO8yx6Hbxj6q0oCDU5W5z2Od4LnGqe9k0kZpo&hy=SH&idx=1&m=&scene=2&uzid=1&wxampicformat=503&picformat=200';
-            const url = lines[2]?.trim() || defaultUrl;
+            const lines = token.text.split('\n')
+            const nickname = lines[0]?.trim() || ''
+            const desc = lines[1]?.trim() || ''
+            const defaultUrl = 'https://findermp.video.qq.com/251/20304/stodownload?encfilekey=rjD5jyTuFrIpZ2ibE8T7YmwgiahniaXswqzpDGFLhxs5we4IO1LcRzududuGFb3nF0kjdG92LIYwibL7gchS8ndnlrE6HMjIg8DegGutbPWElQsz0KMIZuPLtw&token=6xykWLEnztLM3B55Xd7sogtiaN5GtkTz4piaPosBlzBVI7hWbQrCtAwQQaqxwmD1nic8rspkrA06dicJpVDoR0kuMu1lSzcMd9CNGuS2CbTX4HvFzTqJ5TL1eatzIJSwb3CdTTv5T12l4wo9icr7CPQwiarAMnibDciajyIDS1LszT4fLK8zegoOVfr1yHnwlkh8kGoFom2rIYBO8yx6Hbxj6q0oCDU5W5z2Od4LnGqe9k0kZpo&hy=SH&idx=1&m=&scene=2&uzid=1&wxampicformat=503&picformat=200'
+            const url = lines[2]?.trim() || defaultUrl
             return `
 <section style="margin: 10px auto;border: 2px solid var(--md-primary-color, #4154b5);border-radius: 10px;background-color: #f0f5ff;box-sizing:border-box;">
   <section style="background-color: var(--md-primary-color, #4154b5);padding: 5px 10px 5px 20px;box-sizing:border-box;">
@@ -100,7 +100,7 @@ export function markedTopwar(): MarkedExtension {
       </section>
     </section>
   </section>
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-intro') {
@@ -116,11 +116,11 @@ export function markedTopwar(): MarkedExtension {
       ${text}
     </section>
   </section>
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-data') {
-            const title = token.containerTitle || '-首周数据透视-';
+            const title = token.containerTitle || '-首周数据透视-'
             return `
 <section style="margin: 10px auto;">
   <section style="display: flex;align-items: center;">
@@ -168,28 +168,29 @@ export function markedTopwar(): MarkedExtension {
       </section>
     </section>
   </section>
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-buff') {
-            return `<section class="topwar-buff">${text}</section>\n`;
+            return `<section class="topwar-buff">${text}</section>\n`
           }
 
           if (type === 'topwar-bubble') {
-            let avatarUrl = 'https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzOZvQcFIOZwV9wyCicC9gLJcnWgMpZj97mibF2FCDtcMOZicXdf5ibFQMe4Ug3Bu9rbVAQODpu8kfkWNQ/640?wx_fmt=png&from=appmsg';
-            const rawTitle = token.containerTitle || '';
-            
+            let avatarUrl = 'https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzOZvQcFIOZwV9wyCicC9gLJcnWgMpZj97mibF2FCDtcMOZicXdf5ibFQMe4Ug3Bu9rbVAQODpu8kfkWNQ/640?wx_fmt=png&from=appmsg'
+            const rawTitle = token.containerTitle || ''
+
             // Handle both {path} and raw path, and markdown image ![](url)
-            const contentInsideBraces = rawTitle.match(/^\{(.*)\}$/)?.[1] || rawTitle;
-            const markdownImgMatch = contentInsideBraces.match(/!\[.*?\]\((.*?)\)/);
-            
+            const contentInsideBraces = rawTitle.match(/^\{(.*)\}$/)?.[1] || rawTitle
+            const markdownImgMatch = contentInsideBraces.match(/!\[.*?\]\((.*?)\)/)
+
             if (markdownImgMatch) {
-              avatarUrl = markdownImgMatch[1];
-            } else if (contentInsideBraces.trim()) {
-              avatarUrl = contentInsideBraces.trim();
+              avatarUrl = markdownImgMatch[1]
             }
-            
-            console.log(`[TopWar] Bubble Avatar URL: ${avatarUrl}`);
+            else if (contentInsideBraces.trim()) {
+              avatarUrl = contentInsideBraces.trim()
+            }
+
+            console.log(`[TopWar] Bubble Avatar URL: ${avatarUrl}`)
 
             return `
 <section style="text-decoration: none;caret-color: #000000;color: #000000;text-align: left;justify-content: flex-start;display: flex;flex-flow: row;box-sizing: border-box;max-width: 100%;transform: translate3d(8px, 0px, 0px);-webkit-transform: translate3d(8px, 0px, 0px);-moz-transform: translate3d(8px, 0px, 0px);-o-transform: translate3d(8px, 0px, 0px);">
@@ -224,21 +225,22 @@ export function markedTopwar(): MarkedExtension {
 			</section>
 		</section>
 	</section>
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-tip') {
-            let iconUrl = 'https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzOr9w3w1UMylbDchsGwf9UKolXfU1eFOERU3Nq4xx3MIQpjkxBM06EcOXGwDGGXP8U3INx87r2mpw/640?wx_fmt=png&from=appmsg';
-            const rawTitle = token.containerTitle || '';
-            
+            let iconUrl = 'https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzOr9w3w1UMylbDchsGwf9UKolXfU1eFOERU3Nq4xx3MIQpjkxBM06EcOXGwDGGXP8U3INx87r2mpw/640?wx_fmt=png&from=appmsg'
+            const rawTitle = token.containerTitle || ''
+
             // Handle both {path} and raw path, and markdown image ![](url)
-            const contentInsideBraces = rawTitle.match(/^\{(.*)\}$/)?.[1] || rawTitle;
-            const markdownImgMatch = contentInsideBraces.match(/!\[.*?\]\((.*?)\)/);
-            
+            const contentInsideBraces = rawTitle.match(/^\{(.*)\}$/)?.[1] || rawTitle
+            const markdownImgMatch = contentInsideBraces.match(/!\[.*?\]\((.*?)\)/)
+
             if (markdownImgMatch) {
-              iconUrl = markdownImgMatch[1];
-            } else if (contentInsideBraces.trim()) {
-              iconUrl = contentInsideBraces.trim();
+              iconUrl = markdownImgMatch[1]
+            }
+            else if (contentInsideBraces.trim()) {
+              iconUrl = contentInsideBraces.trim()
             }
 
             return `
@@ -291,19 +293,20 @@ export function markedTopwar(): MarkedExtension {
       </section>
     </section>
   </section>
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-head') {
-            let iconUrl = 'https://mmbiz.qpic.cn/mmbiz_png/XkZ04otWBIYFqt5kVv7XRBPzM2MqyhOv7yALxnvrIROoibC7Vwesw82D1QcGOibialpGKTmdHNNpUHHqDZtPR4YdoLMk3ic2g35pdL91w0w3Dv4/640?wx_fmt=png&from=appmsg';
-            const rawTitle = token.containerTitle || '';
-            const contentInsideBraces = rawTitle.match(/^\{(.*)\}$/)?.[1] || rawTitle;
-            const markdownImgMatch = contentInsideBraces.match(/!\[.*?\]\((.*?)\)/);
-            
+            let iconUrl = 'https://mmbiz.qpic.cn/mmbiz_png/XkZ04otWBIYFqt5kVv7XRBPzM2MqyhOv7yALxnvrIROoibC7Vwesw82D1QcGOibialpGKTmdHNNpUHHqDZtPR4YdoLMk3ic2g35pdL91w0w3Dv4/640?wx_fmt=png&from=appmsg'
+            const rawTitle = token.containerTitle || ''
+            const contentInsideBraces = rawTitle.match(/^\{(.*)\}$/)?.[1] || rawTitle
+            const markdownImgMatch = contentInsideBraces.match(/!\[.*?\]\((.*?)\)/)
+
             if (markdownImgMatch) {
-              iconUrl = markdownImgMatch[1];
-            } else if (contentInsideBraces.trim()) {
-              iconUrl = contentInsideBraces.trim();
+              iconUrl = markdownImgMatch[1]
+            }
+            else if (contentInsideBraces.trim()) {
+              iconUrl = contentInsideBraces.trim()
             }
 
             return `
@@ -318,43 +321,43 @@ export function markedTopwar(): MarkedExtension {
 			</section>
 		</section>
 	</section>
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-review') {
-            console.log('[DEBUG] topwar-review text:', text);
+            console.log('[DEBUG] topwar-review text:', text)
             // Clean up the text to remove unnecessary p/br/empty tags that might interfere with matching
-            const cleanedText = text.replace(/<p>|<\/p>|<br\/?>/g, '').trim();
-            
-            const items = [];
-            const itemRegex = /(?:<a\b[^>]*?\bhref=["']([^"']+)["'][^>]*>\s*)?(<figure[\s\S]*?<\/figure>)(?:\s*<\/a>)?/gi;
-            let match;
+            const cleanedText = text.replace(/<p>|<\/p>|<br\/?>/g, '').trim()
+
+            const items = []
+            const itemRegex = /(?:<a\b[^>]*?\bhref=["']([^"']+)["'][^>]*>\s*)?(<figure[\s\S]*?<\/figure>)(?:\s*<\/a>)?/gi
+            let match
             while ((match = itemRegex.exec(cleanedText)) !== null) {
-              const outerHref = match[1] || '';
-              const fig = match[2];
-              
-              const hrefMatch = fig.match(/\bhref=["']([^"']+)["']/i);
-              const href = outerHref || (hrefMatch ? hrefMatch[1] : '');
-              
-              const imgUrlMatch = fig.match(/\bimgurl=["']([^"']+)["']/i);
-              const srcMatch = fig.match(/\bsrc=["']([^"']+)["']/i);
-              const captionMatch = fig.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
-              
+              const outerHref = match[1] || ''
+              const fig = match[2]
+
+              const hrefMatch = fig.match(/\bhref=["']([^"']+)["']/i)
+              const href = outerHref || (hrefMatch ? hrefMatch[1] : '')
+
+              const imgUrlMatch = fig.match(/\bimgurl=["']([^"']+)["']/i)
+              const srcMatch = fig.match(/\bsrc=["']([^"']+)["']/i)
+              const captionMatch = fig.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i)
+
               items.push({
                 href,
                 img: (imgUrlMatch ? imgUrlMatch[1] : (srcMatch ? srcMatch[1] : '')),
-                caption: captionMatch ? captionMatch[1] : ''
-              });
+                caption: captionMatch ? captionMatch[1] : '',
+              })
             }
 
             if (items.length === 2 || items.length === 4) {
-              let rowsHtml = '';
-              
+              let rowsHtml = ''
+
               for (let i = 0; i < items.length; i += 2) {
-                const item1 = items[i];
-                const item2 = items[i + 1];
-                
-                const generateColumn = (item: { href: string; img: string; caption: string }) => `
+                const item1 = items[i]
+                const item2 = items[i + 1]
+
+                const generateColumn = (item: { href: string, img: string, caption: string }) => `
 	<section style="margin: 0px;padding: 0px;max-width: 100%;outline: 0px;display: inline-block;vertical-align: top;width: 49.1525%;flex: 0 0 auto;height: auto;align-self: flex-start;overflow-wrap: break-word !important;box-sizing:border-box;">
 		<section style="margin: 0.5em 0px 2px 0px;padding: 0px 0.5em;max-width: 100%;color: #222222;outline: 0px;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">
 			<section style="margin: 0px;padding: 0px;max-width: 100%;outline: 0px;box-shadow: #666666 3px 3px 7px;display: inline-block;line-height: 0;border-color: white;overflow-wrap: break-word !important;height: auto !important;box-sizing:border-box;">
@@ -366,7 +369,7 @@ export function markedTopwar(): MarkedExtension {
 				<span style="margin: 0px;padding: 0px;max-width: 100%;color: #3e3e3e;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span>${item.caption}</span></span>
 			</p>
 		</section>
-	</section>`;
+	</section>`
 
                 rowsHtml += `
 <section style="margin: 0px;padding: 0px;max-width: 100%;outline: 0px;font-size: 17px;text-align: left;justify-content: flex-start;display: flex;flex-flow: row;box-sizing: border-box !important;overflow-wrap: break-word !important;">
@@ -375,15 +378,15 @@ export function markedTopwar(): MarkedExtension {
 		<svg viewBox="0 0 1 1" style="float: left;line-height: 0;width: 0px;vertical-align: top;box-sizing:border-box;" xml:space="default"></svg>
 	</section>
   ${generateColumn(item2)}
-</section>`;
+</section>`
               }
-              return rowsHtml + '\n';
+              return `${rowsHtml}\n`
             }
 
             return `
 <section class="topwar-review">
   ${text}
-</section>\n`;
+</section>\n`
           }
 
           if (type === 'topwar-end') {
@@ -401,12 +404,12 @@ export function markedTopwar(): MarkedExtension {
   <section style="margin: 0px;padding: 0px;max-width: 100%;width: 30px;overflow-wrap: break-word !important;box-sizing:border-box;transform: scaleX(-1);-webkit-transform: scaleX(-1);-moz-transform: scaleX(-1);-o-transform: scaleX(-1);">
     <img src="https://mmbiz.qpic.cn/mmbiz_gif/1Fv7Rib30SzPlWPXLaDawk1JUrhpicE8icmvtbgpck6SHUH7fG45DKOofRe9NbGJpITCAC7dQpWYhCdMFOib3WLbZw/640?wx_fmt=gif" class="rich_pages wxw-img" data-type="gif" style="margin: 0px;padding: 0px;vertical-align: baseline;width: 100%;display: block;height: auto !important;overflow-wrap: break-word !important;box-sizing:border-box;max-width:100% !important;" />
   </section>
-</section>\n`;
+</section>\n`
           }
 
-          return `<section class="${type}">${text}</section>\n`;
-        }
-      }
-    ]
-  };
+          return `<section class="${type}">${text}</section>\n`
+        },
+      },
+    ],
+  }
 }

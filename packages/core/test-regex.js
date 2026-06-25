@@ -4,11 +4,11 @@ const cssContent = `
 	<strong>0</strong><strong class="autonum">\${counter}</strong>
 </section>
 */
-`;
+`
 
-const regex = /\/\*\s*@renderer\s+([a-zA-Z0-9_-]+)\s*\n([\s\S]*?)\*\//g;
-let match;
+const regex = /\/\*\s*@renderer\s+([\w-]+)\s*\n([\s\S]*?)\*\//g
+let match
 while ((match = regex.exec(cssContent)) !== null) {
-  console.log("MATCH:", match[1]);
-  console.log("HTML:", match[2]);
+  console.log('MATCH:', match[1])
+  console.log('HTML:', match[2])
 }

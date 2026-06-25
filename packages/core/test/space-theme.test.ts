@@ -1,25 +1,25 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { vi, describe, expect, it } from 'vitest'
+import { themeMap } from '@md/shared/configs'
+
+import { describe, expect, it, vi } from 'vitest'
+import { initRenderer } from '../src/renderer/renderer-impl'
+import { postProcessHtml, renderMarkdown } from '../src/utils/markdownHelpers'
 
 vi.mock('@md/shared/configs', async (importOriginal: any) => {
   const actual = await importOriginal()
-  
+
   const spaceCssPath = path.resolve(__dirname, '../../shared/src/configs/theme-css/space.css')
   const spaceCSSContent = fs.readFileSync(spaceCssPath, 'utf-8')
-  
+
   return {
     ...actual,
     themeMap: {
       ...actual.themeMap,
-      space: spaceCSSContent
-    }
+      space: spaceCSSContent,
+    },
   }
 })
-
-import { initRenderer } from '../src/renderer/renderer-impl'
-import { renderMarkdown, postProcessHtml } from '../src/utils/markdownHelpers'
-import { themeMap } from '@md/shared/configs'
 
 const markdownText = `
 # 探索宇宙，童心向太空

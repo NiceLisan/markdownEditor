@@ -8,8 +8,7 @@
 /* 背景：淡蓝网格（浅色模式） */
 .md-container {
   background-color: hsl(var(--background));
-  background-image:
-    linear-gradient(to right, rgba(135, 206, 235, 0.12) 1px, transparent 1px),
+  background-image: linear-gradient(to right, rgba(135, 206, 235, 0.12) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(135, 206, 235, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;
   background-position: 0 0;
@@ -17,8 +16,7 @@
 
 /* 深色模式下的背景网格 */
 .dark .md-container {
-  background-image:
-    linear-gradient(to right, rgba(135, 206, 235, 0.08) 1px, transparent 1px),
+  background-image: linear-gradient(to right, rgba(135, 206, 235, 0.08) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(135, 206, 235, 0.08) 1px, transparent 1px);
 }
 
@@ -145,9 +143,7 @@ a {
   color: #40e0d0;
   text-decoration: none;
   border-bottom: 1px solid rgba(64, 224, 208, 0.3);
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 a:hover {
@@ -679,4 +675,3 @@ tr:nth-child(even) {
   margin: 8px 0;
   line-height: 1.7;
 }
-

@@ -70,7 +70,6 @@
 </section>
 */
 
-
 /* ===== 基础与排版样式 ===== */
 
 .container {
@@ -78,7 +77,8 @@
   color: #4a5350;
   padding: 24px 16px;
   min-height: 100vh;
-  font-family: 思源黑体, -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+  font-family: 思源黑体, -apple-system-font, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei UI', 'Microsoft YaHei', Arial, sans-serif;
 }
 
 /* 文本排版 */
@@ -128,7 +128,8 @@ h4 {
   margin: 18px 8px 12px;
 }
 
-h5, h6 {
+h5,
+h6 {
   font-size: var(--md-font-size);
   font-weight: 700;
   color: var(--md-primary-color, #849aa6);
@@ -151,7 +152,8 @@ blockquote > p {
 }
 
 /* ===== 列表 ===== */
-ul, ol {
+ul,
+ol {
   margin: 20px 8px;
   padding-left: 1.5em;
   color: #5e6360;

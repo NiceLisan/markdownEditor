@@ -1,6 +1,7 @@
 import type { IOpts, RendererAPI } from '@md/shared/types'
 import type { ReadTimeResults } from '@md/shared/utils/readingTime'
 import type { RendererObject, Tokens } from 'marked'
+import { baseCSSContent, themeMap } from '@md/shared/configs'
 import readingTime from '@md/shared/utils/readingTime'
 import frontMatter from 'front-matter'
 import hljs from 'highlight.js/lib/core'
@@ -21,7 +22,6 @@ import {
   MDKatex,
 } from '../extensions'
 import { COMMON_LANGUAGES, highlightAndFormatCode } from '../utils/languages'
-import { themeMap, baseCSSContent } from '@md/shared/configs'
 
 Object.entries(COMMON_LANGUAGES).forEach(([name, lang]) => {
   hljs.registerLanguage(name, lang)
@@ -72,9 +72,11 @@ function escapeHtml(text: string): string {
  * 仅代理外部 http/https 图片，不处理 data URI、相对路径等
  */
 function proxyImageUrl(url: string): string {
-  if (!url) return url
+  if (!url)
+    return url
   // 已经是 weserv 代理的 URL，不重复代理
-  if (url.includes('images.weserv.nl')) return url
+  if (url.includes('images.weserv.nl'))
+    return url
   // 仅代理 http/https 开头的外部图片
   if (/^https?:\/\//i.test(url)) {
     return `https://images.weserv.nl/?url=${encodeURIComponent(url)}`
@@ -190,17 +192,18 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
   const listCounters: number[] = []
   const headingCounts: Record<string, number> = {}
   let customRenderers: Record<string, string> = {}
-  let lastThemeName: string | undefined = undefined
+  let lastThemeName: string | undefined
 
   function parseCustomRenderers(themeName: string) {
-    if (lastThemeName === themeName) return
+    if (lastThemeName === themeName)
+      return
     lastThemeName = themeName
     customRenderers = {}
-    
+
     const cssContent = `${baseCSSContent}\n${themeMap[themeName as keyof typeof themeMap] || ''}`
-      
+
     // Match /* @renderer [token] \n [html] \n */
-    const regex = /\/\*\s*@renderer\s+([a-zA-Z0-9_-]+)\s*\n([\s\S]*?)\*\//g
+    const regex = /\/\*\s*@renderer\s+([\w-]+)\s*\n([\s\S]*?)\*\//g
     let match
     while ((match = regex.exec(cssContent)) !== null) {
       const token = match[1]
@@ -287,11 +290,11 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
     heading({ tokens, depth }: Tokens.Heading) {
       const text = this.parser.parseInline(tokens)
       const tag = `h${depth}`
-      
+
       headingCounts[tag] = (headingCounts[tag] || 0) + 1
-      
+
       parseCustomRenderers(opts.themeName || 'default')
-      
+
       if (customRenderers[tag]) {
         return customRenderers[tag]
           .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
@@ -328,16 +331,16 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
     paragraph({ tokens }: Tokens.Paragraph): string {
       const text = this.parser.parseInline(tokens)
       const isEmpty = text.trim() === ``
-      
+
       parseCustomRenderers(opts.themeName || 'default')
-      
+
       const isFigureImage = text.includes(`<figure`) && text.includes(`<img`)
       if (isFigureImage || isEmpty) {
         return text
       }
 
-      if (customRenderers['p'] || customRenderers['paragraph']) {
-        const template = customRenderers['p'] || customRenderers['paragraph']
+      if (customRenderers.p || customRenderers.paragraph) {
+        const template = customRenderers.p || customRenderers.paragraph
         return template.replace(/\$\{text\}/g, () => text)
       }
 
@@ -351,10 +354,10 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
 
     blockquote({ tokens }: Tokens.Blockquote): string {
       const text = this.parser.parse(tokens)
-      
+
       parseCustomRenderers(opts.themeName || 'default')
-      if (customRenderers['blockquote']) {
-        return customRenderers['blockquote'].replace(/\$\{text\}/g, () => text)
+      if (customRenderers.blockquote) {
+        return customRenderers.blockquote.replace(/\$\{text\}/g, () => text)
       }
 
       // 新主题系统：blockquote 内的 p 标签由 CSS 选择器 `blockquote p` 控制
@@ -492,9 +495,9 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
       const headerRow = header
         .map((cell) => {
           const text = this.parser.parseInline(cell.tokens)
-          const thStyle = opts.themeName === 'topwar_game' 
-            ? `background-color: var(--md-primary-color, #4154b5); color: #fff; padding: 12px; text-align: left; font-weight: 700;` 
-            : `text-align: ${cell.align || `left`}`;
+          const thStyle = opts.themeName === 'topwar_game'
+            ? `background-color: var(--md-primary-color, #4154b5); color: #fff; padding: 12px; text-align: left; font-weight: 700;`
+            : `text-align: ${cell.align || `left`}`
           return styledContent(`th`, text, undefined, thStyle)
         })
         .join(``)
@@ -504,9 +507,9 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
           return styledContent(`tr`, rowContent)
         })
         .join(``)
-      const tableStyle = opts.themeName === 'topwar_game' 
-        ? `style="width: 100%; border-collapse: collapse; margin: 20px 8px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border: 1px solid var(--md-primary-color, #4154b5);"` 
-        : `class="preview-table"`;
+      const tableStyle = opts.themeName === 'topwar_game'
+        ? `style="width: 100%; border-collapse: collapse; margin: 20px 8px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border: 1px solid var(--md-primary-color, #4154b5);"`
+        : `class="preview-table"`
 
       return `
         <section style="max-width: 100%; overflow: auto; -webkit-overflow-scrolling: touch">

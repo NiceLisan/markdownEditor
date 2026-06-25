@@ -1,4 +1,4 @@
-import { MDKatex, markedAlert, markedScroll } from '@md/core'
+import { markedAlert, markedScroll, MDKatex } from '@md/core'
 import { prefix } from '@md/shared/configs'
 // 直接导入供本文件内部使用
 import {
@@ -326,8 +326,8 @@ export async function processClipboardContent(primaryColor: string) {
   clipboardDiv.innerHTML = clipboardDiv.innerHTML
     .replace(/([^-])top:(.*?)em/g, `$1transform: translateY($2em)`)
     .replace(/hsl\(var\(--foreground\)\)/g, `#3f3f3f`)
-    .replace(/var\(--blockquote-background(,\s*[^)]+)?\)/g, `#f7f7f7`)
-    .replace(/var\(--md-primary-color(,\s*[^)]+)?\)/g, primaryColor)
+    .replace(/var\(--blockquote-background(,[^)]+)?\)/g, `#f7f7f7`)
+    .replace(/var\(--md-primary-color(,[^)]+)?\)/g, primaryColor)
     .replace(/--md-primary-color:.+?;/g, ``)
     .replace(/--md-font-family:.+?;/g, ``)
     .replace(/--md-font-size:.+?;/g, ``)

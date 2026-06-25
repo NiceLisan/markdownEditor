@@ -5,7 +5,7 @@ import type { MarkedExtension } from 'marked'
  * Syntax:
  * ::: swipe
  * Some descriptive text
- * 
+ *
  * ![alt](url)
  * ![alt](url)
  * :::
@@ -25,8 +25,8 @@ export function markedSwipe(): MarkedExtension {
             let content = match[1]
             // 自动给加粗的 ** 符号前后补空格，解决中文/全角符号边界下检测失败的问题
             content = content
-              .replace(/([^\s\*])(\*\*[^\s\*]+?\*\*)/g, '$1 $2')
-              .replace(/(\*\*[^\s\*]+?\*\*)([^\s\*])/g, '$1 $2')
+              .replace(/([^\s*])(\*\*[^\s*]+\*\*)/g, '$1 $2')
+              .replace(/(\*\*[^\s*]+\*\*)([^\s*])/g, '$1 $2')
 
             return {
               type: `swipeContainer`,
@@ -45,10 +45,10 @@ export function markedSwipe(): MarkedExtension {
           for (const t of tokens) {
             if (t.type === 'paragraph') {
               const imageTokens = t.tokens?.filter((child: any) => child.type === 'image') || []
-              const hasText = t.tokens?.some((child: any) => 
-                child.type !== 'image' && 
-                child.type !== 'space' && 
-                !(child.type === 'text' && !child.raw.trim())
+              const hasText = t.tokens?.some((child: any) =>
+                child.type !== 'image'
+                && child.type !== 'space'
+                && !(child.type === 'text' && !child.raw.trim()),
               )
 
               if (imageTokens.length > 0 && !hasText) {
@@ -56,23 +56,26 @@ export function markedSwipe(): MarkedExtension {
                 imageTokens.forEach((img: any) => {
                   images.push({ src: img.href, alt: img.text || '' })
                 })
-              } else {
+              }
+              else {
                 // Paragraph containing text, may also contain inline images
                 descriptionTokens.push(t)
               }
-            } else {
+            }
+            else {
               descriptionTokens.push(t)
             }
           }
 
           // @ts-ignore
           const descriptionHtml = this.parser.parse(descriptionTokens)
-          
+
           const divisor = images.length || 1
           const containerWidth = Math.max(100, divisor * 100)
           const itemWidth = 100 / divisor
 
-          const imagesHtml = images.length > 0 ? images.map(img => `
+          const imagesHtml = images.length > 0
+            ? images.map(img => `
             <section data-svg-blockname="图文组合" data-svg-op="copy delete" data-svg-role="block" data-width="${itemWidth}%" style="display: inline-block;overflow-wrap: break-word;vertical-align: top;width: ${itemWidth}%;padding-bottom: 15px;box-sizing:border-box;max-width:${itemWidth}% !important;">
               <section>
                 <section data-width="100%" style="width: 100%;max-width: 100% !important;box-sizing:border-box;">
@@ -81,7 +84,8 @@ export function markedSwipe(): MarkedExtension {
                   </section>
                 </section>
               </section>
-            </section>`).join('') : ''
+            </section>`).join('')
+            : ''
 
           return `
 <section data-id="115710" data-tools="135编辑器">
@@ -108,8 +112,8 @@ export function markedSwipe(): MarkedExtension {
   </section>
 </section>
 `
-        }
-      }
-    ]
+        },
+      },
+    ],
   }
 }

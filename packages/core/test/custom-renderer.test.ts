@@ -1,5 +1,5 @@
 import { marked } from 'marked'
-import { describe, expect, it, vi, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { initRenderer } from '../src/renderer/renderer-impl'
 
 vi.mock('@md/shared/configs', async (importOriginal: any) => {
@@ -11,15 +11,15 @@ vi.mock('@md/shared/configs', async (importOriginal: any) => {
   <strong class="text">\${text}</strong>
 </section>
 */
-  `;
+  `
   return {
     ...actual,
     baseCSSContent: mockBaseCSS,
     themeMap: {
       ...actual.themeMap,
       default: '',
-      grace: ''
-    }
+      grace: '',
+    },
   }
 })
 
@@ -33,7 +33,7 @@ describe('custom CSS renderers via /* @renderer */ notation', () => {
     initRenderer({ themeName: 'grace' })
     const md = `## Title text`
     const html = marked.parse(md) as string
-    
+
     // In our mock, baseCSS has an h2, but grace theme uses the baseCSS as well now.
     // Wait, the renderer uses baseCSS for all themes. So baseCSS will apply to grace too!
     expect(html).toContain('class="custom-h2"')
@@ -43,15 +43,15 @@ describe('custom CSS renderers via /* @renderer */ notation', () => {
     initRenderer({ themeName: 'default' })
     const md = `## First Custom Title\n## Second Custom Title`
     const html = marked.parse(md) as string
-    
+
     expect(html).toContain('class="custom-h2"')
     expect(html).toContain('First Custom Title')
     expect(html).toContain('Second Custom Title')
-    
+
     // Check auto numbering for ${counter} -> 1 and 2
     expect(html).toContain('<strong class="counter">1</strong>')
     expect(html).toContain('<strong class="counter">2</strong>')
-    
+
     expect(html).not.toContain('<h2')
   })
 })

@@ -1,25 +1,25 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { vi, describe, expect, it } from 'vitest'
+import { themeMap } from '@md/shared/configs'
+
+import { describe, expect, it, vi } from 'vitest'
+import { initRenderer } from '../src/renderer/renderer-impl'
+import { postProcessHtml, renderMarkdown } from '../src/utils/markdownHelpers'
 
 vi.mock('@md/shared/configs', async (importOriginal: any) => {
   const actual = await importOriginal()
-  
+
   const simpleGrayCssPath = path.resolve(__dirname, '../../shared/src/configs/theme-css/simple_gray.css')
   const simpleGrayCSSContent = fs.readFileSync(simpleGrayCssPath, 'utf-8')
-  
+
   return {
     ...actual,
     themeMap: {
       ...actual.themeMap,
-      simple_gray: simpleGrayCSSContent
-    }
+      simple_gray: simpleGrayCSSContent,
+    },
   }
 })
-
-import { initRenderer } from '../src/renderer/renderer-impl'
-import { renderMarkdown, postProcessHtml } from '../src/utils/markdownHelpers'
-import { themeMap } from '@md/shared/configs'
 
 const markdownText = `
 # 简约浅灰主题测试

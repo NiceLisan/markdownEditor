@@ -66,14 +66,16 @@ async function testTheme(theme) {
     for (const check of checks) {
       const found = check.pattern.test(html)
       console.log(`  ${found ? '✓' : '✗'} ${check.name}`)
-      if (!found) allPassed = false
+      if (!found)
+        allPassed = false
     }
     console.log(`  ${allPassed ? '✓ ALL PASSED' : '✗ SOME FAILED'}`)
 
     // Save output for inspection
     fs.writeFileSync(`/tmp/topwar_test_${theme}.html`, html)
     return allPassed
-  } catch (err) {
+  }
+  catch (err) {
     console.error(`  ✗ Theme ${theme} failed: ${err.message}`)
     return false
   }
@@ -84,7 +86,8 @@ async function testTheme(theme) {
   let allOk = true
   for (const theme of themes) {
     const ok = await testTheme(theme)
-    if (!ok) allOk = false
+    if (!ok)
+      allOk = false
   }
   console.log(`\n${allOk ? '✓ All themes passed!' : '✗ Some themes failed!'}`)
 })()

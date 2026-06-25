@@ -31,28 +31,29 @@
 https://findermp.video.qq.com/...（这里放你的实际长视频外链等核心 data-url 地址）
 :::
 
+请在当前项目中，支持在 theme-css 文件夹中的 css 文件，对于各主题的样式可以设置各级语法的自定义。比如，h2 样式可以设置后转换为如下的 html，其中的 01 加粗表示 h2 的自动序号:<section style="margin: 10px auto; display: flex; justify-content: flex-start;">
 
-请在当前项目中，支持在theme-css文件夹中的css文件，对于各主题的样式可以设置各级语法的自定义。比如，h2样式可以设置后转换为如下的html，其中的01加粗表示h2的自动序号:<section style="margin: 10px auto; display: flex; justify-content: flex-start;">
-	<section style="display: flex;align-items: center;" class="">
-		<section style="flex-shrink: 0;padding-right: 10px;box-sizing:border-box;">
-			<section style="background: linear-gradient(to bottom,#ffffff,#4fe5f2,#ffffff);padding: 0 2px 0 0;border-radius: 100%;box-sizing:border-box;">
-				<section style="background-color: #ffffff;border-radius: 100%;padding: 6px 6px;box-sizing:border-box;">
-					<section style="background: linear-gradient(to bottom,#ffffff,#abf8ff,#ffffff);padding: 0 2px 0 0;border-radius: 100%;box-sizing:border-box;">
-						<section style="background-color: #ffffff;border-radius: 100%;padding: 6px 6px;box-sizing:border-box;">
-							<section style="background-color: #e8f6ff;border-radius: 100%;padding: 4px;box-sizing:border-box;">
-								<section class="assistant" style="font-size: 16px;letter-spacing: 1.5px;color: #ffffff;background-color: #277bff;width: 34px;height: 34px;border-radius: 100%;text-align: center;line-height: 34px;box-sizing:border-box;">
-									<strong>0</strong><strong class="autonum" data-original-title="" title="">1</strong>
-								</section>
-							</section>
-						</section>
-					</section>
-				</section>
-			</section>
-		</section>
-		<section style="border: 1px solid #d4eeff;background-color: #e8f6ff;border-radius: 25px;padding: 10px 30px;box-sizing:border-box;" class="">
-			<section style="font-size: 16px;color: #1764dd;" class="">
-				<strong class="135brush" data-brushtype="text">致敬生命守护者</strong>
-			</section>
-		</section>
-	</section>
+<section style="display: flex;align-items: center;" class="">
+<section style="flex-shrink: 0;padding-right: 10px;box-sizing:border-box;">
+<section style="background: linear-gradient(to bottom,#ffffff,#4fe5f2,#ffffff);padding: 0 2px 0 0;border-radius: 100%;box-sizing:border-box;">
+<section style="background-color: #ffffff;border-radius: 100%;padding: 6px 6px;box-sizing:border-box;">
+<section style="background: linear-gradient(to bottom,#ffffff,#abf8ff,#ffffff);padding: 0 2px 0 0;border-radius: 100%;box-sizing:border-box;">
+<section style="background-color: #ffffff;border-radius: 100%;padding: 6px 6px;box-sizing:border-box;">
+<section style="background-color: #e8f6ff;border-radius: 100%;padding: 4px;box-sizing:border-box;">
+<section class="assistant" style="font-size: 16px;letter-spacing: 1.5px;color: #ffffff;background-color: #277bff;width: 34px;height: 34px;border-radius: 100%;text-align: center;line-height: 34px;box-sizing:border-box;">
+<strong>0</strong><strong class="autonum" data-original-title="" title="">1</strong>
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+<section style="border: 1px solid #d4eeff;background-color: #e8f6ff;border-radius: 25px;padding: 10px 30px;box-sizing:border-box;" class="">
+<section style="font-size: 16px;color: #1764dd;" class="">
+<strong class="135brush" data-brushtype="text">致敬生命守护者</strong>
+</section>
+</section>
+</section>
+
 </section>

@@ -175,9 +175,11 @@ function getUploadDir() {
 ### 运行时错误？
 
 1. **端口被占用**
+
    - 使用 `.\md-cli.exe port=3000` 指定其他端口
 
 2. **防火墙拦截**
+
    - Windows Defender 可能会拦截，点击"允许访问"
 
 3. **无法打开浏览器**
