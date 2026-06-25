@@ -3,7 +3,7 @@
  * 参考 TRAE 技术文章的清爽排版，以 #10bc61 为主色。
  */
 
-/* ===== 135编辑器渲染模板：自定义渲染器语法 ===== */
+/* ===== 编辑器渲染模板：自定义渲染器语法 ===== */
 
 /* @renderer h2
 <section class="h2-container h2-container-${counter}" style="margin: 2.2em 8px 1.4em; text-align: left; overflow: hidden; box-sizing: border-box;">
@@ -47,7 +47,7 @@ h1 {
   text-align: center;
 }
 
-h2::after {
+/* h2::after {
   display: block;
   width: 42px;
   height: 4px;
@@ -55,7 +55,7 @@ h2::after {
   margin: 0.65em 0 0;
   background-color: #10bc61;
   content: '';
-}
+} */
 
 .h2-image {
   display: none;
@@ -120,12 +120,12 @@ h2 {
 }
 
 h3 {
-  padding: 0.45em 0.8em;
+  padding: 0px 0px 0px 15px;
   border-left: 4px solid #10bc61;
   margin: 2em 8px 1em;
-  color: #252525;
-  background: linear-gradient(90deg, #f7f7f7 0%, rgba(247, 247, 247, 0) 100%);
-  font-size: calc(var(--md-font-size) * 1.12);
+  color: #3e3e3e;
+  background: linear-gradient(90deg, #f7f7f7 0%, rgba(255, 246, 222, 0) 100%);
+  font-size: var(--md-font-size);
   font-weight: 700;
   line-height: 1.6;
 }
