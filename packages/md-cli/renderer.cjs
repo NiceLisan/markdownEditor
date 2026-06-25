@@ -390,6 +390,20 @@ async function renderMarkdown(markdown, options = {}) {
   let footnoteIndex = 0;
   const listOrderedStack = [];
   const listCounters = [];
+  const headingCounts = {};
+  const customRenderers = {};
+
+  function parseCustomRenderers(themeName) {
+    if (Object.keys(customRenderers).length > 0) return;
+    const cssContent = loadThemeCss(themeName, isUseDefaultTheme);
+    const regex = /\/\*\s*@renderer\s+([\w-]+)\s*\n([\s\S]*?)\*\//g;
+    let match;
+    while ((match = regex.exec(cssContent)) !== null) {
+      const token = match[1];
+      const html = match[2].trim();
+      customRenderers[token] = html;
+    }
+  }
 
   // 辅助函数：添加脚注
   function addFootnote(title, link) {
@@ -403,6 +417,14 @@ async function renderMarkdown(markdown, options = {}) {
   const renderer = {
     heading({ tokens, depth }) {
       const text = this.parser.parseInline(tokens);
+      const tag = `h${depth}`;
+      headingCounts[tag] = (headingCounts[tag] || 0) + 1;
+      parseCustomRenderers(theme);
+      if (customRenderers[tag]) {
+        return customRenderers[tag]
+          .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
+          .replace(/\$\{text\}/g, () => text);
+      }
       if (theme === "topwar_game" && depth === 2) {
         return `
 <section style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px;margin-top: 30px;box-sizing:border-box;">
@@ -435,6 +457,12 @@ async function renderMarkdown(markdown, options = {}) {
       const isEmpty = text.trim() === "";
       if (isFigureImage || isEmpty) return text;
 
+      parseCustomRenderers(theme);
+      if (customRenderers.p || customRenderers.paragraph) {
+        const template = customRenderers.p || customRenderers.paragraph;
+        return template.replace(/\$\{text\}/g, () => text);
+      }
+
       // Top War Disclaimer Style (Lines starting with '*')
       if (theme === "topwar_game" && text.trim().startsWith("*")) {
         return `<p style="text-align: justify; line-height: 2.5;" align="justify"><span style="font-weight: 400; text-shadow: none; letter-spacing: 1.5px; color: #7f7f7f; font-size: 12px;">${text}</span></p>\n`;
@@ -445,6 +473,10 @@ async function renderMarkdown(markdown, options = {}) {
 
     blockquote({ tokens }) {
       const text = this.parser.parse(tokens);
+      parseCustomRenderers(theme);
+      if (customRenderers.blockquote) {
+        return customRenderers.blockquote.replace(/\$\{text\}/g, () => text);
+      }
       return styledContent("blockquote", text);
     },
 
