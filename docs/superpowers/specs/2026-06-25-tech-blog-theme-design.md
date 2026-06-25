@@ -39,6 +39,6 @@ Tables use only broadly supported CSS suitable for WeChat article output:
 
 ## Verification
 
-- A focused Vitest test must fail before registration and CSS are added.
+- A focused Node test must fail before registration and CSS are added.
 - The test verifies registration, selector metadata, TRAE green, typography, code block styling, and table compatibility declarations.
 - Run the focused test and the shared/core TypeScript checks before committing.

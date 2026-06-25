@@ -1,0 +1,380 @@
+/**
+ * 技术博客主题（tech_blog）
+ * 参考 TRAE 技术文章的清爽排版，以 #10bc61 为主色。
+ */
+
+/* ==================== 基础排版 ==================== */
+.container,
+#output {
+  color: #3e3e3e;
+  font-size: 15px;
+  line-height: 2;
+  text-align: justify;
+}
+
+p {
+  margin: 1.25em 8px;
+  color: #3e3e3e;
+  font-size: 15px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  text-align: justify;
+}
+
+/* ==================== 标题 ==================== */
+h1 {
+  margin: 2.2em 8px 1.4em;
+  color: #202124;
+  font-size: calc(var(--md-font-size) * 1.5);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+h1::after {
+  display: block;
+  width: 42px;
+  height: 4px;
+  border-radius: 2px;
+  margin: 0.65em auto 0;
+  background-color: #10bc61;
+  content: '';
+}
+
+h2 {
+  margin: 2.4em 8px 1em;
+  color: #10bc61;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: 0.03em;
+}
+
+h3 {
+  padding: 0.45em 0.8em;
+  border-left: 4px solid #10bc61;
+  margin: 2em 8px 1em;
+  color: #252525;
+  background: linear-gradient(90deg, #f7f7f7 0%, rgba(247, 247, 247, 0) 100%);
+  font-size: calc(var(--md-font-size) * 1.12);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+h4 {
+  margin: 1.8em 8px 0.8em;
+  color: #16884c;
+  font-size: calc(var(--md-font-size) * 1.06);
+  font-weight: 700;
+}
+
+h5,
+h6 {
+  margin: 1.5em 8px 0.65em;
+  color: #3e3e3e;
+  font-size: var(--md-font-size);
+  font-weight: 700;
+}
+
+h5::before,
+h6::before {
+  margin-right: 0.45em;
+  color: #10bc61;
+  content: '•';
+}
+
+/* ==================== 强调与链接 ==================== */
+strong {
+  color: #16884c;
+  font-weight: 700;
+}
+
+em {
+  color: #555555;
+  font-style: italic;
+}
+
+a {
+  border-bottom: 1px solid rgba(16, 188, 97, 0.35);
+  color: #0b9f50;
+  text-decoration: none;
+}
+
+/* ==================== 引用与信息卡 ==================== */
+blockquote {
+  padding: 18px 20px;
+  border: none;
+  border-radius: 10px;
+  margin: 1.4em 8px;
+  color: #4a4a4a;
+  background-color: #f9f9f9;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.03);
+  font-style: normal;
+}
+
+blockquote > p {
+  margin: 0;
+  color: #4a4a4a;
+}
+
+/* ==================== GFM Alerts ==================== */
+.alert-note,
+.alert-tip,
+.alert-info,
+.alert-important,
+.alert-warning,
+.alert-caution {
+  padding: 16px 18px;
+  border: 1px solid #e9ecef;
+  border-left-width: 4px;
+  border-radius: 10px;
+  margin: 1.4em 8px;
+  background-color: #f9f9f9;
+}
+
+.alert-note,
+.alert-info {
+  border-left-color: #478be6;
+}
+
+.alert-tip {
+  border-left-color: #10bc61;
+}
+
+.alert-important {
+  border-left-color: #8b5cf6;
+}
+
+.alert-warning {
+  border-left-color: #f59e0b;
+}
+
+.alert-caution {
+  border-left-color: #ef4444;
+}
+
+.alert-title-note,
+.alert-title-tip,
+.alert-title-info,
+.alert-title-important,
+.alert-title-warning,
+.alert-title-caution {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  margin-bottom: 0.45em;
+  font-weight: 700;
+}
+
+.alert-title-tip {
+  color: #0b9f50;
+}
+
+.alert-note p,
+.alert-tip p,
+.alert-info p,
+.alert-important p,
+.alert-warning p,
+.alert-caution p {
+  margin: 0.35em 0;
+}
+
+/* ==================== 列表 ==================== */
+ul,
+ol {
+  padding-left: 1.6em;
+  margin: 1.2em 8px;
+  color: #3e3e3e;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+li {
+  display: list-item;
+  margin: 0.35em 0;
+  color: #3e3e3e;
+  line-height: 1.9;
+}
+
+li::marker {
+  color: #10bc61;
+  font-weight: 700;
+}
+
+/* ==================== 行内代码 ==================== */
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9f4e5;
+  border-radius: 4px;
+  color: #08783d;
+  background-color: #effaf4;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 90%;
+}
+
+/* ==================== 代码块 ==================== */
+pre.code__pre,
+.hljs.code__pre {
+  max-width: 100%;
+  padding: 0 !important;
+  border: 1px solid #25342d;
+  border-radius: 10px;
+  margin: 1.4em 8px;
+  overflow-x: auto;
+  color: #e8f5ed;
+  background-color: #17221c;
+  box-shadow: 0 5px 16px rgba(23, 34, 28, 0.14);
+  font-size: 90%;
+  line-height: 1.65;
+  -webkit-overflow-scrolling: touch;
+}
+
+pre.code__pre > code,
+.hljs.code__pre > code {
+  display: -webkit-box;
+  min-width: max-content;
+  padding: 0.9em 1.1em 1.1em;
+  border: none;
+  overflow-x: auto;
+  color: inherit;
+  background: none;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  text-indent: 0;
+  white-space: pre;
+}
+
+/* ==================== 图片与图注 ==================== */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1em auto 0.5em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+figure {
+  margin: 1.5em 8px;
+}
+
+figcaption,
+.md-figcaption {
+  margin-top: 0.5em;
+  color: #8a8a8a;
+  font-size: 0.8em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ==================== 兼容表格 ==================== */
+table,
+table.preview-table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #dfe5e1;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 1.5em 0;
+  overflow-x: auto;
+  color: #3e3e3e;
+  background-color: #ffffff;
+  font-size: 14px;
+  line-height: 1.65;
+  table-layout: auto;
+  white-space: normal;
+  -webkit-overflow-scrolling: touch;
+}
+
+thead {
+  color: #ffffff;
+  background-color: #10bc61;
+  font-weight: 700;
+}
+
+tbody {
+  background-color: #ffffff;
+}
+
+tr:nth-child(even) {
+  background-color: #f5fbf7;
+}
+
+th,
+td {
+  min-width: 96px;
+  padding: 10px 12px;
+  border: 1px solid #dfe5e1;
+  box-sizing: border-box;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+th {
+  color: #ffffff;
+  background-color: #10bc61;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+td {
+  color: #3e3e3e;
+}
+
+/* ==================== 分隔线与脚注 ==================== */
+hr {
+  width: 60%;
+  height: 1px;
+  border: none;
+  margin: 2.2em auto;
+  background: linear-gradient(90deg, rgba(16, 188, 97, 0), #10bc61, rgba(16, 188, 97, 0));
+}
+
+p.footnotes {
+  margin: 0.5em 8px;
+  color: #888888;
+  font-size: 80%;
+  line-height: 1.7;
+}
+
+/* ==================== 公式与标记 ==================== */
+.katex-inline,
+.katex-block {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.katex-block {
+  padding: 0.6em 0;
+  text-align: center;
+}
+
+.markup-highlight {
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #08783d;
+  background-color: #dff7e9;
+}
+
+.markup-underline {
+  text-decoration: underline;
+  text-decoration-color: #10bc61;
+  text-decoration-thickness: 2px;
+}
+
+.markup-wavyline {
+  text-decoration: underline wavy;
+  text-decoration-color: #10bc61;
+  text-decoration-thickness: 1.5px;
+}

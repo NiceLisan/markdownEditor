@@ -6,7 +6,7 @@
 
 **Architecture:** Keep the feature entirely inside the existing shared theme configuration. A raw CSS file defines presentation, `theme-css/index.ts` registers its content, and `theme.ts` exposes the theme in the selector. A focused core test reads the real CSS and validates the public theme contracts without changing renderer behavior.
 
-**Tech Stack:** CSS, TypeScript, Vitest, pnpm workspace
+**Tech Stack:** CSS, TypeScript, Node.js test runner, pnpm workspace
 
 ---
 
@@ -16,27 +16,17 @@
 
 **Files:**
 
-- Create: `packages/core/test/tech-blog-theme.test.ts`
+- Create: `packages/core/test/tech-blog-theme.check.mjs`
 
 - [ ] **Step 1: Write the failing test**
 
-Create a Vitest test that imports `themeMap`, `themeOptionsMap`, and `themeOptions`, then asserts:
+Create a Node test that reads the actual CSS and registration files, then asserts:
 
-```javascript
-expect(themeMap).toHaveProperty('tech_blog')
-expect(themeOptionsMap.tech_blog).toMatchObject({
-  label: '技术博客',
-  value: 'tech_blog',
-})
-expect(themeOptions).toContainEqual(expect.objectContaining({
-  label: '技术博客',
-  value: 'tech_blog',
-}))
-expect(themeMap.tech_blog).toContain('#10bc61')
-expect(themeMap.tech_blog).toContain('line-height: 2')
-expect(themeMap.tech_blog).toContain('overflow-x: auto')
-expect(themeMap.tech_blog).toContain('border-collapse: collapse')
-expect(themeMap.tech_blog).toContain('word-break: break-word')
+```text
+assert registration contains the tech_blog import and map entry
+assert selector metadata contains 技术博客, tech_blog, and TRAE
+assert CSS contains #10bc61, 15px body text, and line-height 2
+assert CSS contains code block and compatible table declarations
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -44,7 +34,7 @@ expect(themeMap.tech_blog).toContain('word-break: break-word')
 Run:
 
 ```powershell
-pnpm exec vitest run packages/core/test/tech-blog-theme.test.ts
+node packages/core/test/tech-blog-theme.check.mjs
 ```
 
 Expected: FAIL because `tech_blog` is not registered.
@@ -94,7 +84,7 @@ Add this entry to both `themeOptionsMap` and `themeOptions`:
 Run:
 
 ```powershell
-pnpm exec vitest run packages/core/test/tech-blog-theme.test.ts
+node packages/core/test/tech-blog-theme.check.mjs
 ```
 
 Expected: PASS.
@@ -110,7 +100,7 @@ Expected: PASS.
 Run:
 
 ```powershell
-pnpm exec vitest run packages/core/test/tech-blog-theme.test.ts packages/core/test/simple-gray-theme.test.ts packages/core/test/space-theme.test.ts
+node packages/core/test/tech-blog-theme.check.mjs
 ```
 
 Expected: all selected tests pass.
@@ -131,7 +121,7 @@ Run:
 
 ```powershell
 git diff --check
-git diff -- docs/superpowers packages/core/test/tech-blog-theme.test.ts packages/shared/src/configs/theme-css packages/shared/src/configs/theme.ts
+git diff -- docs/superpowers packages/core/test/tech-blog-theme.check.mjs packages/shared/src/configs/theme-css packages/shared/src/configs/theme.ts
 ```
 
 Expected: no whitespace errors and no unrelated edits.
@@ -141,6 +131,6 @@ Expected: no whitespace errors and no unrelated edits.
 Stage only the planned files and commit:
 
 ```powershell
-git add docs/superpowers/specs/2026-06-25-tech-blog-theme-design.md docs/superpowers/plans/2026-06-25-tech-blog-theme.md packages/core/test/tech-blog-theme.test.ts packages/shared/src/configs/theme-css/tech_blog.css packages/shared/src/configs/theme-css/index.ts packages/shared/src/configs/theme.ts
+git add docs/superpowers/specs/2026-06-25-tech-blog-theme-design.md docs/superpowers/plans/2026-06-25-tech-blog-theme.md packages/core/test/tech-blog-theme.check.mjs packages/shared/src/configs/theme-css/tech_blog.css packages/shared/src/configs/theme-css/index.ts packages/shared/src/configs/theme.ts
 git commit -m "feat: add tech blog theme"
 ```
