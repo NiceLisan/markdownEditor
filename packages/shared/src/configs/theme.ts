@@ -20,6 +20,11 @@ export const themeOptionsMap = {
     value: `simple`,
     desc: `@okooo5km`,
   },
+  simple_gray: {
+    label: `简约浅灰`,
+    value: `simple_gray`,
+    desc: ``,
+  },
   tech_blog: {
     label: `技术博客`,
     value: `tech_blog`,
@@ -52,6 +57,11 @@ export const themeOptions: IConfigOption<ThemeName>[] = [
     label: `简洁`,
     value: `simple`,
     desc: `@okooo5km`,
+  },
+  {
+    label: `简约浅灰`,
+    value: `simple_gray`,
+    desc: ``,
   },
   {
     label: `技术博客`,

@@ -262,6 +262,9 @@ export function createServer(port = 8800) {
   const distDir = path.resolve(__dirname, "dist");
   if (fs.existsSync(distDir)) {
     console.log("使用本地构建的 web 应用:", distDir);
+    app.get("/", (req, res) => {
+      res.redirect("/md/");
+    });
     // Vite 构建的 base 是 /md/，所以需要挂载到 /md 路径下
     app.use("/md", express.static(distDir));
     // SPA 路由回退 - 匹配 /md 路径

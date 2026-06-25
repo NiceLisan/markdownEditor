@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { ThemeName } from '@md/shared'
 import { exportMergedTheme } from '@md/core'
-import { themeMap, themeOptionsMap } from '@md/shared'
+import { themeMap, themeOptions, themeOptionsMap } from '@md/shared'
 import { Check, CheckSquare, Download, Edit3, Ellipsis, Eye, Plus, X } from 'lucide-vue-next'
 import { useCssEditorStore } from '@/stores/cssEditor'
 import { useEditorStore } from '@/stores/editor'
@@ -104,7 +105,7 @@ const isOpenAddDialog = ref(false)
 
 const addInputVal = ref(``)
 // 新建方案时选择的基础主题
-const baseThemeForNew = ref<'blank' | 'default' | 'grace' | 'simple' | 'topwar_game'>('blank')
+const baseThemeForNew = ref<'blank' | ThemeName>('blank')
 
 async function addTab() {
   if (!(addInputVal.value).trim()) {
@@ -177,7 +178,7 @@ function addHandler() {
 }
 
 const isOpenViewThemeDialog = ref(false)
-const selectedViewTheme = ref<'default' | 'grace' | 'simple' | 'topwar_game'>('default')
+const selectedViewTheme = ref<ThemeName>('default')
 
 const contextMenuTargetId = ref<string | null>(null)
 const showContextMenu = ref(false)
@@ -582,17 +583,12 @@ function exportCurrentTheme() {
                 <SelectItem value="blank">
                   空白方案
                 </SelectItem>
-                <SelectItem value="default">
-                  基于经典主题
-                </SelectItem>
-                <SelectItem value="grace">
-                  基于优雅主题
-                </SelectItem>
-                <SelectItem value="simple">
-                  基于简洁主题
-                </SelectItem>
-                <SelectItem value="topwar_game">
-                  基于兵人游戏主题
+                <SelectItem
+                  v-for="{ label, value } in themeOptions"
+                  :key="value"
+                  :value="value"
+                >
+                  基于{{ label }}主题
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -689,17 +685,12 @@ function exportCurrentTheme() {
               <SelectValue placeholder="选择主题" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="default">
-                {{ themeOptionsMap.default.label }}
-              </SelectItem>
-              <SelectItem value="grace">
-                {{ themeOptionsMap.grace.label }}
-              </SelectItem>
-              <SelectItem value="simple">
-                {{ themeOptionsMap.simple.label }}
-              </SelectItem>
-              <SelectItem value="topwar_game">
-                {{ themeOptionsMap.topwar_game.label }}
+              <SelectItem
+                v-for="{ label, value } in themeOptions"
+                :key="value"
+                :value="value"
+              >
+                {{ label }}
               </SelectItem>
             </SelectContent>
           </Select>
