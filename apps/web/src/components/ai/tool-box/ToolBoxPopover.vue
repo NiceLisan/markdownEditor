@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { buildAIHeaders, resolveEndpointUrl, useAIFetch } from '@/composables/useAIFetch'
 import useAIConfigStore from '@/stores/aiConfig'
 import { useEditorStore } from '@/stores/editor'
 
@@ -30,12 +31,11 @@ const emit = defineEmits([`update:open`])
 const configVisible = ref(false)
 const dialogVisible = ref(props.open)
 const message = ref(``)
-const loading = ref(false)
-const abortController = ref<AbortController | null>(null)
+const { loading, abort: abortAI, fetchSSE } = useAIFetch()
 const customPrompts = ref<string[]>([])
 const hasResult = ref(false)
 const selectedAction = ref<
-  `optimize` | `summarize` | `spellcheck` | `translate-zh` | `translate-en` | `custom`
+  `optimize` | `summarize` | `spellcheck` | `translate-zh` | `translate-en` | `expand` | `continue` | `custom`
 >(`optimize`)
 const currentText = ref(``)
 const error = ref(``)
@@ -92,6 +92,16 @@ const actionOptions: ActionOption[] = [
     label: `翻译为英文`,
     defaultPrompt: `请将文本翻译为自然流畅的英文。`,
   },
+  {
+    value: `expand`,
+    label: `扩写`,
+    defaultPrompt: `请对文本进行扩写，丰富细节、充实内容，保持原有风格和意图。`,
+  },
+  {
+    value: `continue`,
+    label: `续写`,
+    defaultPrompt: `请根据文本内容，以相同风格继续向下补充撰写，保持语言连贯。`,
+  },
   { value: `custom`, label: `自定义`, defaultPrompt: `` },
 ]
 
@@ -137,8 +147,7 @@ function resetState() {
   hasResult.value = false
   error.value = ``
 
-  abortController.value?.abort()
-  abortController.value = null
+  abortAI()
 }
 
 /* -------------------- AI call -------------------- */
@@ -149,7 +158,6 @@ async function runAIAction() {
 
   resetState()
   loading.value = true
-  abortController.value = new AbortController()
 
   const systemPrompt
     = `你是一名专业的多语言文本助手，请根据用户的指令处理下列内容。在输出时，不要输出任何额外的信息，只输出处理后的文本。`
@@ -177,76 +185,29 @@ async function runAIAction() {
     stream: true,
   }
 
-  const headers: Record<string, string> = {
-    'Content-Type': `application/json`,
-  }
-  if (apiKey.value && type.value !== `default`) {
-    headers.Authorization = `Bearer ${apiKey.value}`
-  }
+  const headers = buildAIHeaders(apiKey.value, type.value)
+  const url = resolveEndpointUrl(endpoint.value, `chat`)
 
   try {
-    const url = new URL(endpoint.value)
-    if (!url.pathname.endsWith(`/chat/completions`)) {
-      url.pathname = url.pathname.replace(/\/?$/, `/chat/completions`)
-    }
-
-    const res = await window.fetch(url.toString(), {
-      method: `POST`,
-      headers,
-      body: JSON.stringify(payload),
-      signal: abortController.value!.signal,
-    })
-
-    if (!res.ok || !res.body)
-      throw new Error(`响应错误：${res.status}`)
-
-    const reader = res.body.getReader()
-    const decoder = new TextDecoder(`utf-8`)
-    let buffer = ``
-
-    while (true) {
-      const { value, done } = await reader.read()
-      if (done)
-        break
-
-      buffer += decoder.decode(value, { stream: true })
-      const lines = buffer.split(`\n`)
-      buffer = lines.pop() || ``
-
-      for (const line of lines) {
-        if (!line.trim() || line.trim() === `data: [DONE]`)
-          continue
-        try {
-          const json = JSON.parse(line.replace(/^data: /, ``))
-          const delta = json.choices?.[0]?.delta?.content
-          if (delta?.trim()) {
-            message.value += delta
-            hasResult.value = true
-          }
+    await fetchSSE(url, headers, payload, {
+      onDelta(content) {
+        if (content.trim()) {
+          message.value += content
+          hasResult.value = true
         }
-        catch {}
-      }
-    }
+      },
+    })
   }
   catch (e: any) {
-    if (e.name === `AbortError`) {
-      console.log(`Request aborted by user.`)
-    }
-    else {
-      console.error(`请求失败：`, e)
-      error.value = e.message || `请求失败`
-    }
-  }
-  finally {
-    loading.value = false
+    console.error(`请求失败：`, e)
+    error.value = e.message || `请求失败`
   }
 }
 
 /* -------------------- abort handler -------------------- */
 function stopAI() {
-  if (loading.value && abortController.value) {
-    abortController.value.abort()
-    loading.value = false
+  if (loading.value) {
+    abortAI()
   }
 }
 

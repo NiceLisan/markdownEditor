@@ -7,7 +7,9 @@ import baseCSS from './base.css?raw'
 import defaultCSS from './default.css?raw'
 import graceCSS from './grace.css?raw'
 import simpleCSS from './simple.css?raw'
+import simpleGrayCSS from './simple_gray.css?raw'
 import topwarGameCSS from './topwar_game.css?raw'
+import spaceCSS from './space.css?raw'
 
 /**
  * 基础样式 CSS
@@ -21,7 +23,9 @@ export const themeMap = {
   default: defaultCSS,
   grace: graceCSS,
   simple: simpleCSS,
+  simple_gray: simpleGrayCSS,
   topwar_game: topwarGameCSS,
+  space: spaceCSS,
 } as const
 
 export type ThemeName = keyof typeof themeMap

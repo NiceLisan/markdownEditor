@@ -25,6 +25,11 @@ export const themeOptionsMap = {
     value: `topwar_game`,
     desc: `@chengcheng`,
   },
+  space: {
+    label: `航天`,
+    value: `space`,
+    desc: ``,
+  },
 }
 
 export const themeOptions: IConfigOption<ThemeName>[] = [
@@ -47,5 +52,10 @@ export const themeOptions: IConfigOption<ThemeName>[] = [
     label: `口袋奇兵`,
     value: `topwar_game`,
     desc: `@chengcheng`,
+  },
+  {
+    label: `航天`,
+    value: `space`,
+    desc: ``,
   },
 ]

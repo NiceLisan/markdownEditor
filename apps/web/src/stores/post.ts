@@ -1,26 +1,10 @@
+import type { Post } from '@/types/post'
 import { v4 as uuid } from 'uuid'
 import DEFAULT_CONTENT from '@/assets/example/markdown.md?raw'
 import { addPrefix } from '@/utils'
 import { store } from '@/utils/storage'
 
-/**
- * Post 结构接口
- */
-export interface Post {
-  id: string
-  title: string
-  content: string
-  history: {
-    datetime: string
-    content: string
-  }[]
-  createDatetime: Date
-  updateDatetime: Date
-  // 父标签
-  parentId?: string | null
-  // 展开状态
-  collapsed?: boolean
-}
+export type { Post } from '@/types/post'
 
 /**
  * 文章管理 Store
@@ -109,6 +93,19 @@ export const usePostStore = defineStore(`post`, () => {
 
   // 删除文章
   const delPost = (id: string) => {
+    const post = getPostById(id)
+    if (!post)
+      return
+
+    // 子内容挂靠到父级的父级
+    const newParentId = post.parentId ?? null
+    posts.value.forEach((p) => {
+      if (p.parentId === id) {
+        p.parentId = newParentId
+        p.updateDatetime = new Date()
+      }
+    })
+
     const idx = findIndexById(id)
     if (idx === -1)
       return

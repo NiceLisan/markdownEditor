@@ -1,0 +1,415 @@
+/**
+ * 航天主题（space）
+ * 深邃星空与宇宙探索风格，适合科普、航天、未来主义、科技相关内容
+ * 支持深色模式，默认提供极具沉浸感的星空底色
+ */
+
+/* ===== 135编辑器渲染模板：自定义渲染器语法 ===== */
+
+/* @renderer h1
+<section style="margin: 35px auto; text-align: center; overflow: hidden; box-sizing: border-box;">
+  <section style="display: inline-block; position: relative; padding: 15px 40px; box-sizing: border-box;">
+    <!-- 漂浮宇航员 GIF -->
+    <section style="position: absolute; left: -15px; top: -15px; width: 40px; height: 40px; pointer-events: none;">
+      <img src="https://bcn.135editor.com/files/images/editor_styles/fac47723a39224edd792d36321b1f88c.gif" style="width: 100%; display: block;" />
+    </section>
+    <!-- 标题文本 -->
+    <h1 style="margin: 0; font-size: 24px; color: #ffd364; font-weight: 800; letter-spacing: 2px; text-shadow: 0 0 10px rgba(92, 126, 235, 0.5); display: inline-block; border: none; background: none; padding: 0;">
+      ${text}
+    </h1>
+    <!-- 发光底部装饰线条 -->
+    <section style="width: 80%; height: 3px; background: linear-gradient(90deg, transparent 0%, #5c7eeb 50%, transparent 100%); margin: 8px auto 0; box-shadow: 0 0 8px #5c7eeb;"></section>
+    <!-- 腾飞小火箭 GIF -->
+    <section style="position: absolute; right: -15px; bottom: 0; width: 35px; height: 35px; pointer-events: none;">
+      <img src="https://bcn.135editor.com/files/images/editor_styles/004f49f0015659ef462060e08000f089.gif" style="width: 100%; display: block;" />
+    </section>
+  </section>
+</section>
+*/
+
+/* @renderer h2
+<section style="margin: 28px auto; display: flex; justify-content: center; padding: 10px 0px; box-sizing: border-box;">
+  <section style="display: flex; align-items: center; position: relative;">
+    <!-- 左侧轨道星点 SVG -->
+    <section style="flex-shrink: 0; margin-right: -12px; margin-top: -6px; z-index: 6;">
+      <section style="width: 35px; box-sizing: border-box;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81.03 49.65" style="display: block;">
+          <g>
+            <path d="M74,35.65a7,7,0,1,1-7,7A7,7,0,0,1,74,35.65Z" style="fill: #ffffff; fill-rule: evenodd;"></path>
+          </g>
+          <g>
+            <path d="M0,.65s48.51-3.27,45,21c-3.1,21.49-21.36,7-10-2,14.63-11.57,39.28,10.27,40,23" style="fill: none; stroke: #f7cd64; stroke-dasharray: 4,2;"></path>
+          </g>
+        </svg>
+      </section>
+    </section>
+    <!-- 胶囊样式标题 -->
+    <section style="background-color: #5c7eeb; border-radius: 25px; padding: 6px 25px; z-index: 5; box-sizing: border-box; box-shadow: 0 4px 10px rgba(92, 126, 235, 0.4);">
+      <h2 style="margin: 0; font-size: 16px; color: #ffffff; text-align: center; font-weight: bold; border: none; background: none; display: inline; padding: 0;">
+        ${text}
+      </h2>
+    </section>
+    <!-- 右侧装饰火箭 GIF -->
+    <section style="flex-shrink: 0; margin-left: -15px; margin-top: -8px; z-index: 6;">
+      <section style="width: 25px; box-sizing: border-box;">
+        <img style="width: 100%; display: block;" src="https://bcn.135editor.com/files/images/editor_styles/004f49f0015659ef462060e08000f089.gif" />
+      </section>
+    </section>
+  </section>
+</section>
+*/
+
+/* @renderer h3
+<section style="margin: 22px auto; display: flex; justify-content: flex-start; padding-top: 10px; box-sizing: border-box;">
+  <section style="display: flex; align-items: center;">
+    <!-- 左侧序号徽章 -->
+    <section style="flex-shrink: 0; margin-top: -5px; margin-right: -15px; z-index: 6;">
+      <section style="font-size: 14px; letter-spacing: 1px; color: #ffffff; background-color: #ffd364; border-radius: 5px; padding: 3px 8px; box-sizing: border-box; font-weight: bold; box-shadow: 0 2px 5px rgba(255, 211, 100, 0.4);">
+        <span>0</span><span class="autonum">${counter}</span>
+      </section>
+    </section>
+    <!-- 标题文本框 -->
+    <section style="background-color: #5c7eeb; border-radius: 5px; padding: 5px 15px 5px 25px; box-sizing: border-box; z-index: 5; box-shadow: 0 2px 6px rgba(92, 126, 235, 0.3);">
+      <h3 style="margin: 0; font-size: 14px; color: #ffffff; text-align: center; font-weight: bold; border: none; padding: 0;">
+        ${text}
+      </h3>
+    </section>
+    <!-- 右侧闪烁星芒 SVG -->
+    <section style="flex-shrink: 0; margin-left: 5px; z-index: 6;">
+      <section style="width: 16px; box-sizing: border-box;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 29.96" style="display: block;">
+          <g>
+            <path d="M30,14.69,19.18,19,15.27,30,10.94,19.18,0,15.27l10.78-4.33L14.69,0,19,10.78Z" style="fill: #ffd364; fill-rule: evenodd;"></path>
+          </g>
+        </svg>
+      </section>
+    </section>
+  </section>
+</section>
+*/
+
+/* @renderer blockquote
+<section style="margin: 25px auto; padding: 0 5px; box-sizing: border-box; position: relative;">
+  <!-- 左上角闪烁星 -->
+  <section style="width: 16px; margin-left: 20px; margin-bottom: -8px; position: relative; z-index: 2;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 29.96" style="display: block;">
+      <path d="M30,14.69,19.18,19,15.27,30,10.94,19.18,0,15.27l10.78-4.33L14.69,0,19,10.78Z" style="fill: #ffd364; fill-rule: evenodd;"></path>
+    </svg>
+  </section>
+  <!-- 虚线星空盒卡片 -->
+  <section style="border: 1px dashed #526ec8; border-radius: 10px; padding: 18px 20px; box-sizing: border-box; background-color: rgba(255, 255, 255, 0.06); color: #ecf0ff; box-shadow: 0 4px 15px rgba(40, 31, 73, 0.5);">
+    <blockquote style="margin: 0; padding: 0; background: none; border: none; box-shadow: none; color: inherit;">
+      ${text}
+    </blockquote>
+  </section>
+  <!-- 右下角闪烁星 -->
+  <section style="width: 16px; margin-left: auto; margin-top: -8px; margin-right: 20px; position: relative; z-index: 2;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 29.96" style="display: block;">
+      <path d="M30,14.69,19.18,19,15.27,30,10.94,19.18,0,15.27l10.78-4.33L14.69,0,19,10.78Z" style="fill: #ffd364; fill-rule: evenodd;"></path>
+    </svg>
+  </section>
+</section>
+*/
+
+
+/* ===== 基础与排版样式 ===== */
+
+/* 背景：深邃星空（浅色和深色模式均一致采用，突出沉浸感） */
+.container {
+  background-color: rgb(40, 31, 73);
+  background-image: url("https://bcn.135editor.com/files/images/editor_styles/003efa1569d3460961b6a0353cd9f30d.png");
+  background-size: contain;
+  background-repeat: repeat-y;
+  background-position: center center;
+  color: #ffffff;
+  padding: 24px 16px;
+  min-height: 100vh;
+}
+
+/* 文本排版 */
+p {
+  line-height: 1.8;
+  color: #ecf0ff;
+  letter-spacing: 0.1em;
+  margin: 1.5em 8px;
+}
+
+/* ===== 标题Fallback样式 (未调用渲染器时使用) ===== */
+h1 {
+  font-size: calc(var(--md-font-size) * 1.4);
+  font-weight: 800;
+  color: #ffd364;
+  text-align: center;
+  margin: 35px 8px 25px;
+  letter-spacing: 1.5px;
+}
+
+h2 {
+  font-size: calc(var(--md-font-size) * 1.3);
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #5c7eeb;
+  padding: 6px 20px;
+  border-radius: 25px;
+  display: inline-block;
+  margin: 25px 8px 15px;
+}
+
+h3 {
+  font-size: calc(var(--md-font-size) * 1.15);
+  font-weight: 700;
+  color: #ffffff;
+  border-left: 4px solid #ffd364;
+  padding-left: 10px;
+  margin: 22px 8px 12px;
+}
+
+h4 {
+  font-size: calc(var(--md-font-size) * 1.05);
+  font-weight: 700;
+  color: #8d95e1;
+  margin: 18px 8px 12px;
+}
+
+h5, h6 {
+  font-size: var(--md-font-size);
+  font-weight: 700;
+  color: #ffd364;
+  margin: 16px 8px 10px;
+}
+
+/* ===== 引用块Fallback样式 ===== */
+blockquote {
+  margin: 20px 8px;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ecf0ff;
+  border-left: 4px solid #5c7eeb;
+  border-radius: 8px;
+}
+
+blockquote > p {
+  margin: 0;
+  color: #ecf0ff;
+}
+
+/* ===== 列表 ===== */
+ul, ol {
+  margin: 20px 8px;
+  padding-left: 1.5em;
+  color: #ecf0ff;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+li {
+  margin: 8px 0;
+  line-height: 1.7;
+  color: #ecf0ff;
+}
+
+code {
+  color: #f25f7a;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+
+figcaption,
+.md-figcaption {
+  color: #a3b8ff;
+}
+
+p.footnotes {
+  color: #8d95e1;
+}
+
+
+.md-list-prefix {
+  display: none;
+}
+
+/* ===== 链接与强调 ===== */
+a {
+  color: #ffd364;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(255, 211, 100, 0.4);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+a:hover {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+strong {
+  color: #ffd364;
+  font-weight: bold;
+}
+
+em {
+  color: #8d95e1;
+  font-style: italic;
+}
+
+/* ===== 图片与表格 ===== */
+img {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  margin: 30px 0;
+  background: linear-gradient(90deg, transparent 0%, #5c7eeb 50%, transparent 100%);
+  position: relative;
+}
+
+hr::before {
+  content: '✦';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffd364;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(82, 110, 200, 0.3);
+}
+
+th {
+  background: #5c7eeb;
+  color: #ffffff;
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  border: 1px solid rgba(82, 110, 200, 0.3);
+}
+
+td {
+  padding: 12px;
+  border: 1px solid rgba(82, 110, 200, 0.2);
+  color: #ecf0ff;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(92, 126, 235, 0.05);
+}
+
+/* ===== GFM Alert 警告块 (航天主题色调适配) ===== */
+
+.alert-note,
+.alert-tip,
+.alert-info,
+.alert-important,
+.alert-warning,
+.alert-caution {
+  border-radius: 8px;
+  margin: 20px 8px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.alert-title-note,
+.alert-title-tip,
+.alert-title-info,
+.alert-title-important,
+.alert-title-warning,
+.alert-title-caution {
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: calc(var(--md-font-size) * 1.05);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.alert-note > :not(.alert-title-note),
+.alert-tip > :not(.alert-title-tip),
+.alert-info > :not(.alert-title-info),
+.alert-important > :not(.alert-title-important),
+.alert-warning > :not(.alert-title-warning),
+.alert-caution > :not(.alert-title-caution) {
+  padding: 12px 16px;
+}
+
+.alert-note p,
+.alert-tip p,
+.alert-info p,
+.alert-important p,
+.alert-warning p,
+.alert-caution p {
+  margin: 6px 0;
+  color: #ecf0ff;
+}
+
+/* Note - 蔚蓝色（空间站笔记） */
+.alert-note {
+  border-color: #5c7eeb;
+}
+.alert-title-note {
+  background: rgba(92, 126, 235, 0.15);
+  color: #a3b8ff;
+}
+
+/* Tip - 荧光绿（宇航安全提示） */
+.alert-tip {
+  border-color: #10b981;
+}
+.alert-title-tip {
+  background: rgba(16, 185, 129, 0.15);
+  color: #a7f3d0;
+}
+
+/* Info - 青色（星象数据信息） */
+.alert-info {
+  border-color: #06b6d4;
+}
+.alert-title-info {
+  background: rgba(6, 182, 212, 0.15);
+  color: #a5f3fc;
+}
+
+/* Important - 紫色（核心系统指令） */
+.alert-important {
+  border-color: #8b5cf6;
+}
+.alert-title-important {
+  background: rgba(139, 92, 246, 0.15);
+  color: #ddd6fe;
+}
+
+/* Warning - 橙黄（引力扰动警告） */
+.alert-warning {
+  border-color: #f59e0b;
+}
+.alert-title-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fde68a;
+}
+
+/* Caution - 赤红（轨道舱紧急注意） */
+.alert-caution {
+  border-color: #ef4444;
+}
+.alert-title-caution {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fecaca;
+}

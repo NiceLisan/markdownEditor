@@ -34,6 +34,24 @@ export const useUIStore = defineStore(`ui`, () => {
   // 是否为移动端
   const isMobile = store.reactive(`isMobile`, false)
 
+  // 视图模式：edit（纯编辑）| split（双屏）| preview（纯预览）
+  const viewMode = store.reactive<'edit' | 'split' | 'preview'>(`viewMode`, `split`)
+
+  function setViewMode(mode: 'edit' | 'split' | 'preview') {
+    viewMode.value = mode
+  }
+
+  // 预览设备：desktop（电脑端）| mobile（移动端模拟）
+  const previewDevice = store.reactive<'desktop' | 'mobile'>(`previewDevice`, `mobile`)
+
+  function setPreviewDevice(device: 'desktop' | 'mobile') {
+    previewDevice.value = device
+  }
+
+  function togglePreviewDevice() {
+    previewDevice.value = previewDevice.value === `desktop` ? `mobile` : `desktop`
+  }
+
   // 是否固定显示浮动目录
   const isPinFloatingToc = store.reactive(addPrefix(`isPinFloatingToc`), false)
   const togglePinFloatingToc = useToggle(isPinFloatingToc)
@@ -45,6 +63,10 @@ export const useUIStore = defineStore(`ui`, () => {
   // 是否启用图片转存（默认关闭）
   const enableImageReupload = store.reactive(addPrefix(`enableImageReupload`), false)
   const toggleImageReupload = useToggle(enableImageReupload)
+
+  // 是否开启同步滚动（编辑器与预览区联动）
+  const enableScrollSync = store.reactive(addPrefix(`enableScrollSync`), false)
+  const toggleScrollSync = useToggle(enableScrollSync)
 
   // ==================== 对话框状态 ====================
   // 是否展示 CSS 编辑器
@@ -101,8 +123,22 @@ export const useUIStore = defineStore(`ui`, () => {
 
   // ==================== 工具函数 ====================
   // 处理窗口大小变化
+  let splitCollapsedByResize = false
+
   function handleResize() {
+    const wasMobile = isMobile.value
     isMobile.value = window.innerWidth <= 768
+
+    if (!wasMobile && isMobile.value && viewMode.value === `split`) {
+      // 从桌面端变为移动端且当前是双屏：切换为编辑模式并记录
+      viewMode.value = `edit`
+      splitCollapsedByResize = true
+    }
+    else if (wasMobile && !isMobile.value && splitCollapsedByResize) {
+      // 从移动端变回桌面端且是由 resize 触发的折叠：还原为双屏
+      viewMode.value = `split`
+      splitCollapsedByResize = false
+    }
   }
 
   onMounted(() => {
@@ -123,10 +159,13 @@ export const useUIStore = defineStore(`ui`, () => {
     isOpenRightSlider,
     isOpenPostSlider,
     isMobile,
+    viewMode,
+    previewDevice,
     isPinFloatingToc,
     isShowFloatingToc,
     isOpenFolderPanel,
     enableImageReupload,
+    enableScrollSync,
 
     // ==================== 对话框状态 ====================
     isShowCssEditor,
@@ -160,5 +199,9 @@ export const useUIStore = defineStore(`ui`, () => {
     togglePinFloatingToc,
     toggleShowFloatingToc,
     toggleImageReupload,
+    toggleScrollSync,
+    setViewMode,
+    setPreviewDevice,
+    togglePreviewDevice,
   }
 })

@@ -2,7 +2,8 @@ import type { EditorView } from '@codemirror/view'
 import { Compartment, EditorState } from '@codemirror/state'
 import { EditorView as CMEditorView } from '@codemirror/view'
 import { cssSetup, DEFAULT_CUSTOM_THEME, theme as editorTheme } from '@md/shared'
-import { addPrefix } from '@/utils'
+import { v4 as uuid } from 'uuid'
+import { addPrefix, downloadFile, sanitizeTitle } from '@/utils'
 import { store } from '@/utils/storage'
 
 const DEFAULT_CSS_CONTENT = DEFAULT_CUSTOM_THEME
@@ -13,10 +14,15 @@ const DEFAULT_CSS_CONTENT = DEFAULT_CUSTOM_THEME
 export interface CssContentConfig {
   active: string
   tabs: {
+    id: string
     title: string
     name: string
     content: string
+    createDatetime: Date
+    updateDatetime: Date
   }[]
+  selectedIds?: string[]
+  isSelectMode?: boolean
 }
 
 /**
@@ -30,29 +36,50 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
   const cssEditor = ref<EditorView | null>(null)
   const cssEditorThemeCompartment = ref<Compartment | null>(null)
 
-  /**
-   * 自定义 CSS 内容
-   * @deprecated 在后续版本中将会移除
-   */
-  const cssContent = store.reactive(`__css_content`, DEFAULT_CSS_CONTENT)
-
   // CSS 内容配置
   const cssContentConfig = store.reactive<CssContentConfig>(addPrefix(`css_content_config`), {
-    active: `方案1`,
-    tabs: [
-      {
+    active: ``,
+    tabs: [],
+  })
+
+  // 兼容旧数据：补齐缺失的 id / createDatetime / updateDatetime，并将 active 迁移为 id
+  onBeforeMount(() => {
+    const now = new Date()
+
+    // 如果没有任何 tab，初始化默认方案
+    if (cssContentConfig.value.tabs.length === 0) {
+      const defaultId = uuid()
+      cssContentConfig.value.tabs = [{
+        id: defaultId,
         title: `方案1`,
         name: `方案1`,
-        content: cssContent.value || DEFAULT_CSS_CONTENT,
-      },
-    ],
+        content: DEFAULT_CSS_CONTENT,
+        createDatetime: now,
+        updateDatetime: now,
+      }]
+      cssContentConfig.value.active = defaultId
+      return
+    }
+
+    cssContentConfig.value.tabs = cssContentConfig.value.tabs.map((tab, index) => ({
+      ...tab,
+      id: tab.id ?? uuid(),
+      createDatetime: tab.createDatetime ?? new Date(now.getTime() + index),
+      updateDatetime: tab.updateDatetime ?? new Date(now.getTime() + index),
+    }))
+
+    // 将旧的 active（name）迁移为 id
+    const activeById = cssContentConfig.value.tabs.find(t => t.id === cssContentConfig.value.active)
+    if (!activeById) {
+      // 旧数据中 active 存的是 name，找到对应 tab 再存 id
+      const activeByName = cssContentConfig.value.tabs.find(t => t.name === cssContentConfig.value.active)
+      cssContentConfig.value.active = activeByName?.id ?? cssContentConfig.value.tabs[0].id
+    }
   })
 
   // 获取当前激活的 Tab
   const getCurrentTab = () => {
-    return cssContentConfig.value.tabs.find((tab) => {
-      return tab.name === cssContentConfig.value.active
-    })!
+    return cssContentConfig.value.tabs.find(tab => tab.id === cssContentConfig.value.active)!
   }
 
   // 获取当前 Tab 的内容
@@ -78,12 +105,9 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
   }
 
   // 切换 Tab
-  const tabChanged = (name: string) => {
-    console.log(`tabChanged`, name)
-    cssContentConfig.value.active = name
-    const content = cssContentConfig.value.tabs.find((tab) => {
-      return tab.name === name
-    })!.content
+  const tabChanged = (id: string) => {
+    cssContentConfig.value.active = id
+    const content = cssContentConfig.value.tabs.find(tab => tab.id === id)!.content
     setCssEditorValue(content)
 
     // 触发回调以刷新渲染
@@ -97,19 +121,23 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
     const tab = getCurrentTab()
     tab.title = name
     tab.name = name
-    cssContentConfig.value.active = name
+    // active 存的是 id，重命名不需要更新 active
   }
 
   // 添加 CSS 方案
   const addCssContentTab = (name: string, initialContent?: string) => {
     const content = initialContent || DEFAULT_CSS_CONTENT
+    const now = new Date()
     cssContentConfig.value.tabs.push({
+      id: uuid(),
       name,
       title: name,
       content,
+      createDatetime: now,
+      updateDatetime: now,
     })
-    cssContentConfig.value.active = name
-    console.log(`addCssContentTab`, name)
+    const newTab = cssContentConfig.value.tabs[cssContentConfig.value.tabs.length - 1]
+    cssContentConfig.value.active = newTab.id
     setCssEditorValue(content)
 
     // 触发回调以刷新渲染（使用新方案的 CSS）
@@ -118,20 +146,19 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
     }
   }
 
-  // 验证 Tab 名称
-  const validatorTabName = (val: string) => {
-    return cssContentConfig.value.tabs.every(({ name }) => name !== val)
-  }
-
   // 重置 CSS 配置
   const resetCssConfig = () => {
+    const defaultId = uuid()
     cssContentConfig.value = {
-      active: `方案 1`,
+      active: defaultId,
       tabs: [
         {
+          id: defaultId,
           title: `方案 1`,
           name: `方案 1`,
           content: DEFAULT_CSS_CONTENT,
+          createDatetime: new Date(),
+          updateDatetime: new Date(),
         },
       ],
     }
@@ -168,7 +195,9 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
         CMEditorView.updateListener.of((update) => {
           if (update.docChanged) {
             const content = update.state.doc.toString()
-            getCurrentTab().content = content
+            const tab = getCurrentTab()
+            tab.content = content
+            tab.updateDatetime = new Date()
             onUpdate(content)
           }
         }),
@@ -190,24 +219,17 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
     }
   })
 
-  // 清空过往历史记录
-  onMounted(() => {
-    cssContent.value = ``
-  })
-
   // 滚动到指定标题级别的 CSS 区域并选中
   const scrollToHeading = (level: string) => {
     if (!cssEditor.value)
       return
 
     const doc = cssEditor.value.state.doc.toString()
-    // 匹配 h1 { 或 h2 { 等模式（支持换行和空格）
     const pattern = new RegExp(`^${level}\\s*\\{`, `m`)
     const match = doc.match(pattern)
 
     if (match && match.index !== undefined) {
       const startPos = match.index
-      // 查找对应的结束括号
       let braceCount = 0
       let endPos = startPos
       let foundStart = false
@@ -226,14 +248,101 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
         }
       }
 
-      // 滚动到位置并选中该区域
       cssEditor.value.dispatch({
         selection: { anchor: startPos, head: endPos },
         scrollIntoView: true,
       })
 
-      // 聚焦编辑器
       cssEditor.value.focus()
+    }
+  }
+
+  const toggleSelectMode = () => {
+    cssContentConfig.value.isSelectMode = !(cssContentConfig.value.isSelectMode ?? false)
+    if (!cssContentConfig.value.isSelectMode) {
+      cssContentConfig.value.selectedIds = []
+    }
+  }
+
+  const toggleSelectTab = (id: string) => {
+    const selectedIds = cssContentConfig.value.selectedIds ?? []
+    const idx = selectedIds.indexOf(id)
+    if (idx === -1) {
+      cssContentConfig.value.selectedIds = [...selectedIds, id]
+    }
+    else {
+      cssContentConfig.value.selectedIds = selectedIds.filter(i => i !== id)
+    }
+  }
+
+  const selectAllTabs = () => {
+    cssContentConfig.value.selectedIds = cssContentConfig.value.tabs.map(t => t.id)
+  }
+
+  const clearSelection = () => {
+    cssContentConfig.value.selectedIds = []
+  }
+
+  const batchDeleteTabs = () => {
+    const selectedIds = cssContentConfig.value.selectedIds ?? []
+    if (selectedIds.length === 0)
+      return
+
+    if (selectedIds.length >= cssContentConfig.value.tabs.length) {
+      toast.warning(`至少保留一个方案`)
+      return
+    }
+
+    const tabs = cssContentConfig.value.tabs.filter(tab => !selectedIds.includes(tab.id))
+
+    if (selectedIds.includes(cssContentConfig.value.active)) {
+      cssContentConfig.value.active = tabs[0].id
+      setCssEditorValue(tabs[0].content)
+      if (onTabChangedCallback) {
+        onTabChangedCallback(tabs[0].content)
+      }
+    }
+
+    cssContentConfig.value.tabs = tabs
+    cssContentConfig.value.selectedIds = []
+    cssContentConfig.value.isSelectMode = false
+    toast.success(`已删除 ${selectedIds.length} 个方案`)
+  }
+
+  const batchExportTabs = async () => {
+    const selectedIds = cssContentConfig.value.selectedIds ?? []
+    if (selectedIds.length === 0)
+      return
+
+    if (selectedIds.length === 1) {
+      const tab = cssContentConfig.value.tabs.find(t => t.id === selectedIds[0])
+      if (tab) {
+        downloadFile(`data:text/css;charset=utf-8,${encodeURIComponent(tab.content)}`, `${sanitizeTitle(tab.title)}.css`)
+      }
+    }
+    else {
+      const { default: JSZip } = await import('jszip')
+      const zip = new JSZip()
+      selectedIds.forEach((id) => {
+        const tab = cssContentConfig.value.tabs.find(t => t.id === id)
+        if (tab) {
+          zip.file(`${sanitizeTitle(tab.title)}.css`, tab.content)
+        }
+      })
+      const blob = await zip.generateAsync({ type: `blob` })
+      downloadFile(URL.createObjectURL(blob), `css-schemes.zip`)
+    }
+
+    cssContentConfig.value.selectedIds = []
+    cssContentConfig.value.isSelectMode = false
+    toast.success(`已导出 ${selectedIds.length} 个方案`)
+  }
+
+  const exportSingleTab = (id: string) => {
+    const tab = cssContentConfig.value.tabs.find(t => t.id === id)
+    if (tab) {
+      downloadFile(`data:text/css;charset=utf-8,${encodeURIComponent(tab.content)}`, `${sanitizeTitle(tab.title)}.css`)
+      toast.success(`已导出「${tab.title}」`)
     }
   }
 
@@ -241,6 +350,8 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
     // State
     cssEditor,
     cssContentConfig,
+    isSelectMode: computed(() => cssContentConfig.value.isSelectMode ?? false),
+    selectedIds: computed(() => cssContentConfig.value.selectedIds ?? []),
 
     // Getters
     getCurrentTab,
@@ -252,9 +363,17 @@ export const useCssEditorStore = defineStore(`cssEditor`, () => {
     tabChanged,
     renameTab,
     addCssContentTab,
-    validatorTabName,
     resetCssConfig,
     initCssEditor,
     scrollToHeading,
+
+    // Batch Actions
+    toggleSelectMode,
+    toggleSelectTab,
+    selectAllTabs,
+    clearSelection,
+    batchDeleteTabs,
+    batchExportTabs,
+    exportSingleTab,
   }
 })

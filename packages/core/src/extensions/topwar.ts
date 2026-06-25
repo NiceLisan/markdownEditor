@@ -34,6 +34,7 @@ export function markedTopwar(): MarkedExtension {
         },
         renderer(token) {
           const type = token.containerType;
+          console.log('[DEBUG] topwar renderer called for type:', type);
           const text = this.parser.parse(token.tokens || []);
 
           if (type === 'video') {
@@ -321,22 +322,30 @@ export function markedTopwar(): MarkedExtension {
           }
 
           if (type === 'topwar-review') {
+            console.log('[DEBUG] topwar-review text:', text);
             // Clean up the text to remove unnecessary p/br/empty tags that might interfere with matching
             const cleanedText = text.replace(/<p>|<\/p>|<br\/?>/g, '').trim();
-            const figures = cleanedText.match(/<figure[\s\S]*?<\/figure>/g) || [];
             
-            const items = figures.map(fig => {
-              const hrefMatch = fig.match(/href="([^"]+)"/);
-              const imgUrlMatch = fig.match(/imgurl="([^"]+)"/);
-              const srcMatch = fig.match(/src="([^"]+)"/);
-              const captionMatch = fig.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/);
+            const items = [];
+            const itemRegex = /(?:<a\b[^>]*?\bhref=["']([^"']+)["'][^>]*>\s*)?(<figure[\s\S]*?<\/figure>)(?:\s*<\/a>)?/gi;
+            let match;
+            while ((match = itemRegex.exec(cleanedText)) !== null) {
+              const outerHref = match[1] || '';
+              const fig = match[2];
               
-              return {
-                href: hrefMatch ? hrefMatch[1] : '',
+              const hrefMatch = fig.match(/\bhref=["']([^"']+)["']/i);
+              const href = outerHref || (hrefMatch ? hrefMatch[1] : '');
+              
+              const imgUrlMatch = fig.match(/\bimgurl=["']([^"']+)["']/i);
+              const srcMatch = fig.match(/\bsrc=["']([^"']+)["']/i);
+              const captionMatch = fig.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
+              
+              items.push({
+                href,
                 img: (imgUrlMatch ? imgUrlMatch[1] : (srcMatch ? srcMatch[1] : '')),
                 caption: captionMatch ? captionMatch[1] : ''
-              };
-            });
+              });
+            }
 
             if (items.length === 2 || items.length === 4) {
               let rowsHtml = '';

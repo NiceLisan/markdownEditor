@@ -40,7 +40,7 @@ const allowPost = computed(() => extensionInstalled.value && allAccounts.value.s
 const platformCategories = [
   {
     name: `媒体平台`,
-    platforms: [`wechat`, `toutiao`, `zhihu`, `baijiahao`, `wangyihao`, `sohu`, `weibo`, `bilibili`, `sspai`, `twitter`, `douyin`, `xiaohongshu`],
+    platforms: [`wechat`, `toutiao`, `zhihu`, `baijiahao`, `wangyihao`, `sohu`, `weibo`, `bilibili`, `sspai`, `twitter`, `douyin`, `xiaohongshu`, `douban`],
   },
   {
     name: `博客平台`,
@@ -224,7 +224,8 @@ async function getAccounts(): Promise<void> {
 }
 
 function post() {
-  form.value.accounts = form.value.accounts.filter(a => a.checked)
+  // 从 allAccounts 获取用户选择的平台（checkbox 绑定在 allAccounts 上）
+  form.value.accounts = allAccounts.value.filter(a => a.checked && a.loggedIn)
   postTaskDialogVisible.value = true
   dialogVisible.value = false
 }
@@ -243,23 +244,23 @@ function getPlatformUrl(type: string): string {
     zhihu: 'https://www.zhihu.com/signin',
     toutiao: 'https://mp.toutiao.com',
     segmentfault: 'https://segmentfault.com/user/login',
-    cnblogs: 'https://account.cnblogs.com/signin',
-    oschina: 'https://www.oschina.net/home/login',
-    cto51: 'https://home.51cto.com/index',
-    infoq: 'https://account.geekbang.org/infoq/login/sms',
+    cnblogs: 'https://i.cnblogs.com/articles/edit',
+    oschina: 'https://my.oschina.net/blog/write',
+    cto51: 'https://blog.51cto.com/blogger/publish?&newBloger=2',
+    infoq: 'https://xie.infoq.cn/draft/',
     jianshu: 'https://www.jianshu.com/sign_in',
     baijiahao: 'https://baijiahao.baidu.com',
-    wangyihao: 'https://mp.163.com/login.html',
+    wangyihao: 'https://mp.163.com/subscribe_v4/index.html#/article-publish',
     tencentcloud: 'https://cloud.tencent.com/developer',
     medium: 'https://medium.com/m/signin',
-    sspai: 'https://sspai.com/login',
+    sspai: 'https://sspai.com/write',
     sohu: 'https://mp.sohu.com/mpfe/v4/login',
     bilibili: 'https://passport.bilibili.com/login',
     weibo: 'https://passport.weibo.com/sso/signin',
     aliyun: 'https://account.aliyun.com/login/login.htm',
-    huaweicloud: 'https://auth.huaweicloud.com/authui/login.html?service=https%3A%2F%2Fbbs.huaweicloud.com%2F&locale=zh-cn#/login',
+    huaweicloud: 'https://bbs.huaweicloud.com/blogs/article',
     huaweidev: 'https://developer.huawei.com/consumer/cn/blog/create',
-    twitter: 'https://x.com/i/flow/login',
+    twitter: 'https://x.com/compose/articles/edit/',
     qianfan: 'https://qianfan.cloud.baidu.com/qianfandev/topic/create',
     alipayopen: 'https://open.alipay.com/portal/forum/post/add#article',
     modelscope: 'https://modelscope.cn/learn/create',
@@ -267,8 +268,16 @@ function getPlatformUrl(type: string): string {
     douyin: 'https://creator.douyin.com/creator-micro/content/post/article?default-tab=5&enter_from=publish_page&media_type=article&type=new',
     xiaohongshu: 'https://creator.xiaohongshu.com/publish/publish?from=menu&target=article',
     elecfans: 'https://www.elecfans.com/d/article/md/',
+    douban: 'https://www.douban.com/note/create',
   }
   return urls[type] || '#'
+}
+
+function onAvatarError(account: PostAccount, event: Event) {
+  const img = event.target as HTMLImageElement
+  if (!account)
+    return
+  img.style.display = 'none'
 }
 
 function checkExtension() {
@@ -414,8 +423,7 @@ onBeforeMount(() => {
                         :src="account.avatar"
                         alt=""
                         class="ml-1 h-4 w-4 rounded-full object-cover"
-                        referrerpolicy="no-referrer"
-                        @error="(e: Event) => (e.target as HTMLImageElement).style.display = 'none'"
+                        @error="onAvatarError(account, $event)"
                       >
                       <span class="text-sm text-muted-foreground">@{{ account.displayName }}</span>
                     </template>

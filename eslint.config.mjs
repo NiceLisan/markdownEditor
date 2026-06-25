@@ -11,6 +11,8 @@ export default antfu({
     'no-unused-vars': `off`,
     'no-console': `off`,
     'no-debugger': `off`,
+    'e18e/prefer-array-at': `off`,
+    'e18e/prefer-static-regex': `off`,
     'ts/no-namespace': `off`,
     'style/max-statements-per-line': `off`,
   },

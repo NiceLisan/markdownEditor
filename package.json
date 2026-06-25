@@ -19,6 +19,7 @@
     "start": "pnpm web dev",
     "web": "pnpm --filter @md/web",
     "vscode": "pnpm --prefix ./apps/vscode",
+    "mcp": "pnpm --filter @md/mcp-server",
     "cli": "pnpm --filter @doocs/md-cli",
     "build:cli": "pnpm web build && npx shx rm -rf packages/md-cli/dist && npx shx rm -rf dist/**/*.map && npx shx cp -r apps/web/dist packages/md-cli/ && cd packages/md-cli && npm pack",
     "build:windows": "node ./scripts/build-windows-sea.mjs",
@@ -30,22 +31,22 @@
     "utools:package": "node ./scripts/package-utools.mjs"
   },
   "dependencies": {
-    "@codemirror/state": "^6.5.4",
-    "@codemirror/view": "6.39.12"
+    "@codemirror/state": "6.6.0",
+    "@codemirror/view": "6.41.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "7.2.0",
-    "@types/node": "^25.2.1",
+    "@antfu/eslint-config": "8.2.0",
+    "@types/node": "^25.6.0",
     "archiver": "^7.0.1",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.2",
-    "eslint-plugin-format": "^1.3.1",
-    "npm-run-all": "^4.1.5",
+    "eslint": "^10.2.1",
+    "eslint-plugin-format": "^2.0.1",
+    "npm-run-all2": "^8.0.4",
     "pkg": "catalog:",
     "prettier": "2.8.8",
     "shx": "^0.4.0",
     "simple-git-hooks": "^2.13.1",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.3"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
