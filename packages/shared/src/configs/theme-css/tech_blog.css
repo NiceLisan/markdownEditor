@@ -6,12 +6,12 @@
 /* ===== 135编辑器渲染模板：自定义渲染器语法 ===== */
 
 /* @renderer h2
-<section class="h2-container h2-container-${counter}" style="margin: 2.2em 8px 1.4em; text-align: center; overflow: hidden; box-sizing: border-box;">
+<section class="h2-container h2-container-${counter}" style="margin: 2.2em 8px 1.4em; text-align: left; overflow: hidden; box-sizing: border-box;">
   <section class="h2-image h2-image-${counter}"></section>
-  <h2 class="h2" style="margin: 0; color: #10bc61; font-size: 21px; font-weight: 700; line-height: 1.55; letter-spacing: 0.03em; text-align: center; display: inline-block; border: none; background: none; padding: 0; box-sizing: border-box;">
+  <h2 class="h2" style="margin: 0; color: #10bc61; font-size: 21px; font-weight: 700; line-height: 1.55; letter-spacing: 0.03em; text-align: left; display: inline-block; border: none; background: none; padding: 0; box-sizing: border-box;">
     ${text}
   </h2>
-  <section class="h2-underline" style="display: block; width: 42px; height: 4px; border-radius: 2px; margin: 0.65em auto 0; background-color: #10bc61; box-sizing: border-box;"></section>
+  <section class="h2-underline" style="display: block; width: 42px; height: 4px; border-radius: 2px; margin: 0.65em 0 0; background-color: #10bc61; box-sizing: border-box;"></section>
 </section>
 */
 
@@ -47,12 +47,12 @@ h1 {
   text-align: center;
 }
 
-h1::after {
+h2::after {
   display: block;
   width: 42px;
   height: 4px;
   border-radius: 2px;
-  margin: 0.65em auto 0;
+  margin: 0.65em 0 0;
   background-color: #10bc61;
   content: '';
 }
@@ -63,7 +63,7 @@ h1::after {
   height: 0;
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: left;
 }
 
 .h2-image-1,
@@ -75,7 +75,7 @@ h1::after {
 .h2-image-7 {
   display: block;
   padding-bottom: 12.31%;
-  margin: 10px auto;
+  margin: 10px 0;
 }
 
 .h2-image-1 {
@@ -113,6 +113,10 @@ h2 {
   font-weight: 700;
   line-height: 1.55;
   letter-spacing: 0.03em;
+}
+
+.h2-container h2::after {
+  display: none !important;
 }
 
 h3 {
