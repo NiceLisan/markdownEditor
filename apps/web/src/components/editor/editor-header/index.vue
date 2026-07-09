@@ -24,7 +24,7 @@ const uiStore = useUIStore()
 const exportStore = useExportStore()
 
 const { editor } = storeToRefs(editorStore)
-const { output } = storeToRefs(renderStore)
+const { output, previewOutput } = storeToRefs(renderStore)
 const { primaryColor } = storeToRefs(themeStore)
 const { isOpenRightSlider } = storeToRefs(uiStore)
 
@@ -142,17 +142,28 @@ async function copy() {
 
   setTimeout(() => {
     nextTick(async () => {
+      let clipboardDiv = document.getElementById(`output`)
+
+      if (!clipboardDiv) {
+        toast.error(`Output area not found. Please refresh and try again.`)
+        editorRefresh()
+        emit(`endCopy`)
+        return
+      }
+
       try {
+        clipboardDiv.innerHTML = output.value
         await processClipboardContent(primaryColor.value)
       }
       catch (error) {
+        clipboardDiv.innerHTML = previewOutput.value
         toast.error(`处理 HTML 失败，请联系开发者。${normalizeErrorMessage(error)}`)
         editorRefresh()
         emit(`endCopy`)
         return
       }
 
-      const clipboardDiv = document.getElementById(`output`)
+      clipboardDiv = document.getElementById(`output`)
 
       if (!clipboardDiv) {
         toast.error(`未找到复制输出区域，请刷新页面后重试。`)
@@ -183,7 +194,7 @@ async function copy() {
         catch (error) {
           const fallbackSucceeded = fallbackCopyUsingExecCommand(temp)
           if (!fallbackSucceeded) {
-            clipboardDiv.innerHTML = output.value
+            clipboardDiv.innerHTML = previewOutput.value
             window.getSelection()?.removeAllRanges()
             editorRefresh()
             toast.error(`复制失败，请联系开发者。${normalizeErrorMessage(error)}`)
@@ -193,33 +204,40 @@ async function copy() {
         }
       }
 
-      clipboardDiv.innerHTML = output.value
+      try {
+        if (copyMode.value === `html`) {
+          await copyContent(temp)
+        }
+        else if (copyMode.value === `html-without-style`) {
+          await copyContent(await generatePureHTML(editor.value!.state.doc.toString()))
+        }
+        else if (copyMode.value === `html-and-style`) {
+          await copyContent(exportStore.editorContent2HTML())
+        }
 
-      if (copyMode.value === `html`) {
-        await copyContent(temp)
+        // 输出提示
+        toast.success(
+          copyMode.value === `html`
+            ? `已复制 HTML 源码，请进行下一步操作。`
+            : `已复制渲染后的内容到剪贴板，可直接到公众号后台粘贴。`,
+        )
+        window.dispatchEvent(
+          new CustomEvent(`copyToMp`, {
+            detail: {
+              content: output.value,
+            },
+          }),
+        )
       }
-      else if (copyMode.value === `html-without-style`) {
-        await copyContent(await generatePureHTML(editor.value!.state.doc.toString()))
+      catch (error) {
+        toast.error(`Copy failed. Please contact developer. ${normalizeErrorMessage(error)}`)
       }
-      else if (copyMode.value === `html-and-style`) {
-        await copyContent(exportStore.editorContent2HTML())
+      finally {
+        clipboardDiv.innerHTML = previewOutput.value
+        window.getSelection()?.removeAllRanges()
+        editorRefresh()
+        emit(`endCopy`)
       }
-
-      // 输出提示
-      toast.success(
-        copyMode.value === `html`
-          ? `已复制 HTML 源码，请进行下一步操作。`
-          : `已复制渲染后的内容到剪贴板，可直接到公众号后台粘贴。`,
-      )
-      window.dispatchEvent(
-        new CustomEvent(`copyToMp`, {
-          detail: {
-            content: output.value,
-          },
-        }),
-      )
-      editorRefresh()
-      emit(`endCopy`)
     })
   }, 350)
 }

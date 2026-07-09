@@ -21,11 +21,37 @@ export const useExportStore = defineStore(`export`, () => {
   const renderStore = useRenderStore()
   const uiStore = useUIStore()
 
+  function withNativeOutput<T>(action: () => T): T {
+    const outputElement = document.querySelector<HTMLElement>(`#output`)
+    if (!outputElement)
+      return action()
+
+    outputElement.innerHTML = renderStore.output
+    try {
+      return action()
+    }
+    finally {
+      outputElement.innerHTML = renderStore.previewOutput
+    }
+  }
+
+  async function withNativeOutputAsync<T>(action: () => Promise<T>): Promise<T> {
+    const outputElement = document.querySelector<HTMLElement>(`#output`)
+    if (!outputElement)
+      return action()
+
+    outputElement.innerHTML = renderStore.output
+    try {
+      return await action()
+    }
+    finally {
+      outputElement.innerHTML = renderStore.previewOutput
+    }
+  }
+
   // 将编辑器内容转换为 HTML
   const editorContent2HTML = () => {
-    const temp = getHtmlContent()
-    document.querySelector(`#output`)!.innerHTML = renderStore.output
-    return temp
+    return withNativeOutput(() => getHtmlContent())
   }
 
   // 导出编辑器内容为 HTML，并且下载到本地
@@ -34,8 +60,7 @@ export const useExportStore = defineStore(`export`, () => {
     if (!currentPost)
       return
 
-    await exportHTML(currentPost.title)
-    document.querySelector(`#output`)!.innerHTML = renderStore.output
+    await withNativeOutputAsync(() => exportHTML(currentPost.title))
   }
 
   // 导出编辑器内容为无样式 HTML
@@ -100,8 +125,7 @@ export const useExportStore = defineStore(`export`, () => {
     if (!currentPost)
       return
 
-    await exportPDF(currentPost.title)
-    document.querySelector(`#output`)!.innerHTML = renderStore.output
+    await withNativeOutputAsync(() => exportPDF(currentPost.title))
   }
 
   // 导出编辑器内容到本地（Markdown）

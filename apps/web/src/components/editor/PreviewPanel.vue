@@ -12,7 +12,7 @@ defineProps<{
 const renderStore = useRenderStore()
 const uiStore = useUIStore()
 
-const { output } = storeToRefs(renderStore)
+const { output, previewOutput } = storeToRefs(renderStore)
 const { isMobile, viewMode, previewDevice } = storeToRefs(uiStore)
 
 const effectivePreviewWidth = computed(() => {
@@ -56,7 +56,7 @@ defineExpose({
             effectivePreviewWidth === 'w-[375px]' ? 'max-w-full' : '',
           ]"
         >
-          <section id="output" class="w-full" @click="onContentClick" v-html="output" />
+          <section id="output" class="w-full" @click="onContentClick" v-html="previewOutput" />
           <div v-if="isCoping" class="loading-mask">
             <div class="loading-mask-box">
               <div class="loading__img" />

@@ -3,6 +3,53 @@ import { postProcessHtml, renderMarkdown } from '@/utils'
 import { useThemeStore } from './theme'
 import { useUIStore } from './ui'
 
+const WSRV_PROXY_PREFIX = `https://wsrv.nl/?url=`
+
+function shouldProxyWechatImageUrl(url: string) {
+  try {
+    const parsed = new URL(url)
+    return parsed.protocol.startsWith(`http`)
+      && (parsed.hostname.endsWith(`qpic.cn`) || parsed.hostname.endsWith(`qlogo.cn`))
+      && !url.startsWith(WSRV_PROXY_PREFIX)
+  }
+  catch {
+    return false
+  }
+}
+
+function toPreviewImageUrl(url: string) {
+  if (!shouldProxyWechatImageUrl(url))
+    return url
+  return `${WSRV_PROXY_PREFIX}${encodeURIComponent(url)}`
+}
+
+function proxyWechatImagesForPreview(html: string) {
+  if (!html || typeof document === `undefined`)
+    return html
+
+  const div = document.createElement(`div`)
+  div.innerHTML = html
+
+  div.querySelectorAll<HTMLImageElement>(`img[src]`).forEach((img) => {
+    img.setAttribute(`src`, toPreviewImageUrl(img.getAttribute(`src`) || ``))
+  })
+
+  div.querySelectorAll<HTMLElement>(`[style*="url("]`).forEach((element) => {
+    const style = element.getAttribute(`style`)
+    if (!style)
+      return
+
+    element.setAttribute(
+      `style`,
+      style.replace(/url\((['"]?)(https?:\/\/[^'")]+)\1\)/g, (_match, quote = ``, url: string) => {
+        return `url(${quote}${toPreviewImageUrl(url)}${quote})`
+      }),
+    )
+  })
+
+  return div.innerHTML
+}
+
 /**
  * 渲染 Store
  * 负责 Markdown 渲染、HTML 输出、标题提取等
@@ -10,6 +57,7 @@ import { useUIStore } from './ui'
 export const useRenderStore = defineStore(`render`, () => {
   // 输出的 HTML
   const output = ref(``)
+  const previewOutput = computed(() => proxyWechatImagesForPreview(output.value))
 
   // 阅读时间统计
   const readingTime = reactive({
@@ -82,7 +130,7 @@ export const useRenderStore = defineStore(`render`, () => {
       isShowLineNumber: themeStore.isShowLineNumber,
       themeName: themeStore.theme,
       themeMode: uiStore.isDark ? 'dark' : 'light',
-      useImageProxy: true,
+      useImageProxy: false,
     })
 
     // 渲染 Markdown
@@ -105,6 +153,7 @@ export const useRenderStore = defineStore(`render`, () => {
   return {
     // State
     output,
+    previewOutput,
     readingTime,
     titleList,
 

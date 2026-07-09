@@ -62,3 +62,7 @@ apps/web/public/static/libs/mathjax
 apps/web/public/static/libs/mermaid
 apps/web/public/static/libs/article-syncjs
 CLAUDE.md
+
+# Local verification artifacts
+*_theme_verification.html
+*_svg_check.png
