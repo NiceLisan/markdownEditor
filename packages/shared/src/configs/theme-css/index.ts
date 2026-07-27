@@ -5,6 +5,7 @@
 
 import baseCSS from './base.css?raw'
 import defaultCSS from './default.css?raw'
+import eternalReportCSS from './eternal-report.css?raw'
 import graceCSS from './grace.css?raw'
 import simpleCSS from './simple.css?raw'
 import simpleGrayCSS from './simple_gray.css?raw'
@@ -22,6 +23,7 @@ export const baseCSSContent = baseCSS
  */
 export const themeMap = {
   default: defaultCSS,
+  'eternal-report': eternalReportCSS,
   grace: graceCSS,
   simple: simpleCSS,
   simple_gray: simpleGrayCSS,

@@ -10,6 +10,11 @@ export const themeOptionsMap = {
     value: `default`,
     desc: ``,
   },
+  'eternal-report': {
+    label: `永恒报道`,
+    value: `eternal-report`,
+    desc: ``,
+  },
   grace: {
     label: `优雅`,
     value: `grace`,
@@ -46,6 +51,11 @@ export const themeOptions: IConfigOption<ThemeName>[] = [
   {
     label: `经典`,
     value: `default`,
+    desc: ``,
+  },
+  {
+    label: `永恒报道`,
+    value: `eternal-report`,
     desc: ``,
   },
   {

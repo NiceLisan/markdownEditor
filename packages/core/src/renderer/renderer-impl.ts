@@ -296,8 +296,14 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
       parseCustomRenderers(opts.themeName || 'default')
 
       if (customRenderers[tag]) {
+        const [title = ``, text1 = ``, text2 = ``] = text.split(`^`, 3)
+
         return customRenderers[tag]
           .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
+          .replace(/\$\{counter2\}/g, () => String(headingCounts[tag]).padStart(2, `0`))
+          .replace(/\$\{title\}/g, () => title)
+          .replace(/\$\{text1\}/g, () => text1)
+          .replace(/\$\{text2\}/g, () => text2)
           .replace(/\$\{text\}/g, () => text)
       }
 
@@ -527,6 +533,10 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
     },
 
     hr(token: Tokens.Hr): string {
+      parseCustomRenderers(opts.themeName || 'default')
+      if (customRenderers.hr) {
+        return customRenderers.hr
+      }
       if (opts.themeName === 'topwar_game') {
         const img = `<img src="https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzPkpRdEP3bxovreWaicQfI45DTicD3yVhjS82gPhwzPialkLLicctIWF6q4ogqbBkSdic3Tv7I4xgZNJtg/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" style="margin: 0; padding: 0; width: 100%; display: block;" />`
         // Generate a 5000-unit long path by repeating the wave cycle (~270 times)

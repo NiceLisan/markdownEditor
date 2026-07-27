@@ -52,10 +52,10 @@ server.registerTool(
     inputSchema: {
       markdown: z.string().describe(`The Markdown source text to render.`),
       theme: z
-        .enum([`default`, `grace`, `simple`])
+        .enum([`default`, `eternal-report`, `grace`, `simple`])
         .optional()
         .default(`default`)
-        .describe(`Visual theme to apply. One of: default (经典), grace (优雅), simple (简洁).`),
+        .describe(`Visual theme to apply. One of: default (经典), eternal-report (永恒报道), grace (优雅), simple (简洁).`),
       isMacCodeBlock: z
         .boolean()
         .optional()

@@ -394,8 +394,14 @@ export async function renderMarkdown(markdown, options = {}) {
       headingCounts[tag] = (headingCounts[tag] || 0) + 1;
       parseCustomRenderers(theme);
       if (customRenderers[tag]) {
+        const [title = '', text1 = '', text2 = ''] = text.split('^', 3);
+
         return customRenderers[tag]
           .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
+          .replace(/\$\{counter2\}/g, () => String(headingCounts[tag]).padStart(2, '0'))
+          .replace(/\$\{title\}/g, () => title)
+          .replace(/\$\{text1\}/g, () => text1)
+          .replace(/\$\{text2\}/g, () => text2)
           .replace(/\$\{text\}/g, () => text);
       }
       if (theme === 'topwar_game' && depth === 2) {
@@ -554,6 +560,10 @@ export async function renderMarkdown(markdown, options = {}) {
     },
 
     hr() {
+      parseCustomRenderers(theme);
+      if (customRenderers.hr) {
+        return customRenderers.hr;
+      }
       if (theme === 'topwar_game') {
         const img = `<img src="https://mmbiz.qpic.cn/mmbiz_png/1Fv7Rib30SzPkpRdEP3bxovreWaicQfI45DTicD3yVhjS82gPhwzPialkLLicctIWF6q4ogqbBkSdic3Tv7I4xgZNJtg/640?wx_fmt=png&from=appmsg" class="rich_pages wxw-img" style="margin: 0; padding: 0; width: 100%; display: block;" />`;
         const cycle = `c4.632,0,4.632,2.99,9.264,2.99s4.631-2.99,9.263-2.99`;

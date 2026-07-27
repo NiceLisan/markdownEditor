@@ -1,0 +1,307 @@
+/**
+ * WeChat Markdown Eternal Report Theme
+ * 永恒报道主题：取自 docs/永恒报道主题.html 的浅蓝、深蓝、白色卡片与圆形序号视觉语言
+ * 一级标题三段式写法：# 标题^文字1^文字2
+ * 文章末尾使用 --- 输出结束分隔图与背景图
+ */
+
+/* @renderer h1
+<section class="eternal-report-hero" style="width: 100%; margin: 0 0 38px; box-sizing: border-box;">
+  <section style="width: 100%; line-height: 0; box-sizing: border-box;">
+    <img src="https://mmbiz.qpic.cn/mmbiz_png/Xdje5Twr0jyamSsYNQG2bPPk5LZUYdHRxaqImV5wKIia9DbYxpia0xxo1hiaERzU4SpibbHiaFQfgibKERKAY7miaAKAw/640?wx_fmt=png" alt="" style="display: block; width: 100%; max-width: 100% !important; height: auto; padding: 0; border: none; border-radius: 0; margin: 0; box-shadow: none; vertical-align: baseline; box-sizing: border-box;" />
+  </section>
+  <section style="position: relative; z-index: 2; width: auto; margin: -53% 18px 0; padding: 8px; background-color: #a0d4f3; box-sizing: border-box;">
+    <section style="padding: 30px 18px 26px; border: 1px solid #69add6; background-color: #fbfbff; text-align: center; box-sizing: border-box; transform: translate(-4px, -4px); -webkit-transform: translate(-4px, -4px);">
+      <h1 class="eternal-report-h1-title" data-eternal-report-part="title" style="display: block; width: 100%; padding: 0; border: none; margin: 0; color: #136b9f; background: none; font-size: 24px; font-weight: 700; line-height: 1.4; text-align: center; letter-spacing: 1px; box-sizing: border-box;">${title}</h1>
+      <section style="display: flex; justify-content: center; align-items: center; margin-top: 14px; box-sizing: border-box;">
+        <span class="eternal-report-h1-text1" data-eternal-report-part="text1" style="position: relative; z-index: 1; padding: 0 8px; color: #136b9f; background-color: #fbfbff; font-size: 16px; line-height: 22px; letter-spacing: 1px;">${text1}</span>
+      </section>
+      <section style="height: 1px; margin: -11px 10px 18px; background-color: #136b9f; box-sizing: border-box;"></section>
+      <p class="eternal-report-h1-text2" data-eternal-report-part="text2" style="padding: 0; margin: 0; color: #136b9f; font-size: 16px; line-height: 22px; text-align: center; letter-spacing: 0.04em;">${text2}</p>
+    </section>
+  </section>
+  <section style="height: 15vw; max-height: 112px; min-height: 55px; box-sizing: border-box;"></section>
+</section>
+*/
+
+/* @renderer h2
+<section class="eternal-report-section-heading" style="width: 100%; margin: 26px 0 24px; box-sizing: border-box;">
+  <section class="eternal-report-section-decoration" style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%; height: 58px; margin-bottom: -8px; box-sizing: border-box;">
+    <section style="position: relative; width: 106px; height: 58px; margin-left: -12px; z-index: 2; overflow: hidden; box-sizing: border-box;">
+      <img src="https://mmbiz.qpic.cn/mmbiz_png/iaGGQyXglunBRtROatqgbx3XX0R9FUhFAOb7kpYyaWaiasyOMFbtrbzxgdibUDYHQPiblibcY3vpbtNeCicXQY68cMNw/640?wx_fmt=png" alt="" style="display: block; width: 106px; max-width: none !important; height: auto; padding: 0; border: none; border-radius: 0; margin: 0; box-shadow: none; vertical-align: baseline; box-sizing: border-box;" />
+      <section style="position: absolute; left: 5px; bottom: 0; width: 33px; box-sizing: border-box;">
+        <img src="https://mmbiz.qpic.cn/mmbiz_png/mwn4P2Y35jdrDvOlzHuolMeUqNFISib48XGmLjhicmCvLytEuIAU62TaibCrWg7GbKic2H1z2KqHq9JtAaSGFI1RAA/640?wx_fmt=png" alt="" style="display: block; width: 100%; max-width: 100% !important; height: auto; padding: 0; border: none; border-radius: 0; margin: 0; box-shadow: none; vertical-align: baseline; box-sizing: border-box;" />
+      </section>
+    </section>
+    <section style="width: 107px; margin-right: -14px; box-sizing: border-box;">
+      <img src="https://mmbiz.qpic.cn/mmbiz_png/aMTnCGKCBxyT35jwHQKngJ0yushtHcKuclibm9ibu735qeqlaoC5mzE91QiagppcC2ibDWiavxB20C61HgELeeWmevA/640?wx_fmt=png" alt="" style="display: block; width: 100%; max-width: 100% !important; height: auto; padding: 0; border: none; border-radius: 0; margin: 0; box-shadow: none; vertical-align: baseline; box-sizing: border-box;" />
+    </section>
+  </section>
+  <section style="position: relative; display: flex; justify-content: center; align-items: stretch; width: auto; min-height: 52px; margin: 0 22px; box-sizing: border-box;">
+    <section style="display: flex; justify-content: center; align-items: center; flex-shrink: 0; width: 58px; min-height: 52px; color: #ffffff; background-color: #69add6; box-sizing: border-box;">
+      <strong style="display: block; padding: 0; margin: 0; color: #ffffff; font-size: 18px; line-height: 1; text-align: center; letter-spacing: 1px;">${counter2}</strong>
+    </section>
+    <section style="position: relative; display: flex; justify-content: center; align-items: center; flex: 1; min-width: 0; min-height: 52px; padding: 10px 20px; border-radius: 0 28px 0 0; background-color: #ffffff; box-sizing: border-box;">
+      <h2 style="width: 100%; padding: 0; border: none; margin: 0; color: #136b9f; background: none; font-size: 16px; font-weight: 700; line-height: 24px; text-align: center; box-sizing: border-box;">${text}</h2>
+      <section style="position: absolute; top: -10px; right: -10px; width: 22px; height: 22px; border-top: 3px solid #fafdb7; border-right: 3px solid #fafdb7; border-radius: 0 22px 0 0; box-sizing: border-box;"></section>
+    </section>
+    <section style="position: absolute; right: 0; bottom: 0; left: 0; height: 2px; background-color: #fafdb7; box-sizing: border-box;"></section>
+  </section>
+</section>
+*/
+
+/* @renderer h3
+<section style="display: flex; justify-content: flex-start; align-items: center; margin: 24px 8px 16px; box-sizing: border-box;">
+  <section style="flex-shrink: 0; width: 10px; height: 30px; background-color: #69add6; box-sizing: border-box;"></section>
+  <section style="padding: 7px 18px 5px 16px; border-right: 1px solid #69add6; border-bottom: 1px solid #69add6; background-color: #ffffff; box-sizing: border-box;">
+    <h3 style="padding: 0; border: none; margin: 0; color: #136b9f; background: none; font-size: 16px; font-weight: 700; line-height: 22px;">${text}</h3>
+  </section>
+</section>
+*/
+
+/* @renderer h4
+<section style="margin: 22px 8px 14px; padding: 4px; border: 1px solid #69add6; background-color: #ffffff; box-sizing: border-box;">
+  <section style="padding: 8px 14px; background-color: #69add6; box-sizing: border-box;">
+    <h4 style="padding: 0; border: none; margin: 0; color: #ffffff; background: none; font-size: 15px; font-weight: 700; line-height: 22px; text-align: center; letter-spacing: 1px;">${text}</h4>
+  </section>
+</section>
+*/
+
+/* @renderer h5
+<section style="display: flex; align-items: center; margin: 20px 8px 12px; box-sizing: border-box;">
+  <section style="flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background-color: #eb6b5c; box-sizing: border-box;"></section>
+  <section style="flex: 1; height: 1px; margin: 0 8px; background-color: rgba(19, 107, 159, 0.45); box-sizing: border-box;"></section>
+  <h5 style="padding: 0; border: none; margin: 0; color: #136b9f; background: none; font-size: 14px; font-weight: 700; line-height: 22px;">${text}</h5>
+</section>
+*/
+
+/* @renderer h6
+<section style="margin: 18px 8px 10px; box-sizing: border-box;">
+  <section style="display: inline-block; padding: 4px 12px; border: 1px dotted #69add6; color: #136b9f; background-color: #ffffff; box-sizing: border-box;">
+    <h6 style="padding: 0; border: none; margin: 0; color: #136b9f; background: none; font-size: 14px; font-weight: 700; line-height: 20px;">${text}</h6>
+  </section>
+</section>
+*/
+
+/* @renderer blockquote
+<section style="margin: 20px 8px; padding: 12px; border: 1px solid #69add6; background-color: #ffffff; box-sizing: border-box;">
+  <section style="padding: 12px 14px; border-right: 1px solid #69add6; border-bottom: 1px solid #69add6; color: #136b9f; background-color: #fbfbff; box-sizing: border-box;">
+    <blockquote style="padding: 0; border: none; margin: 0; color: #136b9f; background: none; box-shadow: none;">${text}</blockquote>
+  </section>
+</section>
+*/
+
+/* @renderer hr
+<section class="eternal-report-ending" style="width: 100%; margin: 34px 0 -36px; text-align: center; box-sizing: border-box;">
+  <section style="display: flex; justify-content: center; align-items: center; padding: 0 58px; box-sizing: border-box;">
+    <section style="flex: 1; height: 1px; background-color: #69add6; box-sizing: border-box;"></section>
+    <section style="flex-shrink: 0; width: 43px; margin: 0 14px; line-height: 0; box-sizing: border-box;">
+      <img src="https://mmbiz.qpic.cn/mmbiz_png/OIzBKuXvkvpk6FpPCpL6k62TtwB1X1SRxtH2uwOp4kOFibibLY1JJCEuIicMZ98xBN0bwn77leNPnC3ia2icvib7icghA/640?wx_fmt=png" alt="" style="display: block; width: 100%; max-width: 100% !important; height: auto; padding: 0; border: none; border-radius: 0; margin: 0; box-shadow: none; vertical-align: baseline; box-sizing: border-box;" />
+    </section>
+    <section style="flex: 1; height: 1px; background-color: #69add6; box-sizing: border-box;"></section>
+  </section>
+  <section style="width: 100%; margin-top: 20px; line-height: 0; box-sizing: border-box;">
+    <img src="https://mmbiz.qpic.cn/mmbiz_png/mtxuL5w2yQyEaDBpnA9oxjibAVV1I8wVmXFD1El4ZALdibFn5E6cGykWc5jk1vyG5SAibqiah8trBkziaZfNvfOmHwQ/640?wx_fmt=png" alt="" style="display: block; width: 100%; max-width: 100% !important; height: auto; padding: 0; border: none; border-radius: 0; margin: 0; box-shadow: none; vertical-align: baseline; box-sizing: border-box;" />
+  </section>
+</section>
+*/
+
+.container {
+  min-height: 100vh;
+  padding: 22px 12px 36px;
+  color: #136b9f;
+  background-color: #bde6ff;
+  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/82T7RdA2RDsLk0C1udzmLiaXwajtoRIR56VUZa1WyDC6O3xV62WUUHKVFBk0r6c272eME119YBqSDEWWydIiaicMw/640');
+  background-repeat: repeat;
+  background-size: auto;
+  box-sizing: border-box;
+}
+
+p {
+  margin: 1.15em 8px;
+  color: #136b9f;
+  font-size: var(--md-font-size);
+  line-height: 1.85;
+  letter-spacing: 0.04em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #136b9f;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 2em 8px 1.2em;
+  font-size: calc(var(--md-font-size) * 1.5);
+  text-align: center;
+}
+
+h2 {
+  padding: 8px 24px;
+  border: 1px solid #69add6;
+  border-radius: 0 0 29px 0;
+  margin: 1.8em 8px 1em;
+  background-color: #ffffff;
+  font-size: calc(var(--md-font-size) * 1.12);
+  text-align: center;
+}
+
+h3 {
+  padding: 6px 16px;
+  border-left: 10px solid #69add6;
+  border-bottom: 1px solid #69add6;
+  margin: 1.6em 8px 0.8em;
+  background-color: #ffffff;
+  font-size: var(--md-font-size);
+}
+
+h4,
+h5,
+h6 {
+  margin: 1.4em 8px 0.7em;
+  font-size: var(--md-font-size);
+}
+
+strong {
+  color: #136b9f;
+  font-weight: 700;
+}
+
+em,
+a {
+  color: #357fae;
+}
+
+blockquote > p {
+  margin: 0.45em 0;
+  color: #136b9f;
+}
+
+ul,
+ol {
+  padding-left: 1.6em;
+  margin: 1.1em 8px;
+  color: #136b9f;
+}
+
+li {
+  margin: 0.35em 0;
+  color: #136b9f;
+  line-height: 1.8;
+}
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #a5d9f8;
+  border-radius: 3px;
+  color: #136b9f;
+  background-color: #edf8ff;
+}
+
+pre.code__pre,
+.hljs.code__pre {
+  max-width: 100%;
+  border: 1px solid #69add6;
+  border-radius: 0;
+  margin: 1.4em 8px;
+  overflow-x: auto;
+  background-color: #ffffff;
+  box-shadow: 5px 5px 0 #a0d4f3;
+  -webkit-overflow-scrolling: touch;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #69add6;
+  margin: 1em auto 0.5em;
+  box-sizing: border-box;
+}
+
+figcaption,
+.md-figcaption,
+p.footnotes {
+  color: rgba(19, 107, 159, 0.72);
+}
+
+table,
+table.preview-table {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #69add6;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 1.5em 0;
+  color: #136b9f;
+  background-color: #ffffff;
+  font-size: 14px;
+  line-height: 1.6;
+  table-layout: auto;
+}
+
+thead,
+th {
+  color: #ffffff;
+  background-color: #69add6;
+  font-weight: 700;
+}
+
+th,
+td {
+  min-width: 88px;
+  padding: 10px 12px;
+  border: 1px solid #69add6;
+  box-sizing: border-box;
+  text-align: left;
+  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+th {
+  border-color: #ffffff;
+  color: #ffffff;
+  word-break: keep-all;
+}
+
+td {
+  color: #136b9f;
+  background-color: #ffffff;
+}
+
+tbody tr:nth-child(even) td {
+  background-color: #edf8ff;
+}
+
+tbody tr:hover td {
+  background-color: #dff3ff;
+}
+
+hr {
+  width: 58%;
+  height: 1px;
+  border: none;
+  margin: 2.2em auto;
+  background-color: #69add6;
+}
+
+.alert-note,
+.alert-tip,
+.alert-info,
+.alert-important,
+.alert-warning,
+.alert-caution {
+  padding: 14px 16px;
+  border: 1px solid #69add6;
+  border-left: 8px solid #69add6;
+  margin: 1.3em 8px;
+  color: #136b9f;
+  background-color: #ffffff;
+}
