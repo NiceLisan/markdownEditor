@@ -710,6 +710,7 @@ export async function renderMarkdown(markdown, options = {}) {
 
   return {
     html: inlinedHtml,
+    frontMatter: attributes,
     readingTime: readingTimeResult
   };
 }

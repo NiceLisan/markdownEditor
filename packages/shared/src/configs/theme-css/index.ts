@@ -7,9 +7,11 @@ import baseCSS from './base.css?raw'
 import defaultCSS from './default.css?raw'
 import eternalReportCSS from './eternal-report.css?raw'
 import graceCSS from './grace.css?raw'
+import morningNewsCSS from './morning_news.css?raw'
 import simpleCSS from './simple.css?raw'
 import simpleGrayCSS from './simple_gray.css?raw'
 import spaceCSS from './space.css?raw'
+import svgFengshangCSS from './svg_fengshang.css?raw'
 import techBlogCSS from './tech_blog.css?raw'
 import topwarGameCSS from './topwar_game.css?raw'
 
@@ -22,14 +24,16 @@ export const baseCSSContent = baseCSS
  * CSS 主题映射表
  */
 export const themeMap = {
-  default: defaultCSS,
+  'default': defaultCSS,
   'eternal-report': eternalReportCSS,
-  grace: graceCSS,
-  simple: simpleCSS,
-  simple_gray: simpleGrayCSS,
-  tech_blog: techBlogCSS,
-  topwar_game: topwarGameCSS,
-  space: spaceCSS,
+  'grace': graceCSS,
+  'simple': simpleCSS,
+  'simple_gray': simpleGrayCSS,
+  'tech_blog': techBlogCSS,
+  'topwar_game': topwarGameCSS,
+  'space': spaceCSS,
+  'morning_news': morningNewsCSS,
+  'svg_fengshang': svgFengshangCSS,
 } as const
 
 export type ThemeName = keyof typeof themeMap

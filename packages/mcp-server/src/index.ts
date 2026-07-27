@@ -14,19 +14,38 @@
  */
 
 import process from 'node:process'
-import { initRenderer } from '@md/core/renderer'
-import { postProcessHtml, renderMarkdown } from '@md/core/utils'
 import { serviceOptions } from '@md/shared/configs/ai-service-options'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
 
-// Theme metadata – kept in sync with @md/shared/configs/theme.ts
+// @ts-expect-error The CLI renderer is JavaScript and loads theme CSS from disk.
+import cliRenderer from '../../md-cli/renderer.js'
+
+const { renderMarkdown } = cliRenderer
+
+// Theme metadata for this Node-only MCP server. Keep in sync with shared theme.ts
+// without importing CSS-backed Vite modules such as `theme-css/*.css?raw`.
 const themeOptions = [
   { value: `default`, label: `经典`, desc: `` },
+  { value: `eternal-report`, label: `永恒报道`, desc: `` },
   { value: `grace`, label: `优雅`, desc: `@brzhang` },
   { value: `simple`, label: `简洁`, desc: `@okooo5km` },
+  { value: `simple_gray`, label: `简约浅灰`, desc: `` },
+  { value: `tech_blog`, label: `技术博客`, desc: `TRAE` },
+  { value: `topwar_game`, label: `口袋奇兵`, desc: `@chengcheng` },
+  { value: `space`, label: `航天`, desc: `` },
+  { value: `morning_news`, label: `早报新闻`, desc: `` },
+  { value: `svg_fengshang`, label: `封赏表彰`, desc: `` },
 ] as const
+
+const themeValues = themeOptions.map(option => option.value) as [
+  typeof themeOptions[number]['value'],
+  ...Array<typeof themeOptions[number]['value']>,
+]
+const themeDescription = `Visual theme to apply. One of: ${
+  themeOptions.map(option => `${option.value} (${option.label})`).join(`, `)
+}.`
 
 // ---------------------------------------------------------------------------
 // Server initialisation
@@ -52,10 +71,10 @@ server.registerTool(
     inputSchema: {
       markdown: z.string().describe(`The Markdown source text to render.`),
       theme: z
-        .enum([`default`, `eternal-report`, `grace`, `simple`])
+        .enum(themeValues)
         .optional()
         .default(`default`)
-        .describe(`Visual theme to apply. One of: default (经典), eternal-report (永恒报道), grace (优雅), simple (简洁).`),
+        .describe(themeDescription),
       isMacCodeBlock: z
         .boolean()
         .optional()
@@ -78,27 +97,22 @@ server.registerTool(
         .describe(`Whether to prepend a reading-time estimate to the document.`),
     },
   },
-  (args) => {
-    const renderer = initRenderer({
+  async (args) => {
+    const { html, frontMatter, readingTime } = await renderMarkdown(args.markdown, {
+      theme: args.theme,
       isMacCodeBlock: args.isMacCodeBlock,
       isShowLineNumber: args.isShowLineNumber,
-      citeStatus: args.citeStatus,
-      countStatus: args.countStatus,
+      isCiteStatus: args.citeStatus,
+      isCountStatus: args.countStatus,
     })
-
-    const { html: baseHtml, readingTime } = renderMarkdown(args.markdown, renderer)
-    const processedHtml = postProcessHtml(baseHtml, readingTime, renderer)
-    const containerHtml = renderer.createContainer(processedHtml)
-
-    const { yamlData } = renderer.parseFrontMatterAndContent(args.markdown)
 
     return {
       content: [
         {
           type: `text`,
           text: JSON.stringify({
-            html: containerHtml,
-            frontMatter: yamlData,
+            html,
+            frontMatter,
             readingTime: {
               words: readingTime.words,
               minutes: readingTime.minutes,

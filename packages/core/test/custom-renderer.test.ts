@@ -2,21 +2,17 @@ import { marked } from 'marked'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { initRenderer } from '../src/renderer/renderer-impl'
 
-vi.mock('@md/shared/configs', async (importOriginal: any) => {
-  const actual = await importOriginal()
-  const mockBaseCSS = `
+vi.mock('@md/shared/configs', () => {
+  return {
+    baseCSSContent: `
 /* @renderer h2
 <section class="custom-h2">
   <strong class="counter">\${counter}</strong>
   <strong class="text">\${text}</strong>
 </section>
 */
-  `
-  return {
-    ...actual,
-    baseCSSContent: mockBaseCSS,
+    `,
     themeMap: {
-      ...actual.themeMap,
       default: '',
       grace: '',
     },

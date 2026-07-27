@@ -1,0 +1,247 @@
+/**
+ * WeChat Markdown SVG Fengshang Theme
+ * 封赏表彰主题，参考 docs/svg封赏主题.html 的红金表彰、奖章、花朵与 SVG 装饰效果
+ * 模板锚点：承五四精神、做智造先锋、以创新奔赴智造新征程、以青年智慧定义制造新范式、勇闯技术“无人区”、追求卓越“新高度”
+ */
+
+/* ===== 135编辑器渲染模板：自定义渲染器语法 ===== */
+
+/* @renderer h1
+<section style="margin: 18px auto 26px; width: 100%; text-align: center; box-sizing: border-box;">
+  <section style="position: relative; display: inline-block; width: 94%; max-width: 640px !important; height: 520px; box-sizing: border-box;">
+    <section style="position: absolute; left: 7%; top: 30px; width: 86%; height: 335px; background-color: #bb5851; transform: rotateZ(-3deg); -webkit-transform: rotateZ(-3deg); box-sizing: border-box;"></section>
+    <section style="position: absolute; left: 4%; top: 54px; width: 92%; height: 330px; background-color: #fffaf0; border: 1px solid #e5c8ac; box-sizing: border-box;">
+      <svg viewBox="0 0 110 58" style="position: absolute; left: -6px; top: -28px; width: 110px; height: 58px; box-sizing: border-box;" aria-hidden="true">
+        <path d="M22 43 L78 27 Q96 22 92 8 Q88 -5 70 1 L14 17 Q0 21 5 36 Q9 49 25 45 L76 30" fill="none" stroke="#f9be71" stroke-width="5" stroke-linecap="round"/>
+        <path d="M31 31 L71 20" fill="none" stroke="#f9be71" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <section style="position: absolute; left: 8%; right: 8%; top: 42px; display: flex; justify-content: space-between; box-sizing: border-box;">
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+        <span style="display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 35%, #f9e3c9 0 42%, #bb5851 44% 100%); box-sizing: border-box;"></span>
+      </section>
+      <section style="position: absolute; left: 0; right: 0; top: 92px; margin: 0; color: #c25452; text-align: center; box-sizing: border-box;">
+        <p style="margin: 0; padding: 0; color: #c25452; text-align: center; font-size: 18px; line-height: 1.55; letter-spacing: 0;">上汽集团青年五四奖章标兵集体</p>
+      </section>
+      <section style="position: absolute; left: 50%; top: 132px; width: 320px; max-width: 82% !important; margin-left: -160px; font-size: 38px; color: #c25452; line-height: 1.35; text-align: center; letter-spacing: 0; word-spacing: 999px; word-break: keep-all; overflow-wrap: normal; box-sizing: border-box;">
+        <strong style="display: inline; color: #c25452; font-size: 38px; line-height: 1.35; letter-spacing: 0; word-spacing: 999px; word-break: keep-all; overflow-wrap: normal; box-sizing: border-box;">${text}</strong>
+      </section>
+      <section style="position: absolute; left: 0; right: 0; top: 258px; display: flex; justify-content: center; box-sizing: border-box;">
+        <section style="padding: 0 7px; border-left: 4px solid #ffc75a; border-right: 4px solid #ffc75a; box-sizing: border-box;">
+          <section style="padding: 3px 10px; background-color: #bb5851; color: #fffff4; font-size: 17px; line-height: 1.45; text-align: center; box-sizing: border-box;">
+            <strong style="color: #fffff4; font-size: 17px; line-height: 1.45; letter-spacing: 0; box-sizing: border-box;">智能岛制造体系总装车身团队</strong>
+          </section>
+        </section>
+      </section>
+      <section style="position: absolute; left: 0; right: 0; bottom: -1px; line-height: 0; box-sizing: border-box;">
+        <img src="https://mmbiz.qpic.cn/sz_mmbiz_png/9JSliclRicqM1ADUkzSuVaetNsR7BMneFSiajUIlJr1ZFq5zQM3BnvgNAKNRYic6G8ianYicaFibmXqUKp5lHzNlhBEJh8BbLvTUtnsNEhicLPic1ETU/640?wx_fmt=png&from=appmsg" style="width: 100%; display: block; box-sizing: border-box;" />
+      </section>
+    </section>
+    <section style="position: absolute; left: 0; bottom: 0; display: flex; align-items: flex-end; line-height: 0; box-sizing: border-box;">
+      <section style="width: 100px; margin-right: -10px; line-height: 0; box-sizing: border-box;">
+        <img src="https://mmbiz.qpic.cn/sz_mmbiz_gif/9JSliclRicqM0NLSAK8vicGlLDBK9aRCgtABN1mWUGR2rBiatGPoe18tnzbEfazEUznSzhJL59xlmK5csF53NfXzRP0xkF9QYNuGmRLvC9CXUHQ/640?wx_fmt=gif&from=appmsg" style="width: 100%; display: block; box-sizing: border-box;" />
+      </section>
+      <section style="width: 80px; line-height: 0; transform: rotateY(180deg); -webkit-transform: rotateY(180deg); box-sizing: border-box;">
+        <img src="https://mmbiz.qpic.cn/mmbiz_gif/9JSliclRicqM0FwPITEtOILznpeSp86OUqtczfmn98C4I8yQbicl5V6IYryOGic2vcySvZpvNhbHBy5fiaB3GsIYEjVhlymak7uHRZoT1NXub6ibw/640?wx_fmt=gif&from=appmsg" style="width: 100%; display: block; box-sizing: border-box;" />
+      </section>
+    </section>
+    <section style="position: absolute; right: 2px; bottom: 18px; display: flex; align-items: flex-start; justify-content: flex-end; line-height: 0; box-sizing: border-box;">
+      <section style="width: 50px; margin: 15px 20px 0 0; line-height: 0; box-sizing: border-box;">
+        <img src="https://mmbiz.qpic.cn/sz_mmbiz_png/9JSliclRicqM2MVxjLbyFR83cbEBBBJZlkALKMMhGtSk1XnCn3uA5naThZjvKfe3xh8yVJA5TmF8HmbPy6mHehn79lZGEoib9nDnCLMlqsQicP8/640?wx_fmt=png&from=appmsg" style="width: 100%; display: block; box-sizing: border-box;" />
+      </section>
+      <section style="width: 45px; line-height: 0; box-sizing: border-box;">
+        <img src="https://mmbiz.qpic.cn/sz_mmbiz_png/9JSliclRicqM2EUkLKvHOL9fegCemybyxW47jJtH4h4r0Om7IrZhBr0oTsKzqv2efyux8Yz8wAD2y2s8IaILgP8Dq31M4PLibM0a0U3RcgibLmw/640?wx_fmt=png&from=appmsg" style="width: 100%; display: block; box-sizing: border-box;" />
+      </section>
+    </section>
+  </section>
+</section>
+*/
+
+/* @renderer h2
+<section style="margin: 24px auto 18px; text-align: center; box-sizing: border-box;">
+  <section style="display: inline-block; min-width: 5%; max-width: 92%; padding: 0 10px; background-repeat: no-repeat; background-position: 50% 50% !important; background-size: 100% 100% !important; background-image: url('https://mmbiz.qpic.cn/mmbiz_png/9JSliclRicqM0rRQAb81INIjE4BWTThe8FIiawgllgO0Mzs9QsfxTG8qulGxibRzAL8Zaz40vRSsInoRA9bsS1ehtUNXPNMTzQgpic9zCP2ibnB1w/640?wx_fmt=png&from=appmsg'); box-sizing: border-box;">
+    <section style="padding: 3px 10px; color: #fffff4; font-size: 18px; line-height: 1.45; letter-spacing: 1px; box-sizing: border-box;">
+      <strong style="color: #fffff4; box-sizing: border-box;">${text}</strong>
+    </section>
+  </section>
+</section>
+*/
+
+/* @renderer h3
+<section style="margin: 24px auto 16px; text-align: center; box-sizing: border-box;">
+  <section style="display: inline-block; width: 100%; max-width: 100% !important; background-color: #bb5851; padding: 3px 10px; box-sizing: border-box;">
+    <section style="color: #fffffe; font-size: 16px; line-height: 1.45; box-sizing: border-box;">
+      <strong style="color: #fffffe; box-sizing: border-box;">${text}</strong>
+    </section>
+  </section>
+</section>
+*/
+
+/* @renderer h4
+<section style="margin: 22px auto 14px; text-align: center; box-sizing: border-box;">
+  <section style="display: inline-flex; align-items: center; justify-content: center;">
+    <section style="width: 32px; line-height: 0;"><img src="https://mmbiz.qpic.cn/mmbiz_png/9JSliclRicqM0xCia0o6c3mLL2YOAxCq9BjJwp1g3g6E4dcLcYcjl3rWsllAzVsW8JziaS0nQXjDpGF3ibShpkwGRia87BiaZH8ALosyvwW6xCYDQc/640?wx_fmt=png&from=appmsg" style="width: 100%; display: block;" /></section>
+    <section style="padding: 3px 12px; color: #bb5851; border-bottom: 2px solid #e5c8ac; font-weight: 700; box-sizing: border-box;">${text}</section>
+    <section style="width: 32px; line-height: 0; transform: rotateY(180deg); -webkit-transform: rotateY(180deg);"><img src="https://mmbiz.qpic.cn/mmbiz_png/9JSliclRicqM2RF4Clv1fvH0U016XJXLeoO29ZcYs3XhNMTfP6JiaFjBtm0OG7LKdG75HtTrwWRErYVpB5QmwwlQgiaOneb1lTzvBq3kvMaQCuA/640?wx_fmt=png&from=appmsg" style="width: 100%; display: block;" /></section>
+  </section>
+</section>
+*/
+
+/* @renderer h5
+<section style="margin: 20px 0 12px; display: flex; align-items: center; box-sizing: border-box;">
+  <section style="width: 8px; height: 24px; background-color: #c25452; margin-right: 8px; box-shadow: #ffc75a 5px 0 0 0; box-sizing: border-box;"><svg viewBox="0 0 1 1" style="float:left;line-height:0;width:0;vertical-align:top;"></svg></section>
+  <section style="font-size: 15px; color: #bb5851; font-weight: 700;">${text}</section>
+</section>
+*/
+
+/* @renderer h6
+<section style="margin: 18px 0 12px; text-align: left; box-sizing: border-box;">
+  <section style="display: inline-block; padding: 0 0 2px; border-bottom: 1px solid #f9be71; color: #bb5851; font-size: 14px; font-weight: 700; box-sizing: border-box;">
+    ${text}
+  </section>
+</section>
+*/
+
+/* @renderer blockquote
+<section style="margin: 22px auto; width: 93%; max-width: 93% !important; border: 1px solid #e5c8ac; border-radius: 10px; overflow: hidden; padding: 18px 20px; background-image: url('https://mmbiz.qpic.cn/mmbiz_png/9JSliclRicqM0zlBkUSsqic51ciczibaeNRsNwQgCUF8CQspRicfzMBS8sxPDwKTTa4AR5rJZ5yDNtsyglricmUZ11ry2edv1Pn12jGncyicGX46JaU/640?wx_fmt=png&from=appmsg'); background-size: 100% !important; box-sizing: border-box;">
+  <blockquote style="margin: 0; padding: 0; background: none; border: none; color: #424242; line-height: 1.9; box-shadow: none;">
+    ${text}
+  </blockquote>
+</section>
+*/
+
+/* @renderer hr
+<section style="margin: 30px auto; text-align: center; line-height: 0; box-sizing: border-box;">
+  <section style="display: inline-block; width: 72%; max-width: 72% !important;">
+    <img src="https://mmbiz.qpic.cn/sz_mmbiz_png/9JSliclRicqM2q7A4UAk6dr75zDTpaxfAiaGRpa6ibruteiaFJg0gDfDnh7xMunlm8AoxRMWTBMoypNpmVT7O6YRbdliaaste5e4iaL3LTv5UUjmEo/640?wx_fmt=png&from=appmsg" style="width: 100%; display: block;" />
+  </section>
+</section>
+*/
+
+.container {
+  background-color: #fff8ee;
+  background-image: radial-gradient(
+      circle at 18% 18%,
+      rgba(187, 88, 81, 0.05) 0,
+      rgba(187, 88, 81, 0.05) 1px,
+      transparent 1px
+    ),
+    radial-gradient(circle at 72% 42%, rgba(249, 190, 113, 0.07) 0, rgba(249, 190, 113, 0.07) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.34));
+  background-repeat: repeat-y;
+  background-size: 26px 26px, 32px 32px, 100% 100%;
+  background-position: 0 0;
+  color: #282e31;
+  padding: 24px 12px;
+  min-height: 100vh;
+  font-family: 思源宋体, 'Noto Serif CJK SC', 'Songti SC', SimSun, serif;
+}
+
+p {
+  margin: 1.1em 8px;
+  line-height: 1.9;
+  color: #282e31;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-align: justify;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #c25452;
+  font-weight: 700;
+}
+
+strong {
+  color: #bb5851;
+  font-weight: 700;
+}
+
+em {
+  color: #c25452;
+  font-style: normal;
+  background: linear-gradient(transparent 58%, rgba(255, 199, 90, 0.35) 58%);
+}
+
+a {
+  color: #bb5851;
+  text-decoration: none;
+  border-bottom: 1px dashed #bb5851;
+}
+
+ul,
+ol {
+  margin: 18px 8px;
+  padding-left: 1.4em;
+  color: #282e31;
+}
+
+li {
+  margin: 8px 0;
+  line-height: 1.8;
+}
+
+code {
+  color: #bb5851;
+  background: rgba(255, 199, 90, 0.18);
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+pre.code__pre {
+  border: 1px solid #e5c8ac;
+  background: #fffaf2;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+img {
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: #fffaf2;
+  border: 1px solid #e5c8ac;
+  border-color: #e5c8ac;
+  word-break: break-word;
+}
+
+th {
+  background-color: #c25452;
+  color: #fffff4;
+  padding: 10px 8px;
+  border: 1px solid #e5c8ac;
+  font-weight: 700;
+}
+
+td {
+  padding: 9px 8px;
+  border: 1px solid #e5c8ac;
+  color: #282e31;
+}
+
+tr:nth-child(even) {
+  background: rgba(255, 199, 90, 0.1);
+}
+
+.md-list-prefix {
+  color: #bb5851;
+}
+
+figcaption,
+.md-figcaption,
+p.footnotes {
+  color: #bb5851;
+  font-size: 0.85em;
+}
