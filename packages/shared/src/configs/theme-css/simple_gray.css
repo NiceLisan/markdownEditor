@@ -11,10 +11,8 @@
   <section class="assistant" style="width: 120px; box-sizing: border-box; margin: 0 auto 15px;">
     <img class="assistant" style="width: 100%; display: block; max-width: 100% !important;" src="https://bdn.135editor.com/files/images/editor_styles/9386c708c9275ab3bef27e0283b9b55b.jpg" />
   </section>
-  <section style="text-align: center; letter-spacing: 0px; line-height: 1.8; font-size: 18px; color: #ffffff; box-sizing: border-box; text-shadow: var(--md-primary-color, #849aa6) 0.056em 0.056em, var(--md-primary-color, #849aa6) 0.056em -0.056em, var(--md-primary-color, #849aa6) -0.056em 0.056em, var(--md-primary-color, #849aa6) -0.056em -0.056em, var(--md-primary-color, #849aa6) 0em 0.078em, var(--md-primary-color, #849aa6) 0em -0.078em, var(--md-primary-color, #849aa6) -0.078em 0em, var(--md-primary-color, #849aa6) 0.078em 0em, rgba(207,197,219,0.05) 0.111em 0.111em, rgba(207,197,219,0.05) 0.167em 0.167em, rgba(207,197,219,0.05) 0.167em 0.056em, rgba(207,197,219,0.05) 0.056em 0.167em, rgba(207,197,219,0.05) 0.056em 0.056em;">
-    <p style="vertical-align: inherit; box-sizing: border-box; letter-spacing: 5px; text-align: center; margin: 0 auto; display: inline-block;">
-      <span style="font-size: 32px; font-weight: bold;">${text}</span>
-    </p>
+  <section style="text-align: center; line-height: 1.45; color: var(--md-primary-color, #849aa6); box-sizing: border-box;">
+    <span style="vertical-align: inherit; box-sizing: border-box; display: inline-block; margin: 0 auto; color: inherit; font-size: 26px; font-weight: 700; line-height: 1.45; letter-spacing: 1px; text-align: center;">${text}</span>
   </section>
 </section>
 */
@@ -23,10 +21,8 @@
 <section style="margin: 24px auto; text-align: center;">
   <section style="display:flex;justify-content: center;align-items: center;">
     <section class="assistant" style="overflow: hidden; padding-top: 1px; flex: 1 1 0%; box-sizing: border-box; border-bottom: 1px solid var(--md-primary-color, #849aa6); height: 2px; opacity: 0.6;"></section>
-    <section style="text-align: center; letter-spacing:5px; line-height: 1.8; font-size: 18px; color: #ffffff; box-sizing: border-box; text-shadow: var(--md-primary-color, #849aa6) 0.056em 0.056em, var(--md-primary-color, #849aa6) 0.056em -0.056em, var(--md-primary-color, #849aa6) -0.056em 0.056em, var(--md-primary-color, #849aa6) -0.056em -0.056em, var(--md-primary-color, #849aa6) 0em 0.078em, var(--md-primary-color, #849aa6) 0em -0.078em, var(--md-primary-color, #849aa6) -0.078em 0em, var(--md-primary-color, #849aa6) 0.078em 0em; padding: 0 15px;">
-      <p style="vertical-align:inherit;box-sizing: border-box; margin: 0;">
-        <strong style="box-sizing: border-box;">${text}</strong>
-      </p>
+    <section style="text-align: center; letter-spacing: 1px; line-height: 1.5; font-size: 18px; color: var(--md-primary-color, #849aa6); box-sizing: border-box; padding: 0 15px;">
+      <span style="box-sizing: border-box; color: inherit; font-size: inherit; font-weight: 700; line-height: inherit; letter-spacing: inherit; text-align: inherit;">${text}</span>
     </section>
     <section class="assistant" style="overflow: hidden; padding-top: 1px; flex: 1 1 0%; box-sizing: border-box; border-bottom: 1px solid var(--md-primary-color, #849aa6); height: 2px; opacity: 0.6;"></section>
   </section>

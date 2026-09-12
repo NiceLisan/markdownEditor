@@ -81,6 +81,13 @@ describe('simple_gray theme registration and custom rendering', () => {
     expect(processedHtml).toContain('border-bottom: 1px solid var(--md-primary-color, #849aa6)')
     expect(processedHtml).toContain('章节标题一')
 
+    // Headings must stay crisp on narrow reading surfaces.
+    expect(processedHtml).not.toContain('text-shadow:')
+    expect(processedHtml).toContain('color: var(--md-primary-color, #849aa6)')
+    expect(processedHtml).toContain('color: inherit; font-size: 26px; font-weight: 700; line-height: 1.45; letter-spacing: 1px')
+    expect(processedHtml).toContain('letter-spacing: 1px; line-height: 1.5; font-size: 18px')
+    expect(processedHtml).toContain('color: inherit; font-size: inherit; font-weight: 700; line-height: inherit; letter-spacing: inherit')
+
     // 3. h3 custom renderer check (counter auto-number badge)
     expect(processedHtml).toContain('STEPS')
     expect(processedHtml).toContain('步骤标题')
