@@ -22,6 +22,8 @@ import {
   MDKatex,
 } from '../extensions'
 import { COMMON_LANGUAGES, highlightAndFormatCode } from '../utils/languages'
+import { getHeadingDecoration } from './heading-decoration'
+import { renderListItemContent } from './list-item'
 
 Object.entries(COMMON_LANGUAGES).forEach(([name, lang]) => {
   hljs.registerLanguage(name, lang)
@@ -54,7 +56,6 @@ const SINGLE_QUOTE_REGEX = /'/g
 const BACKTICK_REGEX = /`/g
 const UNDERSCORE_REGEX = /_/g
 const HEADING_TAG_REGEX = /^h\d$/
-const PARAGRAPH_WRAPPER_REGEX = /^<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/
 const MP_WEIXIN_LINK_REGEX = /^https?:\/\/mp\.weixin\.qq\.com/
 
 function escapeHtml(text: string): string {
@@ -203,9 +204,8 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
     const cssContent = `${baseCSSContent}\n${themeMap[themeName as keyof typeof themeMap] || ''}`
 
     // Match /* @renderer [token] \n [html] \n */
-    const regex = /\/\*\s*@renderer\s+([\w-]+)\s*\n([\s\S]*?)\*\//g
-    let match
-    while ((match = regex.exec(cssContent)) !== null) {
+    const regex = /\/\*\s*@renderer\s+([\w-]+)[\t ]*\r?\n([\s\S]*?)\*\//g
+    for (const match of cssContent.matchAll(regex)) {
       const token = match[1]
       const html = match[2].trim()
       customRenderers[token] = html
@@ -299,6 +299,7 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
         const [title = ``, text1 = ``, text2 = ``] = text.split(`^`, 3)
 
         return customRenderers[tag]
+          .replace(/\$\{decoration\}/g, () => getHeadingDecoration(customRenderers, tag, headingCounts[tag]))
           .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
           .replace(/\$\{counter2\}/g, () => String(headingCounts[tag]).padStart(2, `0`))
           .replace(/\$\{title\}/g, () => title)
@@ -411,7 +412,7 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
       return styledContent(ordered ? `ol` : `ul`, html)
     },
 
-    // 2. listitem：从栈顶取 ordered + counter，计算 prefix 并自增
+    // 2. listitem：从栈顶取 ordered + counter，由共享逻辑生成唯一显式标记
     listitem(token: Tokens.ListItem) {
       const ordered = listOrderedStack[listOrderedStack.length - 1]
       const idx = listCounters[listCounters.length - 1]!
@@ -419,20 +420,16 @@ export function initRenderer(opts: IOpts = {}): RendererAPI {
       // 准备下一个
       listCounters[listCounters.length - 1] = idx + 1
 
-      const prefix = ordered ? `${idx}. ` : `• `
-
-      // 渲染内容：优先 inline，fallback 去掉 <p> 包裹
+      // 渲染内容：优先 inline，块级内容交给共享逻辑处理首段
       let content: string
       try {
         content = this.parser.parseInline(token.tokens)
       }
       catch {
-        content = this.parser
-          .parse(token.tokens)
-          .replace(PARAGRAPH_WRAPPER_REGEX, `$1`)
+        content = this.parser.parse(token.tokens)
       }
 
-      return styledContent(`listitem`, `${prefix}${content}`, `li`)
+      return styledContent(`listitem`, renderListItemContent(content, ordered, idx), `li`)
     },
 
     image({ href, title, text }: Tokens.Image): string {

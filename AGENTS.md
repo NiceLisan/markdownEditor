@@ -24,6 +24,8 @@
 - 新增主题至少检查这些位置：主题 CSS 文件、主题映射、主题下拉选项、CLI/API/MCP 可见主题列表和相关测试。
 - 主题样式应兼顾公众号兼容性。避免依赖 Web 端独有的复杂交互；SVG、内联样式和表格样式要在复制后的 HTML 中仍能工作。
 - 修改标题样式时同时检查 h1-h6、目录、复制模式和无样式导出是否出现结构破坏。
+- Tech Blog 章节装饰使用 `@renderer h2` 的 `${decoration}` 插槽，由 core 的 `heading-decoration.ts` 共用选择 `h2-decoration-N`，缺少原图时选择 `h2-decoration`。01–07 保留原图 URL 的真实 `img`，之后用 `${counter2}` 文字编号；不能恢复为零高度空背景容器，也不能把预览代理地址写进复制或导出结果。新增模板插槽须先插值装饰、最后插入用户标题，避免把用户标题内容当作模板再次处理。
+- Markdown 列表的显式点号/序号由 core 的 `list-item.ts` 统一生成到 `.list-marker`；Tech Blog 对 `li.listitem` 关闭原生 marker，保留绿色显式标记和嵌套缩进。不要同时显示原生 marker 和文字前缀；松散列表的首段须与标记同行。
 - 表格、图片和 SVG 是最容易跨端失真的区域，变更后要用真实渲染结果验证，而不是只看 CSS。
 
 ## 验证命令
@@ -47,6 +49,8 @@ pnpm --dir apps/web build:only
 ```powershell
 node packages/core/test/svg-fengshang-theme.check.mjs
 node packages/core/test/tech-blog-theme.check.mjs
+pnpm --dir packages/md-cli exec tsx ../core/test/tech-blog-render.check.ts
+pnpm --dir packages/md-cli exec tsx ../core/test/list-markers.check.ts
 .\start-api.bat
 ```
 

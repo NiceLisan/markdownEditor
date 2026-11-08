@@ -7,12 +7,40 @@
 
 /* @renderer h2
 <section class="h2-container h2-container-${counter}" style="margin: 2.2em 8px 1.4em; text-align: left; overflow: hidden; box-sizing: border-box;">
-  <section class="h2-image h2-image-${counter}"></section>
-  <h2 class="h2" style="margin: 0; color: #10bc61; font-size: 21px; font-weight: 700; line-height: 1.55; letter-spacing: 0.03em; text-align: left; display: inline-block; border: none; background: none; padding: 0; box-sizing: border-box;">
+  ${decoration}
+  <h2 class="h2" data-heading="true" style="margin: 0; color: #10bc61; font-size: 21px; font-weight: 700; line-height: 1.55; letter-spacing: 0.03em; text-align: left; display: inline-block; border: none; background: none; padding: 0; box-sizing: border-box;">
     ${text}
   </h2>
   <section class="h2-underline" style="display: block; width: 42px; height: 4px; border-radius: 2px; margin: 0.65em 0 0; background-color: #10bc61; box-sizing: border-box;"></section>
 </section>
+*/
+
+/* 真实 img 可在微信保存后保留；不使用会被删除的空背景节点。 */
+/* @renderer h2-decoration-1
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNnUQrIECzLjltRBputno1ZtkCf6o3ibHWb544jMp8UXs2qVpOfnNHE0hbriaeZzJsbvj1QibmGphvoibNX93saKU5ibyrlUnc3cwXU/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+/* @renderer h2-decoration-2
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPJCNWa4RG3W0u64BjNhSsuD3zClADw9I15ucZHNnpKWib6In04QrJ6hFwGpQjCaFPUYHdBckGeaQPqUwtUokfaaNxQNPGy7SPs/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+/* @renderer h2-decoration-3
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNWTichKvVwFqIuLDx0GzLloMlL36WklWuShenXmhpIoCpSUNQxn5wbkofJYl4qagHiapA3bjiaIBRM4ICKK84kibhEia6Ssb0hk8IA/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+/* @renderer h2-decoration-4
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPWuSkpSZYxySyaN2fl5Ey2Dp0n0t5ZZqh653Rvia7jRR5Z4laNznVpQxxmNV1QCB9Iaunyn1Av7IRVZDI4sWtYuicoILIYhp2lI/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+/* @renderer h2-decoration-5
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOlVOMjNeRyoUIELyJYHF3B0wPiclZAumsCNONbKy0b1SPhtVoyicBREc0l4lgPPoveaArYGR6hnKAwbIsIqPCwFSdQSPXTarP5A/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+/* @renderer h2-decoration-6
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVPzKSmGbbhD6CuiabibHpEVgMibyEBGpM3EeSBMRayd2x9Pic3dOmJ6t9AtO6a3RXiaOyR67zicup7gKDYS3icYBfXzfsWrQiczIXlFA1w/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+/* @renderer h2-decoration-7
+<img class="h2-image h2-image-${counter}" src="https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNYbxn2JnibiaEhYTUwb5ZevVlc2FkGEXR2JHiac74PPe78yib3RibCsDysODiaRSdxwibDHjaoPia4ic7R2iaBxnWvfmDTrheRfH9tH7G0w/640?wx_fmt=png&amp;from=appmsg" alt="" width="1080" height="133" referrerpolicy="no-referrer" />
+*/
+
+/* 原图只有 01–07；其余章节用真实文字连续编号，不生成空图或重复序号。 */
+/* @renderer h2-decoration
+<section class="h2-number">${counter2}</section>
 */
 
 /* ==================== 基础排版 ==================== */
@@ -58,52 +86,32 @@ h1 {
 } */
 
 .h2-image {
-  display: none;
-  width: 100%;
-  height: 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: left;
-}
-
-.h2-image-1,
-.h2-image-2,
-.h2-image-3,
-.h2-image-4,
-.h2-image-5,
-.h2-image-6,
-.h2-image-7 {
   display: block;
-  padding-bottom: 12.31%;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
   margin: 10px 0;
+  background: none;
+  box-shadow: none;
+  box-sizing: border-box;
 }
 
-.h2-image-1 {
-  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNnUQrIECzLjltRBputno1ZtkCf6o3ibHWb544jMp8UXs2qVpOfnNHE0hbriaeZzJsbvj1QibmGphvoibNX93saKU5ibyrlUnc3cwXU/640?wx_fmt=png&from=appmsg');
-}
-
-.h2-image-2 {
-  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPJCNWa4RG3W0u64BjNhSsuD3zClADw9I15ucZHNnpKWib6In04QrJ6hFwGpQjCaFPUYHdBckGeaQPqUwtUokfaaNxQNPGy7SPs/640?wx_fmt=png&from=appmsg');
-}
-
-.h2-image-3 {
-  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVNWTichKvVwFqIuLDx0GzLloMlL36WklWuShenXmhpIoCpSUNQxn5wbkofJYl4qagHiapA3bjiaIBRM4ICKK84kibhEia6Ssb0hk8IA/640?wx_fmt=png&from=appmsg');
-}
-
-.h2-image-4 {
-  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVPWuSkpSZYxySyaN2fl5Ey2Dp0n0t5ZZqh653Rvia7jRR5Z4laNznVpQxxmNV1QCB9Iaunyn1Av7IRVZDI4sWtYuicoILIYhp2lI/640?wx_fmt=png&from=appmsg');
-}
-
-.h2-image-5 {
-  background-image: url('https://mmbiz.qpic.cn/mmbiz_png/5lJ4HUd9eVOlVOMjNeRyoUIELyJYHF3B0wPiclZAumsCNONbKy0b1SPhtVoyicBREc0l4lgPPoveaArYGR6hnKAwbIsIqPCwFSdQSPXTarP5A/640?wx_fmt=png&from=appmsg');
-}
-
-.h2-image-6 {
-  background-image: url('https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVPzKSmGbbhD6CuiabibHpEVgMibyEBGpM3EeSBMRayd2x9Pic3dOmJ6t9AtO6a3RXiaOyR67zicup7gKDYS3icYBfXzfsWrQiczIXlFA1w/640?wx_fmt=png&from=appmsg');
-}
-
-.h2-image-7 {
-  background-image: url('https://mmbiz.qpic.cn/sz_mmbiz_png/5lJ4HUd9eVNYbxn2JnibiaEhYTUwb5ZevVlc2FkGEXR2JHiac74PPe78yib3RibCsDysODiaRSdxwibDHjaoPia4ic7R2iaBxnWvfmDTrheRfH9tH7G0w/640?wx_fmt=png&from=appmsg');
+.h2-number {
+  display: block;
+  width: 100%;
+  padding: 0 0 6px;
+  border-bottom: 1px solid #10bc61;
+  margin: 10px 0;
+  color: #10bc61;
+  font-family: Consolas, Menlo, Monaco, monospace;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 h2 {
@@ -280,6 +288,23 @@ li {
 li::marker {
   color: #10bc61;
   font-weight: 700;
+}
+
+/* Markdown 列表已包含可复制的显式标记，关闭其原生 marker，避免双点号/双序号。 */
+li.listitem {
+  display: block;
+  list-style: none;
+}
+
+.listitem > .list-marker {
+  display: inline-block;
+  min-width: 1.6em;
+  padding-right: 0.35em;
+  margin-left: -1.6em;
+  color: #10bc61;
+  font-weight: 700;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 /* ==================== 行内代码 ==================== */

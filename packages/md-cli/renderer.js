@@ -10,6 +10,8 @@ import { createRequire } from 'node:module';
 import postcss from 'postcss';
 import postcssCalc from 'postcss-calc';
 import postcssCustomProperties from 'postcss-custom-properties';
+import { getHeadingDecoration } from '../core/src/renderer/heading-decoration.ts';
+import { renderListItemContent } from '../core/src/renderer/list-item.ts';
 import {
   markedAlert,
   markedFootnotes,
@@ -369,9 +371,8 @@ export async function renderMarkdown(markdown, options = {}) {
   function parseCustomRenderers(themeName) {
     if (Object.keys(customRenderers).length > 0) return;
     const cssContent = loadThemeCss(themeName, isUseDefaultTheme);
-    const regex = /\/\*\s*@renderer\s+([\w-]+)\s*\n([\s\S]*?)\*\//g;
-    let match;
-    while ((match = regex.exec(cssContent)) !== null) {
+    const regex = /\/\*\s*@renderer\s+([\w-]+)[\t ]*\r?\n([\s\S]*?)\*\//g;
+    for (const match of cssContent.matchAll(regex)) {
       const token = match[1];
       const html = match[2].trim();
       customRenderers[token] = html;
@@ -397,6 +398,7 @@ export async function renderMarkdown(markdown, options = {}) {
         const [title = '', text1 = '', text2 = ''] = text.split('^', 3);
 
         return customRenderers[tag]
+          .replace(/\$\{decoration\}/g, () => getHeadingDecoration(customRenderers, tag, headingCounts[tag]))
           .replace(/\$\{counter\}/g, () => String(headingCounts[tag]))
           .replace(/\$\{counter2\}/g, () => String(headingCounts[tag]).padStart(2, '0'))
           .replace(/\$\{title\}/g, () => title)
@@ -488,15 +490,13 @@ export async function renderMarkdown(markdown, options = {}) {
     listitem(token) {
       const ordered = listOrderedStack[listOrderedStack.length - 1];
       const idx = listCounters[listCounters.length - 1]++;
-      const prefix = ordered ? `${idx}. ` : '• ';
-
       let content;
       try {
         content = this.parser.parseInline(token.tokens);
       } catch {
-        content = this.parser.parse(token.tokens).replace(/^<p(?:\s[^>]*)?>([\\s\\S]*?)<\/p>/, '$1');
+        content = this.parser.parse(token.tokens);
       }
-      return styledContent('listitem', `${prefix}${content}`, 'li');
+      return styledContent('listitem', renderListItemContent(content, ordered, idx), 'li');
     },
 
     image({ href, title, text }) {

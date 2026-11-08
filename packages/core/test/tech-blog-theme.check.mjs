@@ -49,4 +49,11 @@ const startApiPath = path.resolve(testDir, '../../../start-api.bat')
   assert.match(css, /overflow-x:\s*auto/)
   assert.match(css, /border-collapse:\s*collapse/)
   assert.match(css, /word-break:\s*break-word/)
+  assert.match(css, /\$\{decoration\}/)
+  assert.match(css, /@renderer h2-decoration\s*\n/)
+  assert.match(css, /class="h2-number">\$\{counter2\}/)
+  for (let counter = 1; counter <= 7; counter++) {
+    assert.match(css, new RegExp(`@renderer h2-decoration-${counter}\\s*\\n<img`))
+  }
+  assert.doesNotMatch(css, /<section class="h2-image|padding-bottom:\s*12\.31%|background-image:/)
 }

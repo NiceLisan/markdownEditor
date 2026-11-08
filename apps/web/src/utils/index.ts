@@ -283,8 +283,8 @@ function modifyHtmlStructure(htmlString: string): string {
   const tempDiv = document.createElement(`div`)
   tempDiv.innerHTML = htmlString
 
-  // 移动 `li > ul` 和 `li > ol` 到 `li` 后面
-  tempDiv.querySelectorAll(`li > ul, li > ol`).forEach((originalItem) => {
+  // 从后往前移到 li 后面，避免同一条目下的多个子列表被 afterend 插入颠倒。
+  Array.from(tempDiv.querySelectorAll(`li > ul, li > ol`)).reverse().forEach((originalItem) => {
     originalItem.parentElement!.insertAdjacentElement(`afterend`, originalItem)
   })
 
